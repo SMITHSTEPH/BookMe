@@ -1,5 +1,6 @@
+= button_to 'All Books', books_path, :method =>:get, :id => 'allbooks'
+= button_to 'My Books', mybooks_path, :method =>:get, :id => 'mybooks'
 %h1 Create New Book
-
 = form_tag books_path do
 
   = label :book, :title, 'Title'
@@ -19,4 +20,3 @@
   
   = submit_tag 'Save Changes'
 
-= link_to 'Back to my books', mybooks_path

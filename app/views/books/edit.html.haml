@@ -1,5 +1,6 @@
 -# edit.html.haml using partial
-
+= button_to 'All Books', books_path, :method =>:get, :id => 'allbooks'
+= button_to 'My Books', mybooks_path, :method =>:get, :id => 'mybooks'
 %h1 Edit Existing Book
 
 = form_tag book_path(@book), :method => :put do
@@ -24,4 +25,3 @@
   
   = submit_tag 'Update Book Info'
 
-= link_to 'Back to my books', mybooks_path

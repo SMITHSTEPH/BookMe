@@ -1,4 +1,5 @@
 -#  This file is app/views/books/mybooks.html.haml
+= button_to 'All Books', books_path, :method =>:get, :id => 'allbooks'
 %h1 My Books
 = button_to 'Add Book', new_book_path, :method =>:get, :id => 'addbook'
 %table#books
@@ -17,8 +18,7 @@
         %td= book.isbn
         %td= book.quality
         %td= book.price
-        %td= link_to 'Edit', edit_book_path(book)
+        %td= button_to 'Edit', edit_book_path(book), :method => :get
         %td= button_to 'Delete', book_path(book), :method => :delete, :confirm => 'Are you sure?'
 
 
-= link_to 'Back to book list', books_path

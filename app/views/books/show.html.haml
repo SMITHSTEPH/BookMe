@@ -1,6 +1,7 @@
 -# in app/views/books/show.html.haml
-
-%h2 Details about #{@book.title}
+= button_to 'All Books', books_path, :method =>:get, :id => 'allbooks'
+= button_to 'My Books', mybooks_path, :method =>:get, :id => 'mybooks'
+%h2 #{@book.title}
 
 %ul#details
   %li
@@ -14,4 +15,3 @@
 
 %p#description= @book.description
 
-= link_to 'Back to book list', books_path
