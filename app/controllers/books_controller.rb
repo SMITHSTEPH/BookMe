@@ -11,11 +11,12 @@ class BooksController < ApplicationController
   end
 
   def index
+    session[:session_token]='segerard'
     @books = Book.all
   end
   
   def mybooks
-    @books = Book.where(seller:"segerard")
+    @books = Book.where(seller:session[:session_token])
   end
 
   def new
@@ -23,7 +24,9 @@ class BooksController < ApplicationController
   end
 
   def create
-    @book = Book.create!(book_params)
+    info = book_params
+    info[:seller] = session[:session_token]
+    @book = Book.create!(info)
     flash[:notice] = "#{@book.title} was successfully added."
     redirect_to books_path
   end
