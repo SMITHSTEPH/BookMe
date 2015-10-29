@@ -8,16 +8,19 @@
   = text_field :book, 'title'
   
   = label :book, :author, 'Author'
-  = text_field :author, 'author'
+  = text_field :author, 'author', :value => @book.author
 
   = label :book, :isbn, 'ISBN'
-  = text_field :isbn, 'isbn'
+  = text_field :isbn, 'isbn', :value => @book.isbn
 
   = label :book, :quality, 'Quality'
-  = text_field :quality, 'quality'
+  = text_field :quality, 'quality', :value => @book.quality
   
   = label :book, :price, 'Price'
-  = text_field :price, 'price'
+  = text_field :price, 'price', :value => @book.price
+  
+  = label :book, :description, 'Description'
+  = text_field :description, 'description', :value => @book.description
   
   = submit_tag 'Update Book Info'
 

@@ -17,7 +17,6 @@
         %td= book.isbn
         %td= book.quality
         %td= book.price
-        %td= link_to "More about #{book.title}", book_path(book)
         %td= link_to 'Edit', edit_book_path(book)
         %td= button_to 'Delete', book_path(book), :method => :delete, :confirm => 'Are you sure?'
 
