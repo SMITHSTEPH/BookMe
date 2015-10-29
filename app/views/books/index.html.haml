@@ -8,10 +8,14 @@
       %th Author
       %th ISBN
       %th Quality
+      %th Price
   %tbody
     - @books.each do |book|
       %tr
         %td= book.title 
-        %td= book.rating
-        %td= book.release_date
+        %td= book.author
+        %td= book.isbn
         %td= book.quality
+        %td= book.price
+
+= link_to 'My Books', mybooks_path
