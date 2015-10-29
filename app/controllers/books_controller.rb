@@ -23,7 +23,7 @@ class BooksController < ApplicationController
   end
 
   def create
-    @book = Book.create!(movie_params)
+    @book = Book.create!(book_params)
     flash[:notice] = "#{@book.title} was successfully added."
     redirect_to books_path
   end
@@ -42,7 +42,7 @@ class BooksController < ApplicationController
   def destroy
     @book = Book.find(params[:id])
     @book.destroy
-    flash[:notice] = "'#{@movie.title}' deleted."
+    flash[:notice] = "'#{@book.title}' deleted."
     redirect_to books_path
   end
 

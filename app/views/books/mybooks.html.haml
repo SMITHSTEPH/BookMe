@@ -1,7 +1,6 @@
 -#  This file is app/views/books/mybooks.html.haml
 %h1 My Books
-= link_to 'Add book', new_book_path
-
+= button_to 'Add Book', new_book_path, :method =>:get, :id => 'addbook'
 %table#books
   %thead
     %tr
