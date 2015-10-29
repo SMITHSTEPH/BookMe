@@ -1,0 +1,19 @@
+-# in app/views/books/show.html.haml
+
+%h2 Details about #{@book.title}
+
+%ul#details
+  %li
+    Author:
+    = @book.author
+  %li
+    Quality:
+    = @book.quality
+
+%h3 Description:
+
+%p#description= @book.description
+
+= link_to 'Edit', edit_book_path(@book)
+= button_to 'Delete', book_path(@book), :method => :delete, :confirm => 'Are you sure?'
+= link_to 'Back to book list', books_path

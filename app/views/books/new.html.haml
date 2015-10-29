@@ -1,0 +1,20 @@
+%h1 Create New Book
+
+= form_tag books_path do
+
+  = label :booke, :title, 'Title'
+  = text_field :book, 'title'
+
+  = label :booke, :author, 'Author'
+  = text_field :author, 'author'
+  
+  = label :booke, :isbn, 'ISBN'
+  = text_field :book, 'isbn'
+  
+  = label :booke, :quality, 'Quality'
+  = text_field :book, 'quality'
+  
+  = label :booke, :price, 'Price'
+  = text_field :book, 'price'
+
+  = submit_tag 'Save Changes'

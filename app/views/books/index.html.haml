@@ -1,0 +1,17 @@
+-#  This file is app/views/books/index.html.haml
+%h1 All Books
+
+%table#books
+  %thead
+    %tr
+      %th Book Title
+      %th Author
+      %th ISBN
+      %th Quality
+  %tbody
+    - @books.each do |book|
+      %tr
+        %td= book.title 
+        %td= book.rating
+        %td= book.release_date
+        %td= book.quality
