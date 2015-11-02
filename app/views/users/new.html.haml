@@ -1,0 +1,20 @@
+%h1 Register With BookMe 
+
+= form_tag users_path do
+  = label :user, :first_name, 'First Name'
+  = text_field :user, 'first_name', :id => 'signup_first_name'
+  
+  = label :user, :last_name, 'Last Name'
+  = text_field :user, 'last_name', :id => 'signup_last_name'
+
+  = label :user, :user_id, 'User-ID'
+  = text_field :user, 'user_id', :id => 'signup_id'
+  
+  = label :user, :email, 'E-Mail'
+  = text_field :user, 'email', :id => 'signup_email'
+  
+  = label :user, :password, 'Password'
+  = text_field :user, 'password', :id => 'signup_password'
+
+
+  = submit_tag 'Create My Account', :id => 'signup_submit'
