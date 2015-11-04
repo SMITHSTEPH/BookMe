@@ -24,6 +24,7 @@ class BooksController < ApplicationController
   end
   def search_open_lib
     #@book=open_lib_find_book params[:isbn]
+    redirect_to new_book
   end
 
   def create
