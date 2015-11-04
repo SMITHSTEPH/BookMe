@@ -20,11 +20,13 @@ class BooksController < ApplicationController
   end
 
   def new
+    puts "goes in right controller 2"
     # default: render 'new' template
   end
   def search_open_lib
+    puts "goes in right controller 1"
     #@book=open_lib_find_book params[:isbn]
-    redirect_to new_book
+    redirect_to new_book_path
   end
 
   def create
