@@ -25,7 +25,11 @@ class BooksController < ApplicationController
   end
   def search_open_lib
     puts "goes in right controller 1"
-    #@book=open_lib_find_book params[:isbn]
+    @book=Book.open_lib_find_book params[:isbn]
+    if @book.empty?
+      flash[:warning] = "Invalid ISBN, book not found!"
+    end
+
     redirect_to new_book_path
   end
 
