@@ -22,6 +22,9 @@ class BooksController < ApplicationController
   def new
     # default: render 'new' template
   end
+  def search_open_lib
+    @book=open_lib_find_book params[:isbn]
+  end
 
   def create
     info = book_params
@@ -31,7 +34,7 @@ class BooksController < ApplicationController
     redirect_to books_path
   end
 
-  def edit
+  def edit #routes here when you click the edit button
     @book = Book.find params[:id]
   end
 

@@ -1,17 +1,21 @@
 = button_to 'All Books', books_path, :method =>:get, :id => 'allbooks'
 = button_to 'My Books', mybooks_path, :method =>:get, :id => 'mybooks'
 %h1 Create New Book
+
+  
 = form_tag books_path do
 
+  = form_tag search_open_lib do #nested form
+    = label :book, :isbn, 'ISBN'
+    = text_field :book, 'isbn'
+    = submit_tag 'Find Book by ISBN'
+    
   = label :book, :title, 'Title'
   = text_field :book, 'title'
 
   = label :book, :author, 'Author'
   = text_field :author, 'author'
-  
-  = label :book, :isbn, 'ISBN'
-  = text_field :book, 'isbn'
-  
+
   = label :book, :quality, 'Quality'
   = text_field :book, 'quality'
   

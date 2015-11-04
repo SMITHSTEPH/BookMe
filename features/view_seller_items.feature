@@ -6,6 +6,9 @@ Feature: View seller's books
 Background: user has logged in
   
   Given ssmith is logged into BookMe
-  And I am on the seller items page
-  And I have added "Calculus" to the books
+  And ssmith is selling the following books:
+  | title   | author     | isbn       | quality            | price  | description                                       |
+  | Calculus| Ron Larson | 1285057090 | Perfect condidtion | $35.00 | Used in my Calc I class at the University of Iowa |
+  |
+ 
   And I have selected to edit book titled "Calculus" and isbn "1285057090"
