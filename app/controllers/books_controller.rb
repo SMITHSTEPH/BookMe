@@ -23,7 +23,7 @@ class BooksController < ApplicationController
     # default: render 'new' template
   end
   def search_open_lib
-    @book=open_lib_find_book params[:isbn]
+    #@book=open_lib_find_book params[:isbn]
   end
 
   def create
