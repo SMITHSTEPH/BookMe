@@ -1,0 +1,29 @@
+-#  This file is app/views/books/mybooks.html.haml
+
+= button_to 'All Books', books_path, :method =>:get, :id => 'allbooks'
+%h1 #{session[:session_token]}'s Books
+= button_to 'Add Book', new_book_path, :method =>:get, :id => 'addbook'
+%table#books
+  %thead
+    %tr
+      %th{:width => "100"} 
+      %th{:width => "175"} Book Title
+      %th{:width => "150"} Author
+      %th{:width => "125"} ISBN
+      %th{:width => "75"} Quality
+      %th{:width => "75"} Price
+      %th{:width => "50"} Edit
+      %th{:width => "50"} Delete
+  %tbody
+    - @books.each do |book|
+      %tr
+        %td= image_tag asset_path(book.image), :size => '75x100'
+        %td= book.title
+        %td= book.author
+        %td= book.isbn
+        %td= book.quality
+        %td= book.price
+        %td= button_to 'Edit', edit_book_path(book), :method => :get
+        %td= button_to 'Delete', book_path(book), :method => :delete, :confirm => 'Are you sure?'
+
+

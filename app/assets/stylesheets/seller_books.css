@@ -4,6 +4,7 @@ table { border: none; border-collapse: collapse;  margin-left: auto; margin-righ
 
 }
 h1 {text-align: center;}
+td {text-align: center;}
 table td { border-left: 1px solid #000; }
 table td:first-child { border-left: none; }
-th{border: 1px solid black;}
+th{border: 1px solid black; text-align: center;}
