@@ -4,6 +4,7 @@
 %h1 Edit Existing Book
 
 = form_tag book_path(@book), :method => :put do
+  = image_tag asset_path(@book[:image]), :size => '75x100'
 
   = label :book, :title, 'Title'
   = text_field :book, 'title'
@@ -22,6 +23,9 @@
   
   = label :book, :description, 'Description'
   = text_field :description, 'description', :value => @book.description
-  
+
+  = label :book, :image, 'Image'
+  = text_field :book, :image, :value=>@book[:image]  
+
   = submit_tag 'Update Book Info'
 
