@@ -21,7 +21,7 @@ class BooksController < ApplicationController
 
   def new #routed here when user hits 'add book' button and renders new view
     puts "goes in right controller 2"
-    @book={:title => "", :author => "", :isbn => "", :price => "", :quality => "", :image => ""}
+    @book={:title => "", :author => "", :isbn => "", :price => "", :quality => "", :image => "", :description => ""}
     # default: render 'new' template
   end
   def search_open_lib #routed here when user looks up book isbn and renders new view
@@ -29,18 +29,23 @@ class BooksController < ApplicationController
     @book=Book.open_lib_find_book book_params[:isbn]
     puts "params are: " + book_params[:isbn].to_s
     if @book.empty?
-      flash[:warning] = "Invalid ISBN, book not found!"
+      flash[:warning] = "Book not found in database!"
     end
     render "books/new.html.haml"
   end
 
   def create #routed here when user saves changes on added book and redirects to index
     info = book_params
-    info[:seller] = session[:session_token]
-    puts info[:image]
-    @book = Book.create!(info)
-    flash[:notice] = "#{@book.title} was successfully added."
-    redirect_to books_path
+    if(info[:title].to_s.empty? || info[:author].to_s.empty? || info[:isbn].to_s.empty?)
+      flash[:warning]= "fill out all fields marked with '*' to add book"
+      @book={:title => info[:title], :author => info[:author], :isbn => info[:isbn], :price => info[:price], :quality =>info[:quality], :image => info[:image], :description => info[:description]}
+      render "books/new.html.haml"
+    else
+      info[:seller] = session[:session_token]
+      @book = Book.create!(info)
+      flash[:notice] = "#{@book.title} was successfully added."
+      redirect_to books_path
+    end
   end
 
   def edit #routes here when you click the 'edit' button from the mybooks view and renders edit view

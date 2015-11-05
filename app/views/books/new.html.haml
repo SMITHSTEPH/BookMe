@@ -11,13 +11,13 @@
   = label :book, :image, 'Image'
   = text_field :book, :image, :value=>@book[:image]
 
-  = label :book, :title, 'Title'
+  = label :book, :title, '* Title'
   = text_field :book, 'title', :value=>@book[:title]
 
-  = label :book, :author, 'Author'
+  = label :book, :author, '* Author'
   = text_field :book, 'author', :value=>@book[:author]
   
-  = label :book, :isbn, 'ISBN'
+  = label :book, :isbn, '* ISBN'
   = text_field :book, 'isbn', :value=>@book[:isbn]
 
   = label :book, :quality, 'Quality'
@@ -26,6 +26,9 @@
   = label :book, :price, 'Price'
   = text_field :book, 'price' , :value=>@book[:price]
   
+  =label :book, :description, 'Description'
+  = text_area :book, 'description', :value => @book[:description]
+
   = submit_tag 'Save Changes'
 
 = form_tag search_open_lib_path, :method => :post do
