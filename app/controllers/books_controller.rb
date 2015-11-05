@@ -21,16 +21,17 @@ class BooksController < ApplicationController
 
   def new
     puts "goes in right controller 2"
+    @book={:title => "", :author => "", :isbn => "", :price => "", :quality => ""}
     # default: render 'new' template
   end
   def search_open_lib
     puts "goes in right controller 1"
-    @book=Book.open_lib_find_book params[:isbn]
+    @book=Book.open_lib_find_book params[:book][:isbn]
+    puts "params are: " + params[:book][:isbn].to_s
     if @book.empty?
       flash[:warning] = "Invalid ISBN, book not found!"
     end
-
-    redirect_to new_book_path
+    render "books/new.html.haml"
   end
 
   def create

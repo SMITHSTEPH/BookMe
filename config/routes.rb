@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   match '/mybooks', to: 'books#mybooks', via: :get
   root 'books#index'
   match '/search_open_lib', to: 'books#search_open_lib', via: :post
+  match '/search_open_lib', to: 'books#search_open_lib', via: :get
   match '/login', to: 'sessions#new', via: :get
   match '/login_create', to: 'sessions#create', via: :post
   match '/logout', to: 'sessions#destroy', via: :delete

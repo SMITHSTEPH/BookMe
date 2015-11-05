@@ -2,28 +2,28 @@
 = button_to 'My Books', mybooks_path, :method =>:get, :id => 'mybooks'
 %h1 Create New Book
 
-= form_tag search_open_lib_path do
-  = label :book, :isbn, 'ISBN'
-  = text_field :book, 'isbn'
-  = submit_tag 'Find Book by ISBN'
+
   
-= form_tag books_path do
+= form_tag books_path(@book), :method => :put do
 
   = label :book, :title, 'Title'
-  = text_field :book, 'title'
+  = text_field :book, 'title', :value=>@book[:title]
 
   = label :book, :author, 'Author'
-  = text_field :author, 'author'
-
-  = label :book, :quality, 'Quality'
-  = text_field :book, 'quality'
-  
-  = label :book, :price, 'Price'
-  = text_field :book, 'price'
+  = text_field :author, 'author', :value=>@book[:author]
   
   = label :book, :isbn, 'ISBN'
-  = text_field :book, 'isbn'
-    
+  = text_field :book, 'isbn', :value=>@book[:isbn]
+
+  = label :book, :quality, 'Quality'
+  = text_field :book, 'quality', :value=>@book[:quality]
+  
+  = label :book, :price, 'Price'
+  = text_field :book, 'price' , :value=>@book[:price]
   
   = submit_tag 'Save Changes'
 
+= form_tag search_open_lib_path, :method => :post do
+  = label :book, :isbn, 'ISBN'
+  = text_field :book, 'isbn', :value=>@book[:isbn]
+  = submit_tag 'Find Book by ISBN'
