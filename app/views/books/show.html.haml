@@ -4,6 +4,7 @@
 %h2 #{@book.title}
 
 %ul#details
+  = image_tag asset_path(@book.image), :size => '75x100'
   %li
     Author:
     = @book.author

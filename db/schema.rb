@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 20151102144439) do
     t.string "author"
     t.string "isbn"
     t.string "quality"
+    t.string "image"
     t.string "price"
     t.text   "description"
     t.string "seller"

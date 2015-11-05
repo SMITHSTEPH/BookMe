@@ -21,7 +21,7 @@ class BooksController < ApplicationController
 
   def new
     puts "goes in right controller 2"
-    @book={:title => "", :author => "", :isbn => "", :price => "", :quality => ""}
+    @book={:title => "", :author => "", :isbn => "", :price => "", :quality => "", :image => ""}
     # default: render 'new' template
   end
   def search_open_lib

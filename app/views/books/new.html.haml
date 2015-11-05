@@ -4,13 +4,18 @@
 
 
   
-= form_tag books_path(@book), :method => :put do
+= form_tag books_path(@book) do
+
+  = image_tag asset_path(@book[:image]), :size => '75x100'
+
+  = label :book, :image, 'Image'
+  = text_field :book, :image, :value=>@book[:image]
 
   = label :book, :title, 'Title'
   = text_field :book, 'title', :value=>@book[:title]
 
   = label :book, :author, 'Author'
-  = text_field :author, 'author', :value=>@book[:author]
+  = text_field :book, 'author', :value=>@book[:author]
   
   = label :book, :isbn, 'ISBN'
   = text_field :book, 'isbn', :value=>@book[:isbn]
