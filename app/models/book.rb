@@ -10,7 +10,7 @@ class Book < ActiveRecord::Base
     else   
       puts "book != nil"
       book_title = book_data.title
-      book_author = book_data.authors[0]
+      book_author = book_data.authors[0]["name"]
       @book = {title:book_title, author:book_author, isbn:isbn, price:"", quality:""}
     end 
     @book
