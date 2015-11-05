@@ -50,7 +50,7 @@ class BooksController < ApplicationController
       info[:seller] = session[:session_token]
       @book = Book.create!(info)
       flash[:notice] = "#{@book.title} was successfully added."
-      redirect_to books_path
+      redirect_to mybooks_path
     end
   end
 
@@ -74,7 +74,7 @@ class BooksController < ApplicationController
     @book = Book.find(params[:id])
     @book.destroy
     flash[:notice] = "'#{@book.title}' deleted."
-    redirect_to books_path
+    redirect_to mybooks_path
   end
 
 end
