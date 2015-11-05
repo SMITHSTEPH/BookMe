@@ -34,11 +34,19 @@ class BooksController < ApplicationController
 
   def create #routed here when user saves changes on added book and redirects to index
     info = book_params
+    
     if(info[:title].to_s.empty? || info[:author].to_s.empty? || info[:isbn].to_s.empty?)
       flash[:warning]= "fill out all fields marked with '*' to add book"
-      @book={:title => info[:title], :author => info[:author], :isbn => info[:isbn], :price => info[:price], :quality =>info[:quality], :image => info[:image], :description => info[:description]}
+      if info[:image].to_s.empty?
+        @book={:title => info[:title], :author => info[:author], :isbn => info[:isbn], :price => info[:price], :quality =>info[:quality], :image => "nobook.gif", :description => info[:description]}
+      else
+        @book={:title => info[:title], :author => info[:author], :isbn => info[:isbn], :price => info[:price], :quality =>info[:quality], :image => info[:image], :description => info[:description]}
+      end 
       render "books/new.html.haml"
     else
+      if info[:image].to_s.empty?
+        info[:image]="nobook.gif"
+      end
       info[:seller] = session[:session_token]
       @book = Book.create!(info)
       flash[:notice] = "#{@book.title} was successfully added."
