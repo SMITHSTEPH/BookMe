@@ -6,10 +6,8 @@ class Book < ActiveRecord::Base
     book_data = data.find_by_isbn(isbn)
     
     if book_data == nil
-      puts "book == nil"
       @book = {}
     else   
-      puts "book != nil"
       book_title = book_data.title
       book_author = book_data.authors[0]["name"]
       book_image = book_view.thumbnail_url
@@ -17,7 +15,6 @@ class Book < ActiveRecord::Base
     end 
     @book
   end
-  def self.validate_seller_info
-  end
+
 
 end

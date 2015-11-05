@@ -4,7 +4,7 @@ class BooksController < ApplicationController
     params.require(:book).permit(:title, :author, :isbn, :quality, :price, :description, :image)
   end
 
-  def show
+  def show #displayed when user clicks on book title link
     id = params[:id] # retrieve book ID from URI route
     @book = Book.find(id) # look up book by unique ID
     # will render app/views/books/show.<extension> by default
@@ -26,7 +26,6 @@ class BooksController < ApplicationController
   end
   def search_open_lib #routed here when user looks up book isbn and renders new view
     @book=Book.open_lib_find_book book_params[:isbn]
-    puts "params are: " + book_params[:isbn].to_s
     if @book.empty?
       flash[:warning] = "Book not found in database!"
     end
@@ -58,9 +57,6 @@ class BooksController < ApplicationController
     else
       @book = Book.find params[:id]
       @book.update_attributes!(book_params)
-      puts "title is: " + book_params[:title].to_s
-      #puts "author is: " + book_params[:author][:author].to_s
-      puts @book.to_s
       flash[:notice] = "#{@book.title} was successfully updated."
       redirect_to book_path(@book)
     end

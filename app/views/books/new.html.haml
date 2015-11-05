@@ -2,8 +2,6 @@
 = button_to 'My Books', mybooks_path, :method =>:get, :id => 'mybooks'
 %h1 Create New Book
 
-
-  
 = form_tag books_path(@book) do
 
   = image_tag asset_path(@book[:image]), :size => '75x100'
