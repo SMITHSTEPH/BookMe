@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :books
   match '/mybooks', to: 'books#mybooks', via: :get
   root 'books#index'
+  match '/books', to: 'books#index', via: :put
   match '/search_open_lib', to: 'books#search_open_lib', via: :post
   match '/search_open_lib', to: 'books#search_open_lib', via: :get
   match '/login', to: 'sessions#new', via: :get

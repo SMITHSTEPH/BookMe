@@ -10,19 +10,19 @@
   = text_field :book, 'title'
   
   = label :book, :author, 'Author'
-  = text_field :author, 'author', :value => @book.author
+  = text_field :book, 'author', :value => @book.author
 
   = label :book, :isbn, 'ISBN'
-  = text_field :isbn, 'isbn', :value => @book.isbn
+  = text_field :book, 'isbn', :value => @book.isbn
 
   = label :book, :quality, 'Quality'
-  = text_field :quality, 'quality', :value => @book.quality
+  = text_field :book, 'quality', :value => @book.quality
   
   = label :book, :price, 'Price'
-  = text_field :price, 'price', :value => @book.price
+  = text_field :book, 'price', :value => @book.price
   
   = label :book, :description, 'Description'
-  = text_field :description, 'description', :value => @book.description
+  = text_field :book, 'description', :value => @book.description
 
   = label :book, :image, 'Image'
   = text_field :book, :image, :value=>@book[:image]  
