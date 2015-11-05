@@ -11,7 +11,11 @@ class Book < ActiveRecord::Base
       book_title = book_data.title
       book_author = book_data.authors[0]["name"]
       book_image = book_view.thumbnail_url
+      if(book_image.empty?)
+        @book = {title:book_title, author:book_author, isbn:isbn, image:"nobook.gif", price:"", quality:""}
+      else
       @book = {title:book_title, author:book_author, isbn:isbn, image:book_image, price:"", quality:""}
+      end
     end 
     @book
   end

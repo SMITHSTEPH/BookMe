@@ -21,7 +21,7 @@ class BooksController < ApplicationController
 
   def new #routed here when user hits 'add book' button and renders new view
     puts "goes in right controller 2"
-    @book={:title => "", :author => "", :isbn => "", :price => "", :quality => "", :image => "", :description => ""}
+    @book={:title => "", :author => "", :isbn => "", :price => "", :quality => "", :image => "nobook.gif", :description => ""}
     # default: render 'new' template
   end
   def search_open_lib #routed here when user looks up book isbn and renders new view
