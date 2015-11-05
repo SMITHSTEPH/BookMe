@@ -34,7 +34,7 @@ class BooksController < ApplicationController
     render "books/new.html.haml"
   end
 
-  def create #routed here when user saves changes on added book and redirects to index?
+  def create #routed here when user saves changes on added book and redirects to index
     info = book_params
     info[:seller] = session[:session_token]
     puts info[:image]
@@ -47,12 +47,9 @@ class BooksController < ApplicationController
     @book = Book.find params[:id]
   end
 
-  def update #routes here when you click 'save changes' after editing and redirects to index?
+  def update #routes here when you click 'Update info' button on edit view and redirects show
     @book = Book.find params[:id]
-    puts "BOOKS ARE:"
-    puts @book.to_s
-    puts "vs books params"
-    puts book_params.to_s
+ 
     @book.update_attributes!(book_params)
     puts "title is: " + book_params[:title].to_s
     #puts "author is: " + book_params[:author][:author].to_s
