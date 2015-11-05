@@ -25,7 +25,6 @@ class BooksController < ApplicationController
     # default: render 'new' template
   end
   def search_open_lib #routed here when user looks up book isbn and renders new view
-    puts "goes in right controller 1"
     @book=Book.open_lib_find_book book_params[:isbn]
     puts "params are: " + book_params[:isbn].to_s
     if @book.empty?
@@ -53,14 +52,18 @@ class BooksController < ApplicationController
   end
 
   def update #routes here when you click 'Update info' button on edit view and redirects show
-    @book = Book.find params[:id]
- 
-    @book.update_attributes!(book_params)
-    puts "title is: " + book_params[:title].to_s
-    #puts "author is: " + book_params[:author][:author].to_s
-    puts @book.to_s
-    flash[:notice] = "#{@book.title} was successfully updated."
-    redirect_to book_path(@book)
+    if(book_params[:title].to_s.empty? || book_params[:author].to_s.empty? || book_params[:isbn].to_s.empty?)
+      flash[:warning]= "need to have * fields filled out"
+      redirect_to edit_book_path
+    else
+      @book = Book.find params[:id]
+      @book.update_attributes!(book_params)
+      puts "title is: " + book_params[:title].to_s
+      #puts "author is: " + book_params[:author][:author].to_s
+      puts @book.to_s
+      flash[:notice] = "#{@book.title} was successfully updated."
+      redirect_to book_path(@book)
+    end
   end
 
   def destroy #routes here when you click 'delete' on mybooks view and redirects to index method

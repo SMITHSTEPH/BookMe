@@ -17,5 +17,7 @@ class Book < ActiveRecord::Base
     end 
     @book
   end
+  def self.validate_seller_info
+  end
 
 end
