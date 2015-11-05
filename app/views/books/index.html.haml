@@ -6,10 +6,10 @@
 %table#books
   %thead
     %tr
-      %th
-      %th Book Title
-      %th Author
-      %th Price
+      %th{:width => "100"}
+      %th{:width => "200"} Book Title
+      %th{:width => "200"} Author
+      %th{:width => "100"} Price
   %tbody
     - @books.each do |book|
       %tr
