@@ -1,7 +1,7 @@
 class BooksController < ApplicationController
   #before_filter :set_current_user
   def book_params
-    params.require(:book).permit(:title, :author, :isbn, :quality, :price, :description)
+    params.require(:book).permit(:title, :author, :isbn, :quality, :price, :description, :image)
   end
 
   def show
@@ -37,6 +37,7 @@ class BooksController < ApplicationController
   def create
     info = book_params
     info[:seller] = session[:session_token]
+    puts info[:image]
     @book = Book.create!(info)
     flash[:notice] = "#{@book.title} was successfully added."
     redirect_to books_path
