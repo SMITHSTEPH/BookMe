@@ -46,7 +46,8 @@ class BooksController < ApplicationController
       else
         @book={:title => info[:title], :author => info[:author], :isbn => info[:isbn], :price => info[:price], :quality =>info[:quality], :image => info[:image], :description => info[:description]}
       end 
-      render "books/new.html.haml"
+      #render "books/new.html.haml"
+      render new_book_path
     else
       if info[:image].to_s.empty?
         info[:image]="nobook.gif"

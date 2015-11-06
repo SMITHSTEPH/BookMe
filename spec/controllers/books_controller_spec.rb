@@ -4,11 +4,11 @@ require 'rails_helper'
 describe BooksController do
   describe 'seraching Openlibrary' do
     before :each do
-      @fake_results = {:title => "Bool1"}
+      @fake_results = {:title => "Bool1", :isbn => "123456789"}
     end
     it 'should call the model method that performs Openlibrary search' do
       expect(Book).to receive(:open_lib_find_book).with('123456789').and_return(@fake_results)
-      post :search_open_lib, {:book=>{:isbn => '123456789'}}
+      post :search_open_lib, {:book => {"isbn_open_lib" => '123456789'}}
     end
     describe 'after valid search' do
       before :each do
@@ -65,15 +65,20 @@ describe BooksController do
         expect(flash[:notice]).to eq("Book was successfully added.")
       end
     end
-   # context 'Missing fields' do
-   #   it 'should return to movies page' do
-   #     post :add_tmdb, {:tmdb_movies => nil}
-   #     expect(response).to redirect_to(movies_path)
-   #   end
-   #   it 'should show flash indicating no movies were added' do
-   #     post :add_tmdb, {:tmdb_movies => nil}
-   #     expect(flash[:warning]).to eq("No movies selected")
-   #   end
-   # end
+    context 'Missing fields' do
+      before :each do
+        @fake_book = {"title" => "", "author" => "", "isbn" => "", "seller" => nil, "image" => "nobook.gif"}
+        @fake_book_result = double(:book=>{:title => ""})
+        allow(Book).to receive(:create!).with(@fake_book).and_return(@fake_book_result)
+        allow(@fake_book_result).to receive(:title).and_return('')
+        post :create, {:book => @fake_book}
+      end
+      it 'should return to movies page' do
+        expect(response).to render_template('new')
+      end
+      it 'should show flash indicating empty fields' do
+        expect(flash[:warning]).to eq("fill out all fields marked with '*' to add book")
+      end
+    end
   end
 end
