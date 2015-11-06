@@ -17,16 +17,15 @@ Background: sgerard has logged in and on mybooks page
 
 Scenario: change price
     When I change field "Price" to "$60"
+    And  sgerard is on the MyBooks page
     Then the "price" of "Algorithm Design" should be "$60"
 
-Scenario: change description
-    #When I change field "Description" to "used in Computer Science class"
-    #Then the "description" of "Algorithm Design" should be "used in Computer Science class"
-  
+
 Scenario: change author
     When I change field "Author" to "Ron"
+    And  sgerard is on the MyBooks page
     Then the "author" of "Algorithm Design" should be "Ron"
 
 Scenario: deleting too much information
-  #When I change field "Author" to ""
-  #Then I should see the flash warning "need to have * fields filled out"
+  When I change field "Author" to ""
+  Then I should see flash message "need to have * fields filled out"
