@@ -32,13 +32,11 @@ end
 When /I change field "(.*?)" to "(.*?)"$/ do |field, change|
     fill_in field, :with => change
     click_button "Update Book Info"
-     visit mybooks_path
 end
 
 Then /the "(.*?)" of "(.*?)" should be "(.*?)"$/ do |field, title, change|
     result=false
     all("tr").each do |tr|
-        puts tr.text
         if tr.has_content?(change) && tr.has_content?(title)
             result=true
             break;
@@ -46,9 +44,6 @@ Then /the "(.*?)" of "(.*?)" should be "(.*?)"$/ do |field, title, change|
     end
     expect(result).to be_truthy
 end
-
-#Then /I should see the flash warning "(.*?)"$/ do |flash_message|
-#end
 
 When /I add a book with title "(.*?)", author "(.*?)" and isbn "(.*?)"$/ do |title, author, isbn|
     click_button 'Add Book'
