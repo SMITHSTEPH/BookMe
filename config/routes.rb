@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
   resources :users
   resources :books
+  
   match '/mybooks', to: 'books#mybooks', via: :get
   root 'books#index'
   match '/books', to: 'books#index', via: :put
