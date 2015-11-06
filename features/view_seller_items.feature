@@ -12,7 +12,7 @@ Background: user has logged in and on homepage #implement more of the login stuf
   #| Java                                                               | Paul J Deitel     | 0136053068         | bad     | $2.00  | for intro to software design     | http://www-fp.pearsonhighered.com/assets/hip/images/bigcovers/0132575663.jpg    |                       |
   | Classical Electromagnetic Theory (Fundamental Theories of Physics) | Jack VanderLinde  | 1402026994         | great   | $10.00 | great intro to em theory         | https://covers.openlibrary.org/b/id/1733064-S.jpg                               |
   | Calculus: Early Transcendentals                                    | James Stewart     | 1285741552         | fair    | $20.00 |                                  | http://ecx.images-amazon.com/images/I/51SWN%2BQre0L._SX258_BO1,204,203,200_.jpg |
-  And sgerard is on the BookMe homepage
+ 
 Scenario: view the book you're selling
-  When I click on button mybooks to see my books
+  When sgerard is on the MyBooks page
   Then I should see all of the books I am selling

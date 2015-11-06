@@ -1,13 +1,10 @@
-Given /^sgerard is on the BookMe homepage$/ do
- visit mybooks_path
-end
-
 Given /^sgerard is selling the following books:$/ do |books_table|
     Book.delete_all
     books_table.hashes.each do |book|
         Book.find_or_create_by book
     end
 end
+
 Given /^sgerard is on the MyBooks page$/ do
     visit mybooks_path
 end
@@ -16,11 +13,6 @@ Given /sgerard has selected to edit "(.*?)"$/ do |book_title|
 
     book=Book.find_by_title(book_title)   
     visit edit_book_path(book)
-end
-
-
-When /^I click on button mybooks to see my books$/ do
-    #click_button 'My Books'
 end
 
 Then /^I should see all of the books I am selling$/ do
