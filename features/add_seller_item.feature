@@ -11,4 +11,6 @@ Scenario: add item (without required information) to existing collection of sell
     Then I should see a book with title "Analog Electronic Design: Principles and Practice of Creative Design", author "Johnathan Scott" and isbn "0130331929" added mybooks
 
 Scenario: add an invalid item to existing collection of seller items
+  When I add a book with title "", author "" and isbn ""
+  Then I should see flash message "fill out all fields marked with '*' to add book"
   

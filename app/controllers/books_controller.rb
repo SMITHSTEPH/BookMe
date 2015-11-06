@@ -16,17 +16,14 @@ class BooksController < ApplicationController
   end
   
   def mybooks #routed here when user hits "mybooks" button and renders mybooks view
-    puts "IN MY BOOKS"
     @books = Book.where(seller:session[:session_token])
   end
 
   def new #routed here when user hits 'add book' button and renders new view
-    puts "goes in right controller 2"
     @book={:title => "", :author => "", :isbn => "", :price => "", :quality => "", :image => "nobook.gif", :description => ""}
     # default: render 'new' template
   end
   def search_open_lib #routed here when user looks up book isbn and renders new view
-
     @isbn = params[:book][:isbn_open_lib]
     @book=Book.open_lib_find_book(@isbn)
 
@@ -76,7 +73,6 @@ class BooksController < ApplicationController
   end
 
   def destroy #routes here when you click 'delete' on mybooks view and redirects to index method
-    puts "IN DESTROOOOOY"
     @book = Book.find(params[:id])
     @book.destroy
     flash[:notice] = "'#{@book.title}' deleted."

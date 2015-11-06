@@ -87,3 +87,8 @@ Then /I should not see a book with title "(.*?)" in MyBooks$/ do |title|
     end
     expect(result).to be_truthy
 end
+
+Then /I should see flash message "(.*?)"$/ do |message|
+    result= page.has_content? message
+    expect(result).to be_truthy
+end
