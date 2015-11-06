@@ -15,6 +15,7 @@ gem 'coffee-rails', '~> 4.1.0'
 
 # Use Haml as the templating library
 gem 'haml'
+gem 'rspec-rails'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
