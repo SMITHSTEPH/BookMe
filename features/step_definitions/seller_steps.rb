@@ -29,8 +29,6 @@ Then /^I should see all of the books I am selling$/ do
      all("tr").each do |tr|
         row_count+=1
      end
-     puts "row_count "+ row_count.to_s
-     puts "movie_count "+ Book.count.to_s
      if Book.count == row_count #get rid of the title row
          result=true
      else
@@ -47,7 +45,6 @@ end
 
 Then /the "(.*?)" of "(.*?)" should be "(.*?)"$/ do |field, title, change|
     result=false
-    puts "in then"
     all("tr").each do |tr|
         puts tr.text
         if tr.has_content?(change) && tr.has_content?(title)
@@ -58,5 +55,23 @@ Then /the "(.*?)" of "(.*?)" should be "(.*?)"$/ do |field, title, change|
     expect(result).to be_truthy
 end
 
-Then /I should see the flash warning "(.*?)"$/ do |flash_message|
+#Then /I should see the flash warning "(.*?)"$/ do |flash_message|
+#end
+
+When /I add a book with title "(.*?)", author "(.*?)" and isbn "(.*?)"$/ do |title, author, isbn|
+    click_button 'Add Book'
+    fill_in "* Title", :with => title
+    fill_in "* Author", :with => author
+    fill_in "* ISBN", :with => isbn, exact: true
+    click_button 'Save Changes'
+end
+Then /I should see a book with title "(.*?)", author "(.*?)" and isbn "(.*?)" added mybooks$/ do |title, author, isbn|
+    result=false
+    all("tr").each do |tr|
+        if tr.has_content?(title) && tr.has_content?(author) && tr.has_content?(isbn)
+            result=true
+            break;
+        end
+    end
+    expect(result).to be_truthy
 end

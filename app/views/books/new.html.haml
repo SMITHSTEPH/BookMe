@@ -31,5 +31,5 @@
 
 = form_tag search_open_lib_path, :method => :post do
   = label :book, :isbn, 'ISBN'
-  = text_field :book, 'isbn', :value=>@book[:isbn]
+  = text_field :book, 'isbn_open_lib', :value=>@book[:isbn]
   = submit_tag 'Find Book by ISBN'
