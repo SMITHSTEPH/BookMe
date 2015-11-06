@@ -78,12 +78,17 @@ end
 
 When /I remove a book with title "(.*?)"$/ do |title|
      book=Book.find_by_title(title)   
-     visit book_path(book)
+     puts book.title.to_s
+     Capybara.current_session.driver.delete book_path(book.id)
+     visit mybooks_path
+
 end
 Then /I should not see a book with title "(.*?)" in MyBooks$/ do |title|
-    result=true
+    result=false
     all("tr").each do |tr|
+        result=true
         if tr.has_content?(title)
+            puts "in the for loop"
             result=false
             break;
         end

@@ -16,6 +16,7 @@ class BooksController < ApplicationController
   end
   
   def mybooks #routed here when user hits "mybooks" button and renders mybooks view
+    puts "IN MY BOOKS"
     @books = Book.where(seller:session[:session_token])
   end
 
@@ -75,6 +76,7 @@ class BooksController < ApplicationController
   end
 
   def destroy #routes here when you click 'delete' on mybooks view and redirects to index method
+    puts "IN DESTROOOOOY"
     @book = Book.find(params[:id])
     @book.destroy
     flash[:notice] = "'#{@book.title}' deleted."
