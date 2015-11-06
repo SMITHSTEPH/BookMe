@@ -1,7 +1,6 @@
 require 'spec_helper'
 require 'rails_helper'
 
-
 describe Book do
   describe 'searching OpenLibrary by isbn' do
     context 'with found isbn' do

@@ -38,16 +38,16 @@ gem 'openlibrary'
 group :development, :test do
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3'
+  gem 'rspec-rails'
+  gem 'cucumber-rails'
+  gem 'simplecov', :require => false
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-  gem 'cucumber-rails'
   gem 'rspec-expectations'
   gem 'capybara'
-  gem 'rspec-rails'
   gem 'launchy'
   gem 'database_cleaner'
   gem 'byebug'
-  gem 'simplecov', :require => false, :group => :test
 end
 
 group :development do
