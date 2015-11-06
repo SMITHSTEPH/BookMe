@@ -26,7 +26,7 @@ class BooksController < ApplicationController
   end
   def search_open_lib #routed here when user looks up book isbn and renders new view
 
-    @isbn = params[:isbn_open_lib]
+    @isbn = params[:book][:isbn_open_lib]
     @book=Book.open_lib_find_book(@isbn)
 
     if @book.empty?
