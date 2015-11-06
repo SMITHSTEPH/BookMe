@@ -1,5 +1,5 @@
 class BooksController < ApplicationController
-  #before_filter :set_current_user
+  before_filter :set_current_user
   def book_params
     params.require(:book).permit(:title, :author, :isbn, :quality, :price, :description)
   end
