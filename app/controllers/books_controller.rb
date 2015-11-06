@@ -25,11 +25,14 @@ class BooksController < ApplicationController
     # default: render 'new' template
   end
   def search_open_lib #routed here when user looks up book isbn and renders new view
+
     @isbn = params[:isbn_open_lib]
     @book=Book.open_lib_find_book(@isbn)
+
     if @book.empty?
       flash[:warning] = "Book not found in database!"
     end
+#    render "books/new.html.haml"
     render new_book_path 
   end
 
