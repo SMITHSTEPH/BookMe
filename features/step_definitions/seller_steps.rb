@@ -75,3 +75,18 @@ Then /I should see a book with title "(.*?)", author "(.*?)" and isbn "(.*?)" ad
     end
     expect(result).to be_truthy
 end
+
+When /I remove a book with title "(.*?)"$/ do |title|
+     book=Book.find_by_title(title)   
+     visit book_path(book)
+end
+Then /I should not see a book with title "(.*?)" in MyBooks$/ do |title|
+    result=true
+    all("tr").each do |tr|
+        if tr.has_content?(title)
+            result=false
+            break;
+        end
+    end
+    expect(result).to be_truthy
+end
