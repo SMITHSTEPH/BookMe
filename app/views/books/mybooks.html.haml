@@ -1,5 +1,5 @@
 = button_to 'All Books', books_path, :method =>:get, :id => 'allbooks'
-%h1 #{@current_user.first_name}'s Books
+%h1 #{session[:session_token]}'s Books
 = button_to 'Add Book', new_book_path, :method =>:get, :id => 'addbook'
 
 %table#books
