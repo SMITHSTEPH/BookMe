@@ -16,6 +16,7 @@ gem 'coffee-rails', '~> 4.1.0'
 # Use Haml as the templating library
 gem 'haml'
 gem 'devise'
+gem 'rspec-rails'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
@@ -32,13 +33,21 @@ gem 'bcrypt', '~> 3.1.7'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
+gem 'openlibrary'
 
 group :development, :test do
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3'
+  gem 'rspec-rails'
+  gem 'cucumber-rails'
+  gem 'simplecov', :require => false
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-  gem 'rspec-rails'
+  gem 'rspec-expectations'
+  gem 'capybara'
+  gem 'launchy'
+  gem 'database_cleaner'
+  gem 'byebug'
 end
 
 group :development do
