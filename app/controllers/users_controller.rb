@@ -5,6 +5,7 @@ class UsersController < ApplicationController
     params.require(:user).permit(:first_name,:last_name,:password,:user_id, :email, :password_confirmation)
   end
   def show
+    puts "LOGIN SHOW"
     @user = User.find(params[:id])
   end
 
@@ -13,6 +14,7 @@ class UsersController < ApplicationController
   end
 
   def create
+    puts "LOGIN CREATE"
     @user = User.new(user_params)
     if @user.save
       flash[:notice] = "Welcome #{@user.user_id}. Your account has been created."

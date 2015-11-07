@@ -4,6 +4,7 @@ Feature: create a new item when a seller adds a book to their seller items
   I want to add my textbooks to the site
   
 Background: ssmith32 has logged in and on mybooks page
+  Given that ssmith32 has logged in
   Given ssmith32 is on the MyBooks page
   
 Scenario: add item (without required information) to existing collection of seller items

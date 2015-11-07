@@ -4,6 +4,7 @@ Feature: editing an existing item in seller's books
     I want an edit button to change what I am selling
   
 Background: ssmith32 has logged in and on mybooks page
+ Given that ssmith32 has logged in
  Given ssmith32 is selling the following books:
   | title                                                              | author            | isbn               | quality | price  | description                      | image                                                                           |
   | Algorithm Design                                                   | Kleinberg Tardos  | 978-81-317-0310-6  | great   | $50.00 |                                  | http://ecx.images-amazon.com/images/I/51BHNytrZCL._SX258_BO1,204,203,200_.jpg   |
