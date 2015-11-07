@@ -5,7 +5,7 @@ Feature: remove the selected book from the existing seller books
  
   
 Background: user has logged in and on homepage #implement more of the login stuff next iteration
-  Given sgerard is selling the following books:
+  Given ssmith32 is selling the following books:
   | title                                                              | author            | isbn               | quality | price  | description                      | image                                                                           |
   | Algorithm Design                                                   | Kleinberg Tardos  | 978-81-317-0310-6  | great   | $50.00 |                                  | http://ecx.images-amazon.com/images/I/51BHNytrZCL._SX258_BO1,204,203,200_.jpg   |
   | Medical Imaging                                                    | Sonka Fitzpatrick | 0-8194-3622-4      | fair    | $60.00 | for a biomed grad level course   | http://ecx.images-amazon.com/images/I/418rcJjNnVL._SX335_BO1,204,203,200_.jpg   |

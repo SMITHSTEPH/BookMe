@@ -16,6 +16,7 @@ class BooksController < ApplicationController
   end
   
   def mybooks #routed here when user hits "mybooks" button and renders mybooks view
+    puts "IN MY BOOKS"
     @books = Book.where(seller:session[:session_token])
   end
 

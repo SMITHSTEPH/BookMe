@@ -1,15 +1,22 @@
-Given /^sgerard is selling the following books:$/ do |books_table|
+Given /^ssmith32 is selling the following books:$/ do |books_table|
     Book.delete_all
     books_table.hashes.each do |book|
         Book.find_or_create_by book
     end
 end
-
-Given /^sgerard is on the MyBooks page$/ do
+Given /^that ssmith32 has logged in$/ do
+    visit '/login'
+    fill_in "login_email", :with => "stephanie-k-smith@uiowa.edu"
+    fill_in "login_password", :with => "password"
+    click_button "login_submit"
+    visit books_path
+    
+end
+Given /^ssmith32 is on the MyBooks page$/ do
     visit mybooks_path
 end
 
-Given /sgerard has selected to edit "(.*?)"$/ do |book_title|
+Given /ssmith32 has selected to edit "(.*?)"$/ do |book_title|
 
     book=Book.find_by_title(book_title)   
     visit edit_book_path(book)

@@ -4,7 +4,8 @@ Feature: View seller's books
     I want a view that shows me information about the books I'm selling
 
 Background: user has logged in and on homepage #implement more of the login stuff next iteration
-  Given sgerard is selling the following books:
+  Given that ssmith32 has logged in
+  Given ssmith32 is selling the following books:
   | title                                                              | author            | isbn               | quality | price  | description                      | image                                                                           |
   | Algorithm Design                                                   | Kleinberg Tardos  | 978-81-317-0310-6  | great   | $50.00 |                                  | http://ecx.images-amazon.com/images/I/51BHNytrZCL._SX258_BO1,204,203,200_.jpg   |
   | Medical Imaging                                                    | Sonka Fitzpatrick | 0-8194-3622-4      | fair    | $60.00 | for a biomed grad level course   | http://ecx.images-amazon.com/images/I/418rcJjNnVL._SX335_BO1,204,203,200_.jpg   |
@@ -14,5 +15,5 @@ Background: user has logged in and on homepage #implement more of the login stuf
   | Calculus: Early Transcendentals                                    | James Stewart     | 1285741552         | fair    | $20.00 |                                  | http://ecx.images-amazon.com/images/I/51SWN%2BQre0L._SX258_BO1,204,203,200_.jpg |
  
 Scenario: view the book you're selling
-  When sgerard is on the MyBooks page
+  When ssmith32 is on the MyBooks page
   Then I should see all of the books I am selling
