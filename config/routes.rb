@@ -4,13 +4,14 @@ Rails.application.routes.draw do
   resources :books
   
   match '/mybooks', to: 'books#mybooks', via: :get
+ # root :to => redirect('/books')
   root 'books#index'
   match '/books', to: 'books#index', via: :put
   match '/search_open_lib', to: 'books#search_open_lib', via: :post
   match '/search_open_lib', to: 'books#search_open_lib', via: :get
   match '/login', to: 'sessions#new', via: :get
-  match '/login_create', to: 'sessions#create', via: :post
   match '/logout', to: 'sessions#destroy', via: :delete
+  resources	:sessions,	only:	[:new,	:create,	:destroy]
   
 
   # The priority is based upon order of creation: first created -> highest priority.

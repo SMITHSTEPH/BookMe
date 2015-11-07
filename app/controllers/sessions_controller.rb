@@ -1,26 +1,26 @@
 class SessionsController < ApplicationController
-
-  def session_params
-    params.require(:user).permit(:user_id, :email)
-  end
+  skip_before_filter :set_current_user
   
   def new
     # default: render 'new' template
   end
 
   def create
-    user = User.find_by_email(session_params[:email])
-    if user != nil && User.exists?(:user_id => user.user_id) && User.exists?(:email => user.email)
-      session[:session_token] = user.session_token
-      redirect_to movies_path
+    user = User.find_by_email(params[:session][:email])
+    if user && user.authenticate(params[:session][:password])
+      #sign in and redirect to show page
+      cookies.permanent[:session_token]= user.session_token
+      redirect_to books_path
     else
-      flash[:notice] = "invalid user-id/email combination"
-      redirect_to login_path
-    end
+      flash.now[:warning] = 'Invalid email/password combination'
+      render 'new'
+    end  
   end
 
   def destroy
-    session[:session_token] = nil
-    redirect_to movies_path
+    cookies.delete(:session_token) 
+    @current_user=nil
+    flash[:notice]= 'You have logged out'
+    redirect_to login_path
   end
 end

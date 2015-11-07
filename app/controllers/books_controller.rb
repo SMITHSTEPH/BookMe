@@ -1,5 +1,5 @@
 class BooksController < ApplicationController
-  #before_filter :set_current_user
+  before_filter :set_current_user
   def book_params
     params.require(:book).permit(:title, :author, :isbn, :quality, :price, :description, :image)
   end
@@ -11,7 +11,7 @@ class BooksController < ApplicationController
   end
 
   def index #rendered when user clicks on 'myBooks'
-    session[:session_token]='segerard' #hardcoding segerard as user now
+    session[:session_token]= @current_user.user_id
     @books = Book.all
   end
   

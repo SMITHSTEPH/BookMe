@@ -1,14 +1,14 @@
 %h1 Login
 
-= form_tag login_create_path do
-
-  = label :user, :user_id, 'User-ID'
-  = text_field :user, 'user_id', :id => 'login_id'
+= form_tag sessions_path, :method => 'post' do
   
-  = label :user, :email, 'E-Mail'
-  = text_field :user, 'email', :id => 'login_email'
+  = label :session, :email, 'Email'
+  = text_field :session, 'email', :id => 'login_email'
+  
+  = label :session, :password, 'Password'
+  = password_field :session, 'password', :id => 'login_password'
 
 
-  = submit_tag 'Login To My Account', :id => 'login_submit'
+  = submit_tag 'Log In', :id => 'login_submit'
   <br>
   = link_to 'Sign-up for an account', new_user_path, :id => 'signup'

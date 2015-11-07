@@ -15,8 +15,7 @@ gem 'coffee-rails', '~> 4.1.0'
 
 # Use Haml as the templating library
 gem 'haml'
-gem 'rspec-rails'
-
+gem 'devise'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
@@ -26,7 +25,7 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 # Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.7'
 
 # Use Unicorn as the app server
 # gem 'unicorn'
@@ -47,7 +46,6 @@ group :development, :test do
   gem 'capybara'
   gem 'launchy'
   gem 'database_cleaner'
-  gem 'byebug'
 end
 
 group :development do
@@ -57,4 +55,9 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 end
+
+#group :test do
+#  gem 'rspec-expectations'
+#  gem 'cucumber-rails' 
+#end
 

@@ -1,5 +1,11 @@
 %h1 Register With BookMe 
 
+-unless @user ==nil
+  -if @user.errors.any?
+    %ul
+    -@user.errors.full_messages.each do |msg|
+      %li #{msg}
+      
 = form_tag users_path do
   = label :user, :first_name, 'First Name'
   = text_field :user, 'first_name', :id => 'signup_first_name'
@@ -14,7 +20,10 @@
   = text_field :user, 'email', :id => 'signup_email'
   
   = label :user, :password, 'Password'
-  = text_field :user, 'password', :id => 'signup_password'
+  = password_field :user, 'password', :id => 'signup_password'
+  
+  = label :user, :password_confirmation, 'Confirm Password'
+  = password_field :user, 'password_confirmation', :id => 'signup_password_confirmation'
 
 
   = submit_tag 'Create My Account', :id => 'signup_submit'
