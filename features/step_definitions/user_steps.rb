@@ -52,3 +52,38 @@ end
     result= page.has_content? message
     expect(result).to be_truthy
 end 
+
+
+
+Given(/^I am on the login page and have an account$/) do
+  visit new_user_path
+  fill_in 'signup_first_name', :with => "Blake"
+  fill_in 'signup_last_name', :with => "Dunham"
+  fill_in 'signup_email', :with => "b@b.com"
+  fill_in 'signup_id', :with => "bdunham"
+  fill_in 'signup_password', :with => "password"
+  fill_in 'signup_password_confirmation', :with => "password"
+  click_button 'signup_submit'
+end
+
+When(/^I login with email "(.*?)" and password "(.*?)"$/) do |email, password|
+  fill_in 'login_email', :with => email
+  fill_in 'login_password', :with => password
+  click_button 'login_submit'
+end
+
+Then(/^I should see the flash message "(.*?)"$/) do |message|
+  result= page.has_content? message
+  expect(result).to be_truthy
+end
+
+When(/^I try to login with email "(.*?)" and password "(.*?)"$/) do |email, password|
+  fill_in 'login_email', :with => email
+  fill_in 'login_password', :with => password
+  click_button 'login_submit'
+end
+
+Then(/^I should see the message "(.*?)"$/) do |message|
+  result= page.has_content? message
+  expect(result).to be_truthy
+end

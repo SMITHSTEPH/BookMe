@@ -3,7 +3,7 @@ Feature: create an account
   So that I can have an account
   I want to create an account 
   
-Background: I has visited the create account page 
+Background: I have visited the create account page 
   Given I am on the create account page
   
 Scenario: I create an account with valid information 
