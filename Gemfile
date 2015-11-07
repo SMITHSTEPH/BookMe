@@ -16,7 +16,6 @@ gem 'coffee-rails', '~> 4.1.0'
 # Use Haml as the templating library
 gem 'haml'
 gem 'devise'
-gem 'rspec-rails'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
@@ -47,7 +46,6 @@ group :development, :test do
   gem 'capybara'
   gem 'launchy'
   gem 'database_cleaner'
-  gem 'byebug'
 end
 
 group :development do
@@ -58,8 +56,8 @@ group :development do
   gem 'spring'
 end
 
-group :test do
-  gem 'rspec-expectations'
-  gem 'cucumber-rails' 
-end
+#group :test do
+#  gem 'rspec-expectations'
+#  gem 'cucumber-rails' 
+#end
 
