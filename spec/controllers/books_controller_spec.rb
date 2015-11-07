@@ -1,7 +1,11 @@
 require 'spec_helper'
 require 'rails_helper'
-
 describe BooksController do
+  before :each do
+    @user=User.new({first_name:'Foo', last_name:'Bar',password:'foobar100', password_confirmation:'foobar100', user_id:'foobar', email:'foobar@uiowa.edu'})
+    @user.save
+    cookies.permanent[:session_token] = User.find_by_email('foobar@uiowa.edu').session_token
+  end
   describe 'seraching Openlibrary' do
     before :each do
       @fake_results = {:title => "Bool1", :isbn => "123456789"}
