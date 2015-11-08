@@ -6,7 +6,7 @@ describe BooksController do
     @user.save
     cookies.permanent[:session_token] = User.find_by_email('foobar@uiowa.edu').session_token
   end
-  describe 'seraching Openlibrary' do
+  describe 'Searching by isbn' do
     before :each do
       @fake_results = {:title => "Bool1", :isbn => "123456789"}
     end
@@ -84,5 +84,38 @@ describe BooksController do
         expect(flash[:warning]).to eq("fill out all fields marked with '*' to add book")
       end
     end
+    context 'Missing image' do
+      before :each do
+        @fake_book = {"title" => "Book", "author" => "Sarah", "isbn" => "123456789", "seller" => "segerard", "image" => ""}
+        post :create, {:book => @fake_book}
+      end
+      it 'should fill in image' do
+        expect(assigns(:book).image).to eq('nobook.gif')
+      end
+    end
+  end
+  describe 'updating books' do
+    context 'All fields entered'
+    before :each do
+      @fake_book = {:id=>1, "title" => "Book Title", "author" => "Sarah", "isbn" => "123456789", "seller" => nil, "image" => "image.gif"}
+    end
+    it 'should flash warning' do
+    
+    end
+    it 'should redirect to edit book path' do
+
+    end
+    context 'Missing fields'
+    before :each do
+      @fake_book = {"title" => "", "author" => "", "isbn" => "", "seller" => nil, "image" => "image.gif"}
+    end
+    it 'should flash warning' do
+    
+    end
+    it 'should redirect to edit book path' do
+
+    end
+
   end
 end
+
