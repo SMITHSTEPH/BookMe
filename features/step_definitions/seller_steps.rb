@@ -1,15 +1,30 @@
-Given /^sgerard is selling the following books:$/ do |books_table|
-    Book.delete_all
-    books_table.hashes.each do |book|
-        Book.find_or_create_by book
+Given /^ssmith32 is selling the following books:$/ do |books_table|
+    puts "in selling the following books"
+    #session=User.find_by_email('foobar@uiowa.edu').session_token
+    session=User.find_by_email('stephanie-k-smith@uiowa.edu')
+    puts "session is " + session.user_id.to_s
+    @books = Book.where(seller:session.user_id)
+        Book.where(seller:session.user_id).delete_all
+        books_table.hashes.each do |book|
+        book[:seller]=session.user_id
+        Book.find_or_create_by(book)
     end
+    books=Book.where(seller:session).all
 end
-
-Given /^sgerard is on the MyBooks page$/ do
+Given /^that ssmith32 has logged in$/ do
+    @user=User.new({first_name:'Stephanie', last_name:'Smith',password:'password', password_confirmation:'password', user_id:'ssmith32', email:'stephanie-k-smith@uiowa.edu'})
+    @user.save
+    visit login_path
+    fill_in 'login_email', :with => "stephanie-k-smith@uiowa.edu"
+    fill_in 'login_password', :with => "password"
+    click_button 'login_submit'
+    visit books_path
+end
+Given /^ssmith32 is on the MyBooks page$/ do
     visit mybooks_path
 end
 
-Given /sgerard has selected to edit "(.*?)"$/ do |book_title|
+Given /ssmith32 has selected to edit "(.*?)"$/ do |book_title|
 
     book=Book.find_by_title(book_title)   
     visit edit_book_path(book)
@@ -75,7 +90,6 @@ Then /I should not see a book with title "(.*?)" in MyBooks$/ do |title|
     all("tr").each do |tr|
         result=true
         if tr.has_content?(title)
-            puts "in the for loop"
             result=false
             break;
         end

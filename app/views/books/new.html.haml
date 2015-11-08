@@ -28,7 +28,8 @@
   = text_area :book, 'description', :value => @book[:description]
 
   = submit_tag 'Save Changes'
-
+%hr
+%h3 Book lookup
 = form_tag search_open_lib_path, :method => :post do
   = label :book, :isbn, 'ISBN'
   = text_field :book, 'isbn_open_lib', :value=>@book[:isbn]

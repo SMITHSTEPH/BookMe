@@ -2,6 +2,7 @@ class SessionsController < ApplicationController
   skip_before_filter :set_current_user
   
   def new
+    puts "ON LOGIN"
     # default: render 'new' template
   end
 
