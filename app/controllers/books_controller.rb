@@ -1,7 +1,7 @@
 class BooksController < ApplicationController
   before_filter :set_current_user
   def book_params
-    params.require(:book).permit(:title, :author, :isbn, :quality, :price, :description, :image)
+    params.require(:book).permit(:title, :author, :isbn, :quality, :price, :auction_start_price, :description, :image)
   end
 
   def show #displayed when user clicks on book title link
@@ -24,7 +24,7 @@ class BooksController < ApplicationController
   end
 
   def new #routed here when user hits 'add book' button and renders new view
-    @book={:title => "", :author => "", :isbn => "", :price => "", :quality => "", :image => "nobook.gif", :description => ""}
+    @book={:title => "", :author => "", :isbn => "", :price => "", :auction_start_price => "", :quality => "", :image => "nobook.gif", :description => ""}
     # default: render 'new' template
   end
   def search_open_lib #routed here when user looks up book isbn and renders new view
@@ -44,9 +44,9 @@ class BooksController < ApplicationController
     if(info[:title].to_s.empty? || info[:author].to_s.empty? || info[:isbn].to_s.empty?)
       flash[:warning]= "fill out all fields marked with '*' to add book"
       if info[:image].to_s.empty?
-        @book={:title => info[:title], :author => info[:author], :isbn => info[:isbn], :price => info[:price], :quality =>info[:quality], :image => "nobook.gif", :description => info[:description]}
+        @book={:title => info[:title], :author => info[:author], :isbn => info[:isbn], :price => info[:price], :auction_start_price => info[:auction_start_price], :quality =>info[:quality], :image => "nobook.gif", :description => info[:description]}
       else
-        @book={:title => info[:title], :author => info[:author], :isbn => info[:isbn], :price => info[:price], :quality =>info[:quality], :image => info[:image], :description => info[:description]}
+        @book={:title => info[:title], :author => info[:author], :isbn => info[:isbn], :price => info[:price], :auction_start_price => info[:auction_start_price], :quality =>info[:quality], :image => info[:image], :description => info[:description]}
       end 
       #render "books/new.html.haml"
       render new_book_path

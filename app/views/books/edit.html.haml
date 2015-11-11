@@ -21,6 +21,9 @@
   = label :book, :price, 'Price'
   = text_field :book, 'price', :value => @book.price
   
+  = label :book, :auction_start_price, 'Auction Price'
+  = text_field :book, 'auction_start_price' , :value => @book.auction_start_price
+
   = label :book, :description, 'Description'
   = text_area :book, 'description', :value => @book.description
 
