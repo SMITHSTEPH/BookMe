@@ -22,7 +22,7 @@ describe BooksController do
       it 'should select the Search Results template for rendering' do
         expect(response).to render_template('new')
       end
-      it 'it should redirect to new page' do
+      it 'it should assign fake_results to book' do
         expect(assigns(:book)).to eq(@fake_results)
       end
     end
@@ -95,27 +95,37 @@ describe BooksController do
     end
   end
   describe 'updating books' do
-    context 'All fields entered'
-    before :each do
-      @fake_book = {:id=>1, "title" => "Book Title", "author" => "Sarah", "isbn" => "123456789", "seller" => nil, "image" => "image.gif"}
-    end
-    it 'should flash warning' do
+    context 'All fields entered' do
+      before :each do
+        @fake_book = {"title" => "Book Title", "author" => "Sarah", "isbn" => "123456789", "seller" => nil, "image" => "image.gif"}
+        @new_book = Book.new(@fake_book)
+        @new_book.save
+        put :update, {:id=>@new_book.id, :book=>@fake_book}
+      end
     
+      it 'should flash warning' do
+        expect(flash[:notice]).to eq("Book Title was successfully updated.")
+      end
+      it 'should redirect to book path' do
+        expect(response).to redirect_to(book_path(@new_book.id))
+      end
     end
-    it 'should redirect to edit book path' do
+    context 'Missing fields' do
+      before :each do
+        @fake_book = {:id=>2,"title" => "This Book", "author" => "Sarah", "isbn" => "123456789", "seller" => nil, "image" => "image.gif"}
+        @fake_book_edit = {"title" => "", "author" => "Sarah", "isbn" => "123456789", "seller" => nil, "image" => "image.gif"}
+        new_book = Book.new(@fake_book)
+        new_book.save
+        put :update, {:id=>new_book.id, :book=>@fake_book_edit}
+      end
+      it 'should flash warning' do
+        expect(flash[:warning]).to eq("need to have * fields filled out")
+      end
+      it 'should redirect to edit book path' do
+        expect(response).to redirect_to(edit_book_path)
+      end
 
     end
-    context 'Missing fields'
-    before :each do
-      @fake_book = {"title" => "", "author" => "", "isbn" => "", "seller" => nil, "image" => "image.gif"}
-    end
-    it 'should flash warning' do
-    
-    end
-    it 'should redirect to edit book path' do
-
-    end
-
   end
 end
 
