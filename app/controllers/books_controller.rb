@@ -11,8 +11,8 @@ class BooksController < ApplicationController
   end
 
   def index #rendered when user clicks on 'myBooks'
+    @books = Book.search(params[:search])
     session[:session_token]= @current_user.user_id
-    @books = Book.all
   end
   
   def mybooks #routed here when user hits "mybooks" button and renders mybooks view

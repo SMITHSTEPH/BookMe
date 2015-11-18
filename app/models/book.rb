@@ -1,4 +1,13 @@
 class Book < ActiveRecord::Base
+  
+  def self.search(search)
+    if search
+      self.where("title like :query OR isbn like :query", query: "%#{search}%")    
+    else
+      self.all
+    end
+  end
+  
   def self.open_lib_find_book(isbn)
     view = Openlibrary::View
     book_view = view.find_by_isbn(isbn)

@@ -3,6 +3,10 @@
 = button_to 'Sign Up/Login', login_path, :method =>:get
 %h1 All Books
 
+= form_tag books_path, :method => 'get' do 
+  = text_field_tag :search, params[:search] 
+  = submit_tag "Search" 
+
 %table#books
   %thead
     %tr
