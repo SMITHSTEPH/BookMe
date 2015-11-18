@@ -15,12 +15,24 @@
   = label :book, :isbn, 'ISBN'
   = text_field :book, 'isbn', :value => @book.isbn
 
+  = label :book, :department, 'Department'
+  = text_field :book, 'department', :value=>@book.department
+  
+  = label :book, :course, 'Course'
+  = text_field :book, 'course', :value=>@book.course
+
   = label :book, :quality, 'Quality'
   = text_field :book, 'quality', :value => @book.quality
   
   = label :book, :price, 'Price'
   = text_field :book, 'price', :value => @book.price
   
+  = label :book, :auction_start_price, 'Auction Price'
+  = text_field :book, 'auction_start_price' , :value => @book.auction_start_price
+  
+  = label :book, :auction_time, 'Auction Time'
+  = text_field :book, 'auction_time' , :value => @book.auction_time
+
   = label :book, :description, 'Description'
   = text_area :book, 'description', :value => @book.description
 
