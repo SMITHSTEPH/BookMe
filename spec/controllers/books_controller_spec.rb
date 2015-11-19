@@ -47,7 +47,7 @@ describe BooksController do
   describe 'adding books' do
     context 'Required fields are filled in' do
       before :each do
-        @fake_book = {"title" => "Book", "author" => "Sarah", "isbn" => "123456789", "seller" => nil, "image" => "nobook.gif"}
+        @fake_book = {"title" => "Book", "author" => "Sarah", "isbn" => "123456789", "image" => "nobook.gif"}
         @fake_book_result = double(:book=>{:title => "Book Title"})
         allow(Book).to receive(:create!).with(@fake_book).and_return(@fake_book_result)
         allow(@fake_book_result).to receive(:title).and_return('Book')
@@ -71,7 +71,7 @@ describe BooksController do
     end
     context 'Missing fields' do
       before :each do
-        @fake_book = {"title" => "", "author" => "", "isbn" => "", "seller" => nil, "image" => "nobook.gif"}
+        @fake_book = {"title" => "", "author" => "", "isbn" => "", "image" => "nobook.gif"}
         @fake_book_result = double(:book=>{:title => ""})
         allow(Book).to receive(:create!).with(@fake_book).and_return(@fake_book_result)
         allow(@fake_book_result).to receive(:title).and_return('')
@@ -86,7 +86,7 @@ describe BooksController do
     end
     context 'Missing image' do
       before :each do
-        @fake_book = {"title" => "Book", "author" => "Sarah", "isbn" => "123456789", "seller" => "segerard", "image" => ""}
+        @fake_book = {"title" => "Book", "author" => "Sarah", "isbn" => "123456789", "image" => ""}
         post :create, {:book => @fake_book}
       end
       it 'should fill in image' do
@@ -97,7 +97,7 @@ describe BooksController do
   describe 'updating books' do
     context 'All fields entered' do
       before :each do
-        @fake_book = {"title" => "Book Title", "author" => "Sarah", "isbn" => "123456789", "seller" => nil, "image" => "image.gif"}
+        @fake_book = {"title" => "Book Title", "author" => "Sarah", "isbn" => "123456789", "image" => "image.gif"}
         @new_book = Book.new(@fake_book)
         @new_book.save
         put :update, {:id=>@new_book.id, :book=>@fake_book}
@@ -112,8 +112,8 @@ describe BooksController do
     end
     context 'Missing fields' do
       before :each do
-        @fake_book = {:id=>2,"title" => "This Book", "author" => "Sarah", "isbn" => "123456789", "seller" => nil, "image" => "image.gif"}
-        @fake_book_edit = {"title" => "", "author" => "Sarah", "isbn" => "123456789", "seller" => nil, "image" => "image.gif"}
+        @fake_book = {:id=>2,"title" => "This Book", "author" => "Sarah", "isbn" => "123456789", "image" => "image.gif"}
+        @fake_book_edit = {"title" => "", "author" => "Sarah", "isbn" => "123456789", "image" => "image.gif"}
         new_book = Book.new(@fake_book)
         new_book.save
         put :update, {:id=>new_book.id, :book=>@fake_book_edit}

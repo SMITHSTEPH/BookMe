@@ -1,5 +1,7 @@
 class Book < ActiveRecord::Base
   
+  belongs_to :user 
+ 
   def self.search(search)
     if search
       self.where("title like :query OR isbn like :query", query: "%#{search}%")    

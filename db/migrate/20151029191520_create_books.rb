@@ -1,6 +1,7 @@
 class CreateBooks < ActiveRecord::Migration
   def change
     create_table :books do |t|
+      t.belongs_to :user, index:true
       t.string :title
       t.string :author
       t.string :isbn
@@ -8,7 +9,6 @@ class CreateBooks < ActiveRecord::Migration
       t.string :image
       t.string :price
       t.text :description
-      t.string :seller
     end
   end
 end

@@ -13,12 +13,17 @@ class BooksController < ApplicationController
   def index #rendered when user clicks on 'myBooks'
     @books = Book.search(params[:search])
     session[:session_token]= @current_user.user_id
+    puts @current_user.user_id
   end
   
   def mybooks #routed here when user hits "mybooks" button and renders mybooks view
-    puts seller:session[:session_token]
-    puts seller:session[:session_token]
-    @books = Book.where(seller:session[:session_token])
+    #puts seller:session[:session_token]
+    #puts seller:session[:session_token]
+    #@books = Book.where(seller:session[:session_token])
+    puts @current_user.id
+    @user = User.find_by_id(@current_user.id)
+    puts @user.user_id
+    @books = @user.books
     #puts @book.to_S
     
   end
@@ -54,8 +59,9 @@ class BooksController < ApplicationController
       if info[:image].to_s.empty?
         info[:image]="nobook.gif"
       end
-      info[:seller] = session[:session_token]
-      @book = Book.create!(info)
+      #info[:seller] = session[:session_token]
+      #@book = Book.create!(info)
+      @book = @current_user.books.create(info)
       flash[:notice] = "#{@book.title} was successfully added."
       redirect_to mybooks_path
     end
