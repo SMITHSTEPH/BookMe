@@ -99,7 +99,7 @@ describe BooksController do
         expect(response).to render_template('new')
       end
       it 'should show flash indicating empty fields' do
-        expect(flash[:warning]).to eq("fill out all fields marked with '*' to add book")
+        expect(flash[:warning]).to eq("Isbn can't be blank<br/>Isbn is invalid<br/>Title can't be blank<br/>Author can't be blank")
       end
     end
     context 'Missing image' do
@@ -144,7 +144,7 @@ describe BooksController do
         put :update, {:id=>new_book.id, :book=>@fake_book_edit}
       end
       it 'should flash warning' do
-        expect(flash[:warning]).to eq("need to have * fields filled out")
+        expect(flash[:warning]).to eq("Title can't be blank")
       end
       it 'should redirect to edit book path' do
         expect(response).to redirect_to(edit_book_path)
