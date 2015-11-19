@@ -2,11 +2,15 @@ class Book < ActiveRecord::Base
   
   belongs_to :user 
 
-  VALID_EMAIL_REGEX = /\A[0-9]{9,13}\z/
+  VALID_ISBN_REGEX = /\A[0-9]{10,13}\z/
   validates :isbn, presence: true,
-                   format: {with: VALID_EMAIL_REGEX}
+                   format: {with: VALID_ISBN_REGEX}
   validates :title, presence:true
   validates :author, presence:true
+  
+  VALID_PRICE_REGEX = /\A[0-9]*(\.[0-9][0-9])?\z/
+  validates :price, format: {with: VALID_PRICE_REGEX}
+  validates :auction_start_price, format: {with: VALID_PRICE_REGEX}
 
   def self.search(search)
     if search
