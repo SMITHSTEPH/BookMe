@@ -41,14 +41,16 @@ class BooksController < ApplicationController
       @info[:image]="nobook.gif"
     end
     @info[:isbn]=@info[:isbn].gsub(/[-' ']/,'')
-    if(Book.new(@info).valid?)
+    testbook = Book.new(@info)
+    if(testbook.valid?)
       book = @current_user.books.create!(@info)
       flash[:notice] = "#{book.title} was successfully added."
       redirect_to mybooks_path
     else
       @book=@info
       #@book={:title => info[:title], :author => info[:author], :isbn => info[:isbn], :department => info[:department], :course => info[:course], :price => info[:price], :auction_start_price => info[:auction_start_price], :auction_time => info[:auction_time], :quality =>info[:quality], :image => info[:image], :description => info[:description]}
-      flash[:warning]= "fill out all fields marked with '*' to add book"
+      messages = testbook.errors.full_messages
+      flash[:warning] = messages.join("<br/>").html_safe
       render new_book_path
     end
   end
@@ -60,13 +62,15 @@ class BooksController < ApplicationController
   def update #routes here when you click 'Update info' button on edit view and redirects show
     @info = book_params
     @info[:isbn]=@info[:isbn].gsub(/[-' ']/,'')
-    if(Book.new(@info).valid?)
+    testbook = Book.new(@info)
+    if(testbook.valid?)
       @book = Book.find params[:id]
       @book.update_attributes!(@info)
       flash[:notice] = "#{@book.title} was successfully updated."
       redirect_to book_path(@book)
     else 
-      flash[:warning]= "need to have * fields filled out"
+      messages = testbook.errors.full_messages
+      flash[:warning] = messages.join("<br/>").html_safe
       redirect_to edit_book_path
     end
   end
