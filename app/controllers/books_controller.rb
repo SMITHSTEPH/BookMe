@@ -44,27 +44,20 @@ class BooksController < ApplicationController
   end
 
   def create #routed here when user saves changes on added book and redirects to index
-    info = book_params
-    
-    if(info[:title].to_s.empty? || info[:author].to_s.empty? || info[:isbn].to_s.empty?)
-      flash[:warning]= "fill out all fields marked with '*' to add book"
-      if info[:image].to_s.empty?
-        @book={:title => info[:title], :author => info[:author], :isbn => info[:isbn], :department => info[:department], :course => info[:course], :price => info[:price], :auction_start_price => info[:auction_start_price], :auction_time => info[:auction_time], :quality =>info[:quality], :image => "nobook.gif", :description => info[:description]}
-      else
-        @book={:title => info[:title], :author => info[:author], :isbn => info[:isbn], :department => info[:department], :course => info[:course], :price => info[:price], :auction_start_price => info[:auction_start_price], :auction_time => info[:auction_time], :quality =>info[:quality], :image => info[:image], :description => info[:description]}
-      end 
-      #render "books/new.html.haml"
-      render new_book_path
-    else
-      if info[:image].to_s.empty?
-        info[:image]="nobook.gif"
-      end
-      info[:isbn]=info[:isbn].gsub(/[-' ']/,'')
-      #info[:seller] = session[:session_token]
-      #@book = Book.create!(info)
-      @book = @current_user.books.create!(info)
-      flash[:notice] = "#{@book.title} was successfully added."
+    @info = book_params
+    if @info[:image].to_s.empty?
+      @info[:image]="nobook.gif"
+    end
+    @info[:isbn]=@info[:isbn].gsub(/[-' ']/,'')
+    if(Book.new(@info).valid?)
+      book = @current_user.books.create!(@info)
+      flash[:notice] = "#{book.title} was successfully added."
       redirect_to mybooks_path
+    else
+      @book=@info
+      #@book={:title => info[:title], :author => info[:author], :isbn => info[:isbn], :department => info[:department], :course => info[:course], :price => info[:price], :auction_start_price => info[:auction_start_price], :auction_time => info[:auction_time], :quality =>info[:quality], :image => info[:image], :description => info[:description]}
+      flash[:warning]= "fill out all fields marked with '*' to add book"
+      render new_book_path
     end
   end
 
@@ -73,17 +66,29 @@ class BooksController < ApplicationController
   end
 
   def update #routes here when you click 'Update info' button on edit view and redirects show
-    if(book_params[:title].to_s.empty? || book_params[:author].to_s.empty? || book_params[:isbn].to_s.empty?)
-      flash[:warning]= "need to have * fields filled out"
-      redirect_to edit_book_path
-    else
+    @info = book_params
+    @info[:isbn]=@info[:isbn].gsub(/[-' ']/,'')
+    if(Book.new(@info).valid?)
       @book = Book.find params[:id]
-      info = book_params
-      info[:isbn]=info[:isbn].gsub(/[-' ']/,'')
-      @book.update_attributes!(info)
+      @book.update_attributes!(@info)
       flash[:notice] = "#{@book.title} was successfully updated."
       redirect_to book_path(@book)
+    else 
+      flash[:warning]= "need to have * fields filled out"
+      redirect_to edit_book_path
     end
+
+#    if(book_params[:title].to_s.empty? || book_params[:author].to_s.empty? || book_params[:isbn].to_s.empty?)
+#      flash[:warning]= "need to have * fields filled out"
+#      redirect_to edit_book_path
+#    else
+#      @book = Book.find params[:id]
+#      info = book_params
+#      info[:isbn]=info[:isbn].gsub(/[-' ']/,'')
+#      @book.update_attributes!(info)
+#      flash[:notice] = "#{@book.title} was successfully updated."
+#      redirect_to book_path(@book)
+#    end
   end
 
   def destroy #routes here when you click 'delete' on mybooks view and redirects to index method
