@@ -4,7 +4,25 @@ describe BooksController do
   before :each do
     @user=User.new({first_name:'Foo', last_name:'Bar',password:'foobar100', password_confirmation:'foobar100', user_id:'foobar', email:'foobar@uiowa.edu'})
     @user.save
+    @userbooks=@user.books
     cookies.permanent[:session_token] = User.find_by_email('foobar@uiowa.edu').session_token
+  end
+  describe 'Users books' do
+    before :each do
+      get :mybooks
+    end
+    it 'should assign user to the current logged in user' do
+      expect(assigns(:user)).to eq(@user)
+    end
+    it 'should assign books' do
+      expect(assigns(:books)).to eq(@userbooks)
+    end
+    it 'should assign books to be type association' do
+      expect(assigns(:books)).to be_a(ActiveRecord::Associations::CollectionProxy)
+    end
+    it 'should render my books template' do
+        expect(response).to render_template('mybooks')
+    end
   end
   describe 'Searching by isbn' do
     before :each do
@@ -131,7 +149,6 @@ describe BooksController do
       it 'should redirect to edit book path' do
         expect(response).to redirect_to(edit_book_path)
       end
-
     end
   end
 end

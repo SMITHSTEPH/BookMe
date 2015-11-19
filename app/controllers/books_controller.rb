@@ -17,15 +17,8 @@ class BooksController < ApplicationController
   end
   
   def mybooks #routed here when user hits "mybooks" button and renders mybooks view
-    #puts seller:session[:session_token]
-    #puts seller:session[:session_token]
-    #@books = Book.where(seller:session[:session_token])
-    puts @current_user.id
     @user = User.find_by_id(@current_user.id)
-    puts @user.user_id
     @books = @user.books
-    #puts @book.to_S
-    
   end
 
   def new #routed here when user hits 'add book' button and renders new view
@@ -39,7 +32,6 @@ class BooksController < ApplicationController
     if @book.empty?
       flash[:warning] = "Book not found in database!"
     end
-#    render "books/new.html.haml"
     render new_book_path 
   end
 
@@ -77,18 +69,6 @@ class BooksController < ApplicationController
       flash[:warning]= "need to have * fields filled out"
       redirect_to edit_book_path
     end
-
-#    if(book_params[:title].to_s.empty? || book_params[:author].to_s.empty? || book_params[:isbn].to_s.empty?)
-#      flash[:warning]= "need to have * fields filled out"
-#      redirect_to edit_book_path
-#    else
-#      @book = Book.find params[:id]
-#      info = book_params
-#      info[:isbn]=info[:isbn].gsub(/[-' ']/,'')
-#      @book.update_attributes!(info)
-#      flash[:notice] = "#{@book.title} was successfully updated."
-#      redirect_to book_path(@book)
-#    end
   end
 
   def destroy #routes here when you click 'delete' on mybooks view and redirects to index method
