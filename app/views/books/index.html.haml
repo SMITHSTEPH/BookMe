@@ -3,6 +3,10 @@
 = button_to 'Sign Up/Login', login_path, :method =>:get
 %h1 All Books
 
+= form_tag books_path, :method => 'get' do 
+  = text_field_tag :search, params[:search] 
+  = submit_tag "Search" 
+
 %table#books
   %thead
     %tr
@@ -10,6 +14,7 @@
       %th{:width => "200"} Book Title
       %th{:width => "200"} Author
       %th{:width => "100"} Price
+      %th{:width => "100"} Auction Price
   %tbody
     - @books.each do |book|
       %tr
@@ -17,3 +22,4 @@
         %td= link_to "#{book.title}", book_path(book)
         %td= book.author
         %td= book.price
+        %td= book.auction_start_price

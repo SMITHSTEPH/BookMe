@@ -1,4 +1,21 @@
 class Book < ActiveRecord::Base
+  
+  belongs_to :user 
+
+  VALID_EMAIL_REGEX = /\A[0-9]{9,13}\z/
+  validates :isbn, presence: true,
+                   format: {with: VALID_EMAIL_REGEX}
+  validates :title, presence:true
+  validates :author, presence:true
+
+  def self.search(search)
+    if search
+      self.where("title like :query OR isbn like :query", query: "%#{search}%")    
+    else
+      self.all
+    end
+  end
+  
   def self.open_lib_find_book(isbn)
     view = Openlibrary::View
     book_view = view.find_by_isbn(isbn)
