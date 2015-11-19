@@ -59,9 +59,10 @@ class BooksController < ApplicationController
       if info[:image].to_s.empty?
         info[:image]="nobook.gif"
       end
+      info[:isbn]=info[:isbn].gsub(/[-' ']/,'')
       #info[:seller] = session[:session_token]
       #@book = Book.create!(info)
-      @book = @current_user.books.create(info)
+      @book = @current_user.books.create!(info)
       flash[:notice] = "#{@book.title} was successfully added."
       redirect_to mybooks_path
     end
@@ -77,7 +78,9 @@ class BooksController < ApplicationController
       redirect_to edit_book_path
     else
       @book = Book.find params[:id]
-      @book.update_attributes!(book_params)
+      info = book_params
+      info[:isbn]=info[:isbn].gsub(/[-' ']/,'')
+      @book.update_attributes!(info)
       flash[:notice] = "#{@book.title} was successfully updated."
       redirect_to book_path(@book)
     end
