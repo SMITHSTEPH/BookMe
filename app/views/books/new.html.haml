@@ -40,7 +40,7 @@
   = text_area :book, 'description', :value => @book[:description] 
  
   =label :book, :keyword, 'Keywords:'
-  = text_field :book, 'keyword', :value => @book[:keyword]
+  = text_field :book, 'keyword[0]', :value => @book[:keyword]
   = submit_tag 'Save Changes', :id=>'add_book'
 =button_tag "add keywords", :id=>'add_keywords', :onclick => 'click_handler()'
   

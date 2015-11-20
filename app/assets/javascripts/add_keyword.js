@@ -1,8 +1,10 @@
-var text_template="</br><input type='text' name='book[keyword][NUM]'>"
-var num=0;
+var text_template="</br><input type='text' name='book[keyword[NUM]]' id='book[keyword][NUM]'>"
+var num=1;
 
 function click_handler(){
-    var textbox = $(text_template.replace("NUM", num));
+    var textbox = $(text_template.split("NUM").join(num));
+    console.log(textbox);
+   // textbox = $(textbox.replace("NUM", num));
     var html = $('#new_book').html();
     console.log(html);
     //$('#new_book:last').append(textbox).before('#add_book');
