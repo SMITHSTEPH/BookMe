@@ -22,7 +22,7 @@
   = text_field :book, 'course', :value=>@book.course
 
   = label :book, :quality, 'Quality'
-  = text_field :book, 'quality', :value => @book.quality
+  =select_tag 'book[quality]', options_for_select({"bad"=>"bad","fair" => "fair","good"=>"good","great"=>"great"}, @book.quality)
   
   = label :book, :price, 'Price'
   = text_field :book, 'price', :value => @book.price
