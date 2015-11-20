@@ -23,7 +23,7 @@ class BooksController < ApplicationController
   end
 
   def new #routed here when user hits 'add book' button and renders new view
-    @book={:title => "", :author => "", :isbn => "", :department => "", :course => "", :price => "", :auction_start_price => "", :auction_time => "", :quality => "", :image => "nobook.gif", :description => ""}
+    @book={:title => "", :author => "", :isbn => "", :department => "", :course => "", :price => "", :auction_start_price => "", :auction_time => "", :quality => "", :image => "nobook.gif", :description => "", :keyword => ""}
     # default: render 'new' template
   end
   def search_open_lib #routed here when user looks up book isbn and renders new view
