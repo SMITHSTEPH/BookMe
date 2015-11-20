@@ -14,9 +14,10 @@ class BooksController < ApplicationController
         hours="0"
         mins="0"
       end
+       @book.update_attribute(:time_left, hours + " hrs " + mins +" mins")
     end
 #   @book[:time_left]= hours + " hrs " + mins +" mins"
-    @book.update_attribute(:time_left, hours + " hrs " + mins +" mins")
+    #@book.update_attribute(:time_left, hours + " hrs " + mins +" mins")
     
     if Tag.where("book_id=="+@book.id.to_s).exists?#getting the keywords if there are any
       @keywords = Array.new
@@ -45,7 +46,7 @@ class BooksController < ApplicationController
 
   def new #routed here when user hits 'add book' button and renders new view
     keywords={"0"=>""}
-    @book={:title => "", :author => "", :isbn => "", :department => "", :course => "", :price => "", :auction_start_price => "", :auction_time => "", :quality => "", :image => "nobook.gif", :description => "", :keyword => keywords, time_left=> ""}
+    @book={:title => "", :author => "", :isbn => "", :department => "", :course => "", :price => "", :auction_start_price => "", :auction_time => "", :quality => "", :image => "nobook.gif", :description => "", :keyword => keywords, :time_left=> ""}
 
     # default: render 'new' template
   end
