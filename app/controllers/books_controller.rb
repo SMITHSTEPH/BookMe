@@ -10,6 +10,10 @@ class BooksController < ApplicationController
     unless @book.auction_time.nil?
       hours = (((@book.auction_time-Time.now)/60/60).to_i).to_s
       mins = (((@book.auction_time-Time.now)/60%60).to_i).to_s
+      if(hours.to_i<0)
+        hours="0"
+        mins="0"
+      end
 #      @book[:time_left]= hours + " hrs " + mins +" mins"
       @book.update_attribute(:time_left, hours + " hrs " + mins +" mins")
     end
@@ -47,11 +51,24 @@ class BooksController < ApplicationController
       @info[:image]="nobook.gif"
     end
     @info[:isbn]=@info[:isbn].gsub(/[-' ']/,'')
-    unless @info[:auction_time].nil?
-      @info[:auction_time]=Time.parse(@info[:auction_time])
-      hours = (((@info[:auction_time]-Time.now)/60/60).to_i).to_s
-      mins = (((@info[:auction_time]-Time.now)/60%60).to_i).to_s
-      @info[:time_left]= hours + " hrs " + mins +" mins"
+    unless @info[:auction_time].empty?
+      begin
+        @info[:auction_time]=Time.parse(@info[:auction_time])
+        hours = (((@info[:auction_time]-Time.now)/60/60).to_i).to_s
+        mins = (((@info[:auction_time]-Time.now)/60%60).to_i).to_s
+        if(hours.to_i<0)
+          hours="0"
+          mins="0"
+        end
+        @info[:time_left]= hours + " hrs " + mins +" mins"
+        
+      rescue
+        flash[:warning] = "Invalid auction time."
+        @info[:auction_time]=""
+        @book=@info
+        render new_book_path
+        return
+      end
     end
     testbook = Book.new(@info)
     if(testbook.valid?)
@@ -59,11 +76,8 @@ class BooksController < ApplicationController
       flash[:notice] = "#{book.title} was successfully added."
       redirect_to mybooks_path
     else
-      unless @info[:auction_time].nil?
-        @info[:auction_time]=@info[:auction_time].to_s
-      end 
+      @info[:auction_time]=@info[:auction_time].to_s
       @book=@info
-      #@book={:title => info[:title], :author => info[:author], :isbn => info[:isbn], :department => info[:department], :course => info[:course], :price => info[:price], :auction_start_price => info[:auction_start_price], :auction_time => info[:auction_time], :quality =>info[:quality], :image => info[:image], :description => info[:description]}
       messages = testbook.errors.full_messages
       flash[:warning] = messages.join("<br/>").html_safe
       render new_book_path
@@ -77,11 +91,21 @@ class BooksController < ApplicationController
   def update #routes here when you click 'Update info' button on edit view and redirects show
     @info = book_params
     @info[:isbn]=@info[:isbn].gsub(/[-' ']/,'')
-    unless @info[:auction_time].nil?
-      @info[:auction_time]=Time.parse(@info[:auction_time])
-      hours = (((@info[:auction_time]-Time.now)/60/60).to_i).to_s
-      mins = (((@info[:auction_time]-Time.now)/60%60).to_i).to_s
-      @info[:time_left]= hours + " hrs " + mins +" mins"
+    unless @info[:auction_time].empty?
+      begin
+        @info[:auction_time]=Time.parse(@info[:auction_time])
+        hours = (((@info[:auction_time]-Time.now)/60/60).to_i).to_s
+        mins = (((@info[:auction_time]-Time.now)/60%60).to_i).to_s
+        if(hours.to_i<0)
+          hours="0"
+          mins="0"
+        end
+        @info[:time_left]= hours + " hrs " + mins +" mins"
+      rescue ArgumentError
+        flash[:warning] = "Invalid auction time."
+        redirect_to edit_book_path
+        return
+      end
     end
     testbook = Book.new(@info)
     if(testbook.valid?)
