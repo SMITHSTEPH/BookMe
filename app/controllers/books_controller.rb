@@ -35,8 +35,8 @@ class BooksController < ApplicationController
   end
 
   def new #routed here when user hits 'add book' button and renders new view
-    keywords={:keywords => 0}
-    @book={:title => "", :author => "", :isbn => "", :department => "", :course => "", :price => "", :auction_start_price => "", :auction_time => "", :quality => "", :image => "nobook.gif", :description => "", :keywords => keywords, :t => ""}
+    keywords={"0"=>""}
+    @book={:title => "", :author => "", :isbn => "", :department => "", :course => "", :price => "", :auction_start_price => "", :auction_time => "", :quality => "", :image => "nobook.gif", :description => "", :keyword => keywords}
     # default: render 'new' template
   end
   def search_open_lib #routed here when user looks up book isbn and renders new view
@@ -46,6 +46,8 @@ class BooksController < ApplicationController
     if @book.empty?
       flash[:warning] = "Book not found in database!"
     end
+    keywords={"0"=>""}
+    @book[:keyword]=keywords
     render new_book_path 
   end
 
