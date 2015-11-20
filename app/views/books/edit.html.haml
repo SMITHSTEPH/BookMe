@@ -40,11 +40,13 @@
   = text_field :book, :image, :value=>@book[:image]  
   
   = label :book, :keyword, 'Keywords:'
-  = text_field :book, 'keyword[0]', :value => @book[:keyword]
-  - num = 1
+  = text_field :book, 'keyword[0]', :value => @keywords[0].tag
+  -num=0
   - @keywords.each do |keyword|
-    = text_field :book, 'keyword[num]', :value => @book[:keyword][num]
-
+    -if(num!=0)
+      </br>
+      =text_field :book, 'keyword[num]', :value => @keywords[num].tag
+    -num=num+1
   = submit_tag 'Update Book Info', :id=>'add_book'
 =button_tag "add keywords", :id=>'add_keywords', :onclick => 'click_handler()'
 

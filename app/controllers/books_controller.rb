@@ -93,9 +93,21 @@ class BooksController < ApplicationController
 
   def edit #routes here when you click the 'edit' button from the mybooks view and renders edit view
     @book = Book.find params[:id]
-    if Tag.exists? @book.id
-      @keywords = Tag.find @book.id
-    else
+     if Tag.where("book_id=="+@book.id.to_s).exists? #getting the keywords if there are any
+      @keywords = Array.new
+      puts "id is: " +  @book.id.to_s
+      Tag.find_each  do |keyword|
+        if keyword.book_id == @book.id
+          puts "in if keyword matches"
+           @keywords << keyword
+        end
+      end
+        puts "keywords for edit are: "
+        @keywords.each do |keyword|
+          puts keyword.tag
+        end
+      
+      else
       @keywords = { }
     end
   end

@@ -44,8 +44,8 @@
   =label :book, :keyword, 'Keywords:'
   = text_field :book, 'keyword[0]', :value => @book[:keyword]["0"]
   - @book[:keyword].each do |key, value|
+    </br>
     - if(key != "0")
-      </br>
       =text_field :book, 'keyword[key]', :value => value
   = submit_tag 'Save Changes', :id=>'add_book'
 =button_tag "add keywords", :id=>'add_keywords', :onclick => 'click_handler()'
