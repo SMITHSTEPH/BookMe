@@ -1,6 +1,7 @@
-= button_to 'All Books', books_path, :method =>:get, :id => 'allbooks'
+%br/
+= button_to 'All Books', books_path, :method =>:get, :id => 'allbooks', class: 'btn btn-default'
 %h1 #{@current_user.first_name}'s Books
-= button_to 'Add Book', new_book_path, :method =>:get, :id => 'addbook'
+= button_to 'Add Book', new_book_path, :method =>:get, :id => 'addbook', class: 'btn btn-success'
 
 %table#books
     %tbody

@@ -4,9 +4,9 @@
 
 %h1 All Books
 
-= form_tag books_path, :method => 'get' do 
-  = text_field_tag :search, params[:search] 
-  = submit_tag "Search" 
+= form_tag books_path, :method => 'get', class: 'form-inline' do 
+  = text_field_tag :search, params[:search], class: 'form-control', placeholder: 'Search Terms'
+  = submit_tag "Search", class: 'btn btn-default' 
 
 %table#books
   %thead
