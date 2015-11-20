@@ -1,14 +1,15 @@
 %h1 Login
 
-= form_tag sessions_path, :method => 'post' do
+= form_tag sessions_path, :method => 'post', class: 'form-horizontal'do
   
   = label :session, :email, 'Email'
-  = text_field :session, 'email', :id => 'login_email'
+  = text_field :session, 'email', :id => 'login_email', class: 'form-control', placeholder: 'example@example.com'
   
   = label :session, :password, 'Password'
-  = password_field :session, 'password', :id => 'login_password'
+  = password_field :session, 'password', :id => 'login_password', class: 'form-control', placeholder: 'Password'
 
-
-  = submit_tag 'Log In', :id => 'login_submit'
-  <br>
-  = link_to 'Sign-up for an account', new_user_path, :id => 'signup'
+  %br/
+  = submit_tag 'Log In', :id => 'login_submit', class: 'btn btn-primary btn-block'
+  %br/
+  %br/
+  = link_to 'Sign-up for an account', new_user_path, :id => 'signup', class: 'btn btn-info btn-block'
