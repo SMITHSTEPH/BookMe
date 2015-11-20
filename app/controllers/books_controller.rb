@@ -108,6 +108,7 @@ class BooksController < ApplicationController
       @book=@info
 
       @book[:keyword]=keywords
+      messages = testbook.errors.full_messages
       flash[:warning] = messages.join("<br/>").html_safe
       render new_book_path
     end
