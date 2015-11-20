@@ -51,7 +51,9 @@
     .row
       .col-md-4
         = label :book, :price, 'Price'
-        = text_field :book, 'price' , :value=>@book[:price], class: 'form-control'
+        .input-group
+          %span.input-group-addon $
+          = text_field :book, 'price' , :value=>@book[:price], class: 'form-control'
 
   .form-group
     .row
