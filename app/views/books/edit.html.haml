@@ -30,7 +30,7 @@
   = label :book, :auction_start_price, 'Auction Price'
   = text_field :book, 'auction_start_price' , :value => @book.auction_start_price
   
-  = label :book, :auction_time, 'Auction Time'
+  = label :book, :auction_time, 'Auction Time  (yearr-month-day hr:min)'
   = text_field :book, 'auction_time' , :value => @book.auction_time
 
   = label :book, :description, 'Description'
@@ -48,6 +48,6 @@
       -i=index
       =text_field :book, 'keyword['+i.to_s+']', :value => @keywords[index].tag, :class => 'keywords'
   -i=i+1 
-  = submit_tag 'Update Book Info', :id=>'add_book'
+  = submit_tag 'Update Book Info', :id=>'add_book', class: 'btn btn-default'
 =button_tag "add keywords", :id=>'add_keywords', :onclick => 'click_handler()'
 

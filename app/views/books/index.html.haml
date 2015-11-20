@@ -1,11 +1,12 @@
 -#  This file is app/views/books/index.html.haml
-= button_to 'My Books', mybooks_path, :method =>:get, :id => 'mybooks'
-= button_to 'Sign Up/Login', login_path, :method =>:get
+%br/
+= button_to 'My Books', mybooks_path, :method =>:get, :id => 'mybooks', class: 'btn btn-primary'
+
 %h1 All Books
 
-= form_tag books_path, :method => 'get' do 
-  = text_field_tag :search, params[:search] 
-  = submit_tag "Search" 
+= form_tag books_path, :method => 'get', class: 'form-inline' do 
+  = text_field_tag :search, params[:search], class: 'form-control', placeholder: 'Search Terms'
+  = submit_tag "Search", class: 'btn btn-default' 
 
 %table#books
   %thead
@@ -21,5 +22,5 @@
         %td= image_tag asset_path(book.image), :size => '75x100'
         %td= link_to "#{book.title}", book_path(book)
         %td= book.author
-        %td= book.price
+        %td= "$"+book.price
         %td= book.auction_start_price

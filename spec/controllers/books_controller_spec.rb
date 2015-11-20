@@ -26,16 +26,16 @@ describe BooksController do
   end
   describe 'Searching by isbn' do
     before :each do
-      @fake_results = {:title => "Bool1", :isbn => "123456789"}
+      @fake_results = {:title => "Bool1", :isbn => "1234567890"}
     end
     it 'should call the model method that performs Openlibrary search' do
-      expect(Book).to receive(:open_lib_find_book).with('123456789').and_return(@fake_results)
-      post :search_open_lib, {:book => {"isbn_open_lib" => '123456789'}}
+      expect(Book).to receive(:open_lib_find_book).with('1234567890').and_return(@fake_results)
+      post :search_open_lib, {:book => {"isbn_open_lib" => '1234567890'}}
     end
     describe 'after valid search' do
       before :each do
         allow(Book).to receive(:open_lib_find_book).and_return(@fake_results)
-        post :search_open_lib, {:book=>{:isbn => '123456789'}}
+        post :search_open_lib, {:book=>{:isbn => '1234567890'}}
       end
       it 'should select the Search Results template for rendering' do
         expect(response).to render_template('new')
@@ -50,14 +50,14 @@ describe BooksController do
       end  
       it 'should call model method that performs Tmdb search' do
         expect(Book).to receive(:open_lib_find_book)
-        post :search_open_lib, {:book => {:isbn => '123456789'}}
+        post :search_open_lib, {:book => {:isbn => '1234567890'}}
       end
       it 'it should redirect to new page' do
-        post :search_open_lib, {:book => {:isbn => '123456789'}}
+        post :search_open_lib, {:book => {:isbn => '1234567890'}}
         expect(response).to render_template('new')
       end
       it 'should display flash saying no matches found' do
-        post :search_open_lib, {:book => {:isbn => '123456789'}}
+        post :search_open_lib, {:book => {:isbn => '1234567890'}}
         expect(flash[:warning]).to eq("Book not found in database!")
       end
     end
@@ -65,7 +65,7 @@ describe BooksController do
   describe 'adding books' do
     context 'Required fields are filled in' do
       before :each do
-        @fake_book = {"title" => "Book", "author" => "Sarah", "isbn" => "123456789", "image" => "nobook.gif"}
+        @fake_book = {"title" => "Book", "author" => "Sarah", "isbn" => "1234567890", "image" => "nobook.gif", "auction_time"=>""}
         @fake_book_result = double(:book=>{:title => "Book Title"})
         allow(Book).to receive(:create!).with(@fake_book).and_return(@fake_book_result)
         allow(@fake_book_result).to receive(:title).and_return('Book')
@@ -89,7 +89,7 @@ describe BooksController do
     end
     context 'Missing fields' do
       before :each do
-        @fake_book = {"title" => "", "author" => "", "isbn" => "", "image" => "nobook.gif"}
+        @fake_book = {"title" => "", "author" => "", "isbn" => "", "image" => "nobook.gif", "auction_time"=>""}
         @fake_book_result = double(:book=>{:title => ""})
         allow(Book).to receive(:create!).with(@fake_book).and_return(@fake_book_result)
         allow(@fake_book_result).to receive(:title).and_return('')
@@ -104,7 +104,7 @@ describe BooksController do
     end
     context 'Missing image' do
       before :each do
-        @fake_book = {"title" => "Book", "author" => "Sarah", "isbn" => "123456789", "image" => ""}
+        @fake_book = {"title" => "Book", "author" => "Sarah", "isbn" => "1234567890", "image" => "", "auction_time"=>""}
         post :create, {:book => @fake_book}
       end
       it 'should fill in image' do
@@ -113,16 +113,16 @@ describe BooksController do
     end
     context 'Hyphens or spaces in isbn' do
       it 'should remove all hypens and spaces' do
-        @fake_book = {"title" => "Book", "author" => "Sarah", "isbn" => "123-456 789", "image" => ""}
+        @fake_book = {"title" => "Book", "author" => "Sarah", "isbn" => "123-456 7890", "image" => "", "auction_time"=>""}
         post :create, {:book => @fake_book}
-        expect(assigns(:info)[:isbn]).to eq('123456789')
+        expect(assigns(:info)[:isbn]).to eq('1234567890')
       end
     end
   end
   describe 'updating books' do
     context 'All fields entered' do
       before :each do
-        @fake_book = {"title" => "Book Title", "author" => "Sarah", "isbn" => "123456789", "image" => "image.gif"}
+        @fake_book = {"title" => "Book Title", "author" => "Sarah", "isbn" => "1234567890", "image" => "image.gif", "auction_time"=>""}
         @new_book = Book.new(@fake_book)
         @new_book.save
         put :update, {:id=>@new_book.id, :book=>@fake_book}
@@ -137,8 +137,8 @@ describe BooksController do
     end
     context 'Missing fields' do
       before :each do
-        @fake_book = {:id=>2,"title" => "This Book", "author" => "Sarah", "isbn" => "123456789", "image" => "image.gif"}
-        @fake_book_edit = {"title" => "", "author" => "Sarah", "isbn" => "123456789", "image" => "image.gif"}
+        @fake_book = {:id=>2,"title" => "This Book", "author" => "Sarah", "isbn" => "1234567890", "image" => "image.gif", "auction_time"=>""}
+        @fake_book_edit = {"title" => "", "author" => "Sarah", "isbn" => "1234567890", "image" => "image.gif", "auction_time"=>""}
         new_book = Book.new(@fake_book)
         new_book.save
         put :update, {:id=>new_book.id, :book=>@fake_book_edit}

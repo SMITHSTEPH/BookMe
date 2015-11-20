@@ -13,11 +13,13 @@
     = @book.quality
   %li
     Price:
-    =@book.price
+    ="$"+@book.price
   %li
     Auction Price:
-    =@book.auction_start_price
-    
+    ="$"+@book.auction_start_price
+  %li
+    Time Left:
+    =@book.time_left 
   %li
     Keywords:
     - @keywords.each do |keyword|
