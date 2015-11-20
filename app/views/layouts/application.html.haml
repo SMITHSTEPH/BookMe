@@ -15,5 +15,7 @@
         #warning.message= flash[:warning]
       - if @current_user
         %p You are logged in as #{@current_user.email} (User name: #{@current_user.user_id})
-        = button_to 'Log Out', logout_path, :method => 'delete'
+        = button_to 'Log Out', logout_path, :method => 'delete', class: 'btn btn-danger'
+      - else
+        = button_to 'Sign Up/Login', login_path, :method =>:get, class: 'btn btn-info'
       = yield
