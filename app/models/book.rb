@@ -1,6 +1,7 @@
 class Book < ActiveRecord::Base
   
   belongs_to :user 
+  belongs_to :tag
 
   VALID_ISBN_REGEX = /\A[0-9]{10,13}\z/
   validates :isbn, presence: true,

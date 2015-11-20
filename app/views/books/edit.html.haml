@@ -3,7 +3,7 @@
 = button_to 'My Books', mybooks_path, :method =>:get, :id => 'mybooks'
 %h1 Edit Existing Book
 
-= form_tag book_path(@book), :method => :put do
+= form_tag book_path(@book), :method => :put, :id =>'edit_book' do
   = image_tag asset_path(@book[:image]), :size => '75x100'
 
   = label :book, :title, 'Title'
@@ -38,6 +38,13 @@
 
   = label :book, :image, 'Image'
   = text_field :book, :image, :value=>@book[:image]  
+  
+  = label :book, :keyword, 'Keywords:'
+  = text_field :book, 'keyword[0]', :value => @book[:keyword]
+  - num = 1
+  - @keywords.each do |keyword|
+    = text_field :book, 'keyword[num]', :value => @book[:keyword][num]
 
-  = submit_tag 'Update Book Info'
+  = submit_tag 'Update Book Info', :id=>'add_book'
+=button_tag "add keywords", :id=>'add_keywords', :onclick => 'click_handler()'
 

@@ -1,7 +1,7 @@
 class BooksController < ApplicationController
   before_filter :set_current_user
   def book_params
-    params.require(:book).permit(:title, :author, :isbn, :department, :course, :quality, :price, :auction_start_price, :auction_time, :description, :image)
+    params.require(:book).permit(:title, :author, :isbn, :department, :course, :quality, :price, :auction_start_price, :auction_time, :description, :image, :keyword)
   end
 
   def show #displayed when user clicks on book title link
@@ -39,7 +39,7 @@ class BooksController < ApplicationController
 
   def create #routed here when user saves changes on added book and redirects to index
     @info = book_params
-    puts params[:book][:keyword].to_s
+    keywords=params[:book][:keyword]
 
     if @info[:image].to_s.empty?
       @info[:image]="nobook.gif"
@@ -48,11 +48,18 @@ class BooksController < ApplicationController
     @info[:isbn]=@info[:isbn].gsub(/[-' ']/,'')
     testbook = Book.new(@info)
 
-   
-
     if(testbook.valid?)
       book = @current_user.books.create!(@info)
       flash[:notice] = "#{book.title} was successfully added."
+      keywords.each do |key, value| #adding all of the keywords to the keyword database
+        Tag.create!({:book_id => book.id, :tag => value})
+      end
+=begin
+      puts "iterating through the tags database"
+      Tag.find_each do |tag|
+        puts tag.book_id.to_s
+      end
+=end
       redirect_to mybooks_path
     else
       @book=@info
@@ -66,6 +73,11 @@ class BooksController < ApplicationController
 
   def edit #routes here when you click the 'edit' button from the mybooks view and renders edit view
     @book = Book.find params[:id]
+    if Tag.exists? @book.id
+      @keywords = Tag.find @book.id
+    else
+      @keywords = { }
+    end
   end
 
   def update #routes here when you click 'Update info' button on edit view and redirects show
@@ -86,6 +98,7 @@ class BooksController < ApplicationController
 
   def destroy #routes here when you click 'delete' on mybooks view and redirects to index method
     @book = Book.find(params[:id])
+    Tag.delete_all @book.id
     @book.destroy
     flash[:notice] = "'#{@book.title}' deleted."
     redirect_to mybooks_path
