@@ -1,48 +1,83 @@
-= button_to 'All Books', books_path, :method =>:get, :id => 'allbooks'
-= button_to 'My Books', mybooks_path, :method =>:get, :id => 'mybooks'
+= button_to 'All Books', books_path, :method =>:get, :id => 'allbooks', class: 'btn btn-info'
+= button_to 'My Books', mybooks_path, :method =>:get, :id => 'mybooks', class: 'btn btn-primary'
 %h1 Create New Book
 
 = form_tag books_path(@book) do
 
   = image_tag asset_path(@book[:image]), :size => '75x100'
-
-  = label :book, :image, 'Image'
-  = text_field :book, :image, :value=>@book[:image]
-
-  = label :book, :title, '* Title'
-  = text_field :book, 'title', :value=>@book[:title]
-
-  = label :book, :author, '* Author'
-  = text_field :book, 'author', :value=>@book[:author]
   
-  = label :book, :isbn, '* ISBN'
-  = text_field :book, 'isbn', :value=>@book[:isbn]
-
-  = label :book, :department, 'Department'
-  = text_field :book, 'department', :value=>@book[:department]
+  .form-group
+    .row
+      .col-md-4
+        = label :book, :image, 'Image'
+        = text_field :book, :image, :value=>@book[:image], class: 'form-control'
+  .form-group
+    .row
+      .col-md-4
+        = label :book, :title,  '*Title'
+        = text_field :book, 'title', :value=>@book[:title], class: 'form-control'
   
-  = label :book, :course, 'Course'
-  = text_field :book, 'course', :value=>@book[:course]
+  .form-group
+    .row
+      .col-md-4
+        = label :book, :author, '*Author'
+        = text_field :book, 'author', :value=>@book[:author], class: 'form-control'
 
-  = label :book, :quality, 'Quality'
-  = text_field :book, 'quality', :value=>@book[:quality]
-  
-  = label :book, :price, 'Price'
-  = text_field :book, 'price' , :value=>@book[:price]
-  
-  = label :book, :auction_start_price, 'Auction Price'
-  = text_field :book, 'auction_start_price' , :value=>@book[:auction_start_price]
+  .form-group
+    .row
+      .col-md-4
+        = label :book, :isbn, '*ISBN'
+        = text_field :book, 'isbn', :value=>@book[:isbn], class: 'form-control'
 
-  = label :book, :auction_time, 'Auction Time (yearr-month-day hr:min)'
-  = text_field :book, 'auction_time' , :value => @book[:auction_time]  
+  .form-group
+    .row
+      .col-md-4
+        = label :book, :department, 'Department'
+        = text_field :book, 'department', :value=>@book[:department], class: 'form-control'
+ 
+  .form-group
+    .row
+      .col-md-4
+        = label :book, :course, 'Course'
+        = text_field :book, 'course', :value=>@book[:course], class: 'form-control'
   
-  = label :book, :description, 'Description'
-  = text_area :book, 'description', :value => @book[:description]
+  .form-group
+    .row
+      .col-md-4
+        = label :book, :quality, 'Quality'
+        = text_field :book, 'quality', :value=>@book[:quality], class: 'form-control'
+  
+  .form-group
+    .row
+      .col-md-4
+        = label :book, :price, 'Price'
+        = text_field :book, 'price' , :value=>@book[:price], class: 'form-control'
 
-  = submit_tag 'Save Changes'
+  .form-group
+    .row
+      .col-md-4
+        = label :book, :auction_start_price, 'Auction Price'
+        .input-group
+          %span.input-group-addon $
+          = text_field :book, 'auction_start_price' , :value=>@book[:auction_start_price], class: 'form-control'
+
+  .form-group
+    .row
+      .col-md-4
+        = label :book, :auction_time, 'Auction Time (year-month-day hr:min)'
+        = text_field :book, 'auction_time' , :value => @book[:auction_time], class: 'form-control'
+        
+  .component
+    .form-group
+      .row
+        .col-md-4
+          = label :book, :description, 'Description'
+          = text_area :book, 'description', :value => @book[:description], class: 'form-control', rows: '3'
+
+  = submit_tag 'Save Changes', class: 'btn btn-primary'
 %hr
 %h3 Book lookup
-= form_tag search_open_lib_path, :method => :post do
+= form_tag search_open_lib_path, :method => :post, class: 'form-inline' do
   = label :book, :isbn, 'ISBN'
-  = text_field :book, 'isbn_open_lib', :value=>@book[:isbn]
-  = submit_tag 'Find Book by ISBN'
+  = text_field :book, 'isbn_open_lib', :value=>@book[:isbn], class: 'form-control'
+  = submit_tag 'Find Book by ISBN', class: 'btn btn-default'
