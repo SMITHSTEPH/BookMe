@@ -10,7 +10,7 @@
     .row
       .col-md-4
         = label :book, :image, 'Image'
-        = text_field :book, :image, :value=>@book[:image], class: 'form-control'
+        = text_field :book, :image, :value=>@book[:image], class: 'form-control' 
   .form-group
     .row
       .col-md-4
@@ -84,7 +84,7 @@
             =text_field :book, 'keyword[key]', :value => value, :class => 'keywords form-control'
             </br>
   = submit_tag 'Save Changes', :id=>'add_book', class: 'btn btn-primary'
-=button_tag "add keywords", :id=>'add_keywords', :onclick => 'click_handler()'
+=button_tag "add keywords", :id=>'add_keywords', class: 'btn btn-default', :onclick => 'click_handler()'
 
 
 %hr
