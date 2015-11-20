@@ -24,7 +24,7 @@ class BooksController < ApplicationController
 
   def new #routed here when user hits 'add book' button and renders new view
     keywords={:keywords => 0}
-    @book={:title => "", :author => "", :isbn => "", :department => "", :course => "", :price => "", :auction_start_price => "", :auction_time => "", :quality => "", :image => "nobook.gif", :description => "", :keywords => keywords}
+    @book={:title => "", :author => "", :isbn => "", :department => "", :course => "", :price => "", :auction_start_price => "", :auction_time => "", :quality => "", :image => "nobook.gif", :description => "", :keywords => keywords, :t => ""}
     # default: render 'new' template
   end
   def search_open_lib #routed here when user looks up book isbn and renders new view
@@ -39,11 +39,17 @@ class BooksController < ApplicationController
 
   def create #routed here when user saves changes on added book and redirects to index
     @info = book_params
+    puts params[:book][:keyword].to_s
+
     if @info[:image].to_s.empty?
       @info[:image]="nobook.gif"
     end
+
     @info[:isbn]=@info[:isbn].gsub(/[-' ']/,'')
     testbook = Book.new(@info)
+
+   
+
     if(testbook.valid?)
       book = @current_user.books.create!(@info)
       flash[:notice] = "#{book.title} was successfully added."
@@ -55,6 +61,7 @@ class BooksController < ApplicationController
       flash[:warning] = messages.join("<br/>").html_safe
       render new_book_path
     end
+
   end
 
   def edit #routes here when you click the 'edit' button from the mybooks view and renders edit view
