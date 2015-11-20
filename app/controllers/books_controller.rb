@@ -1,12 +1,18 @@
 class BooksController < ApplicationController
   before_filter :set_current_user
   def book_params
-    params.require(:book).permit(:title, :author, :isbn, :department, :course, :quality, :price, :auction_start_price, :auction_time, :description, :image)
+    params.require(:book).permit(:title, :author, :isbn, :department, :course, :quality, :price, :auction_start_price, :auction_time, :description, :image, :time_left)
   end
 
   def show #displayed when user clicks on book title link
     id = params[:id] # retrieve book ID from URI route
     @book = Book.find(id) # look up book by unique ID
+    unless @book.auction_time.nil?
+      hours = (((@book.auction_time-Time.now)/60/60).to_i).to_s
+      mins = (((@book.auction_time-Time.now)/60%60).to_i).to_s
+#      @book[:time_left]= hours + " hrs " + mins +" mins"
+      @book.update_attribute(:time_left, hours + " hrs " + mins +" mins")
+    end
     # will render app/views/books/show.<extension> by default
   end
 
@@ -22,7 +28,7 @@ class BooksController < ApplicationController
   end
 
   def new #routed here when user hits 'add book' button and renders new view
-    @book={:title => "", :author => "", :isbn => "", :department => "", :course => "", :price => "", :auction_start_price => "", :auction_time => "", :quality => "", :image => "nobook.gif", :description => ""}
+    @book={:title => "", :author => "", :isbn => "", :department => "", :course => "", :price => "", :auction_start_price => "", :auction_time => "", :quality => "", :image => "nobook.gif", :description => "", :time_left => ""}
     # default: render 'new' template
   end
   def search_open_lib #routed here when user looks up book isbn and renders new view
@@ -41,12 +47,21 @@ class BooksController < ApplicationController
       @info[:image]="nobook.gif"
     end
     @info[:isbn]=@info[:isbn].gsub(/[-' ']/,'')
+    unless @info[:auction_time].nil?
+      @info[:auction_time]=Time.parse(@info[:auction_time])
+      hours = (((@info[:auction_time]-Time.now)/60/60).to_i).to_s
+      mins = (((@info[:auction_time]-Time.now)/60%60).to_i).to_s
+      @info[:time_left]= hours + " hrs " + mins +" mins"
+    end
     testbook = Book.new(@info)
     if(testbook.valid?)
       book = @current_user.books.create!(@info)
       flash[:notice] = "#{book.title} was successfully added."
       redirect_to mybooks_path
     else
+      unless @info[:auction_time].nil?
+        @info[:auction_time]=@info[:auction_time].to_s
+      end 
       @book=@info
       #@book={:title => info[:title], :author => info[:author], :isbn => info[:isbn], :department => info[:department], :course => info[:course], :price => info[:price], :auction_start_price => info[:auction_start_price], :auction_time => info[:auction_time], :quality =>info[:quality], :image => info[:image], :description => info[:description]}
       messages = testbook.errors.full_messages
@@ -62,6 +77,12 @@ class BooksController < ApplicationController
   def update #routes here when you click 'Update info' button on edit view and redirects show
     @info = book_params
     @info[:isbn]=@info[:isbn].gsub(/[-' ']/,'')
+    unless @info[:auction_time].nil?
+      @info[:auction_time]=Time.parse(@info[:auction_time])
+      hours = (((@info[:auction_time]-Time.now)/60/60).to_i).to_s
+      mins = (((@info[:auction_time]-Time.now)/60%60).to_i).to_s
+      @info[:time_left]= hours + " hrs " + mins +" mins"
+    end
     testbook = Book.new(@info)
     if(testbook.valid?)
       @book = Book.find params[:id]
