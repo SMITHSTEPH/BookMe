@@ -17,7 +17,7 @@ class Book < ActiveRecord::Base
 
   def self.search(search)
     if search
-      self.where("title like :query OR isbn like :query OR course like :query OR department like :query", query: "%#{search}%")    
+      self.where("title like :query OR isbn like :query", query: "%#{search}%")    
     else
       self.all
     end
