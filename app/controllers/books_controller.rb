@@ -7,9 +7,7 @@ class BooksController < ApplicationController
   def show #displayed when user clicks on book title link
     id = params[:id] # retrieve book ID from URI route
     @book = Book.find(id) # look up book by unique ID
-    puts "book id is: " + @book.id.to_s
-    #@keywords = Tag.find @book.id
-    #puts @keywords.tag
+
     if Tag.where("book_id=="+@book.id.to_s).exists?#getting the keywords if there are any
       @keywords = Array.new
       Tag.find_each do |keyword|
@@ -18,10 +16,7 @@ class BooksController < ApplicationController
         end
       end
 
-      puts "in if this exists"
-      #puts "keyword tag is:" + @keywords.tag
     else
-      puts "doesn't exist"
       @keywords = { }
     end
     # will render app/views/books/show.<extension> by default
@@ -80,6 +75,12 @@ class BooksController < ApplicationController
       redirect_to mybooks_path
     else
       @book=@info
+      @book[:keyword]=keywords
+      #keyword=Hash.new
+      #keywords.each do |key, value| #adding the keywords to the books hash
+        #@book[:keyword][key]=value
+       
+      
       #@book={:title => info[:title], :author => info[:author], :isbn => info[:isbn], :department => info[:department], :course => info[:course], :price => info[:price], :auction_start_price => info[:auction_start_price], :auction_time => info[:auction_time], :quality =>info[:quality], :image => info[:image], :description => info[:description]}
       messages = testbook.errors.full_messages
       flash[:warning] = messages.join("<br/>").html_safe
