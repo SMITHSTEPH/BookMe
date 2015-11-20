@@ -20,10 +20,6 @@ function click_handler(){
     console.log("went in click");
 }
 
-  
-    
-
-
 /*$(function() {
     var template = "<textarea name='quiz[content][INDEX]'></textarea>",
         index = $('textarea').length,
