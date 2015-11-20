@@ -17,6 +17,7 @@ class BooksController < ApplicationController
   end
   
   def mybooks #routed here when user hits "mybooks" button and renders mybooks view
+    puts "mybooks path"
     @user = User.find_by_id(@current_user.id)
     @books = @user.books
   end
@@ -80,6 +81,12 @@ class BooksController < ApplicationController
     @book.destroy
     flash[:notice] = "'#{@book.title}' deleted."
     redirect_to mybooks_path
+  end
+  
+  def add_keyword
+    puts "ASFGDSAGFDSGSDFDSGDSHF"
+    puts "went into add_keyword"
+    redirect_to new_book_path
   end
 
 end

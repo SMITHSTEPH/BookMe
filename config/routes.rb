@@ -7,10 +7,12 @@ Rails.application.routes.draw do
  # root :to => redirect('/books')
   root 'books#index'
   match '/books', to: 'books#index', via: :put
+  match '/add_keyword', to: 'books#add_keyword', via: :get
   match '/search_open_lib', to: 'books#search_open_lib', via: :post
   match '/search_open_lib', to: 'books#search_open_lib', via: :get
   match '/login', to: 'sessions#new', via: :get
   match '/logout', to: 'sessions#destroy', via: :delete
+  
   resources	:sessions,	only:	[:new,	:create,	:destroy]
   
 

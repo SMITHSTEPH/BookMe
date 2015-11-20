@@ -2,7 +2,7 @@
 = button_to 'My Books', mybooks_path, :method =>:get, :id => 'mybooks'
 %h1 Create New Book
 
-= form_tag books_path(@book) do
+= form_tag books_path(@book), :id =>'new_book' do
 
   = image_tag asset_path(@book[:image]), :size => '75x100'
 
@@ -38,8 +38,11 @@
   
   = label :book, :description, 'Description'
   = text_area :book, 'description', :value => @book[:description]
-
+ 
   = submit_tag 'Save Changes'
+  
+=button_tag "keywords", :id=>'add_keywords', :onclick => 'click_handler()'
+  
 %hr
 %h3 Book lookup
 = form_tag search_open_lib_path, :method => :post do
