@@ -22,9 +22,10 @@
     =@book.time_left 
   %li
     Keywords:
-    - @keywords.each do |keyword|
+    - @keywords.each_with_index do |keyword ,index|
       =keyword.tag
-      ,
+      -if index<@keywords.length-1
+        ,
 
 %h3 Description:
 
