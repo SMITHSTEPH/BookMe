@@ -8,8 +8,8 @@ class BooksController < ApplicationController
     id = params[:id] # retrieve book ID from URI route
     @book = Book.find(id) # look up book by unique ID
     unless @book.auction_time.nil?
-      hours = (((@book.auction_time-Time.now)/60/60).to_i).to_s
-      mins = (((@book.auction_time-Time.now)/60%60).to_i).to_s
+      hours = (((@book.auction_time-Time.now.in_time_zone("Central Time (US & Canada)"))/60/60).to_i).to_s
+      mins = (((@book.auction_time-Time.now.in_time_zone("Central Time (US & Canada)"))/60%60).to_i).to_s
       if(hours.to_i<0)
         hours="0"
         mins="0"
@@ -53,6 +53,7 @@ class BooksController < ApplicationController
     @info[:isbn]=@info[:isbn].gsub(/[-' ']/,'')
     unless @info[:auction_time].empty?
       begin
+        @info[:auction_time]=@info[:auction_time]+" CST"
         @info[:auction_time]=Time.parse(@info[:auction_time])
         hours = (((@info[:auction_time]-Time.now)/60/60).to_i).to_s
         mins = (((@info[:auction_time]-Time.now)/60%60).to_i).to_s
@@ -93,6 +94,7 @@ class BooksController < ApplicationController
     @info[:isbn]=@info[:isbn].gsub(/[-' ']/,'')
     unless @info[:auction_time].empty?
       begin
+        @info[:auction_time]=@info[:auction_time]+" CST"
         @info[:auction_time]=Time.parse(@info[:auction_time])
         hours = (((@info[:auction_time]-Time.now)/60/60).to_i).to_s
         mins = (((@info[:auction_time]-Time.now)/60%60).to_i).to_s
