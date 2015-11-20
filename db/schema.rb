@@ -14,7 +14,6 @@
 ActiveRecord::Schema.define(version: 20151111221419) do
 
   create_table "books", force: :cascade do |t|
-<<<<<<< HEAD
     t.string "title"
     t.string "author"
     t.string "isbn"
@@ -27,21 +26,6 @@ ActiveRecord::Schema.define(version: 20151111221419) do
     t.string "course"
     t.string "auction_start_price"
     t.string "auction_time"
-=======
-    t.integer  "user_id"
-    t.string   "title"
-    t.string   "author"
-    t.string   "isbn"
-    t.string   "quality"
-    t.string   "image"
-    t.string   "price"
-    t.text     "description"
-    t.string   "department"
-    t.string   "course"
-    t.string   "auction_start_price"
-    t.datetime "auction_time"
-    t.string   "time_left"
->>>>>>> e957f3c0c772cbfc72937468415e056faad33929
   end
 
   create_table "users", force: :cascade do |t|
