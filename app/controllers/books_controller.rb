@@ -10,6 +10,10 @@ class BooksController < ApplicationController
     unless @book.auction_time.nil?
       hours = (((@book.auction_time-Time.now)/60/60).to_i).to_s
       mins = (((@book.auction_time-Time.now)/60%60).to_i).to_s
+      if(hours.to_i<0)
+        hours="0"
+        mins="0"
+      end
 #      @book[:time_left]= hours + " hrs " + mins +" mins"
       @book.update_attribute(:time_left, hours + " hrs " + mins +" mins")
     end
@@ -52,7 +56,12 @@ class BooksController < ApplicationController
         @info[:auction_time]=Time.parse(@info[:auction_time])
         hours = (((@info[:auction_time]-Time.now)/60/60).to_i).to_s
         mins = (((@info[:auction_time]-Time.now)/60%60).to_i).to_s
+        if(hours.to_i<0)
+          hours="0"
+          mins="0"
+        end
         @info[:time_left]= hours + " hrs " + mins +" mins"
+        
       rescue
         flash[:warning] = "Invalid auction time."
         @info[:auction_time]=""
@@ -87,6 +96,10 @@ class BooksController < ApplicationController
         @info[:auction_time]=Time.parse(@info[:auction_time])
         hours = (((@info[:auction_time]-Time.now)/60/60).to_i).to_s
         mins = (((@info[:auction_time]-Time.now)/60%60).to_i).to_s
+        if(hours.to_i<0)
+          hours="0"
+          mins="0"
+        end
         @info[:time_left]= hours + " hrs " + mins +" mins"
       rescue ArgumentError
         flash[:warning] = "Invalid auction time."
