@@ -5,10 +5,10 @@ function click_handler(){
     var textbox = $(text_template.replace("NUM", num));
     var html = $('#new_book').html();
     console.log(html);
-    /*$('#new_book').append(textbox);
+    $('#new_book').append(textbox);
     num=num+1;
-    alert("Hello World")
-    console.log("went in click");*/
+    //alert("Hello World")
+    console.log("went in click");
 }
     
 
