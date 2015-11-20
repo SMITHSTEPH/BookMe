@@ -2,14 +2,20 @@
 
 = form_tag sessions_path, :method => 'post', class: 'form-horizontal'do
   
-  = label :session, :email, 'Email'
-  = text_field :session, 'email', :id => 'login_email', class: 'form-control', placeholder: 'example@example.com'
+  .form-group
+    .row
+      .col-md-4
+        = label :session, :email, 'Email'
+        = text_field :session, 'email', :id => 'login_email', class: 'form-control', placeholder: 'example@example.com'
   
-  = label :session, :password, 'Password'
-  = password_field :session, 'password', :id => 'login_password', class: 'form-control', placeholder: 'Password'
+  .form-group
+    .row
+      .col-md-4
+        = label :session, :password, 'Password'
+        = password_field :session, 'password', :id => 'login_password', class: 'form-control', placeholder: 'Password'
 
   %br/
-  = submit_tag 'Log In', :id => 'login_submit', class: 'btn btn-primary btn-block'
+  = submit_tag 'Log In', :id => 'login_submit', class: 'btn btn-primary'
   %br/
   %br/
-  = link_to 'Sign-up for an account', new_user_path, :id => 'signup', class: 'btn btn-info btn-block'
+  = link_to 'Sign-up for an account', new_user_path, :id => 'signup', class: 'btn btn-info'
