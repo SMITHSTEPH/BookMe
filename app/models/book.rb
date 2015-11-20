@@ -11,6 +11,9 @@ class Book < ActiveRecord::Base
   VALID_PRICE_REGEX = /\A[0-9]*(\.[0-9][0-9])?\z/
   validates :price, format: {with: VALID_PRICE_REGEX}
   validates :auction_start_price, format: {with: VALID_PRICE_REGEX}
+  
+ #VALID_TIME_REGEX = /\A[0-9]{4}(-[0-9]{2}){2}\s[0-9]{2}(:[0-9]{2}){2}\s\+[0-9]{4}\z/
+ # validates :auction_time, format: {with: VALID_TIME_REGEX}
 
   def self.search(search)
     if search

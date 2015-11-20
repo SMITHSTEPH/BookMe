@@ -6,10 +6,10 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-books = [{:title => 'Algorithm Design', :author => 'Kleinberg Tardos', :isbn => '9788131703106', :quality => 'great', :price => '50.00', :image => 'nobook.gif'},
-          {:title => 'Medical Imaging', :author => 'Sonka Fitzpatrick', :isbn => '0819436224', :quality => 'fair', :price => '60.00', :image => 'nobook.gif'},
-          {:title => 'Image Processing, Analysis, and Machine Vision', :author => 'Sonka Hlavac Boyle', :isbn => '0534953930', :quality => 'great', :price => '55.00', :image => 'nobook.gif'},
-          {:title => 'A Guide to Latex', :author => 'Kopka Daly', :isbn => '0201568896', :quality => 'great', :price => '40.00',:image => 'nobook.gif'},
+books = [{:title => 'Algorithm Design', :author => 'Kleinberg Tardos', :isbn => '9788131703106', :quality => 'great', :price => '50.00', :image => 'nobook.gif', :auction_start_price=>''},
+          {:title => 'Medical Imaging', :author => 'Sonka Fitzpatrick', :isbn => '0819436224', :quality => 'fair', :price => '60.00', :image => 'nobook.gif', :auction_start_price=>''},
+          {:title => 'Image Processing, Analysis, and Machine Vision', :author => 'Sonka Hlavac Boyle', :isbn => '0534953930', :quality => 'great', :price => '55.00', :image => 'nobook.gif', :auction_start_price=>''},
+          {:title => 'A Guide to Latex', :author => 'Kopka Daly', :isbn => '0201568896', :quality => 'great', :price => '40.00',:image => 'nobook.gif', :auction_start_price=>''},
 ]
 
 
