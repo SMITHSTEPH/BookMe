@@ -45,8 +45,7 @@
     .row
       .col-md-4
         = label :book, :quality, 'Quality'
-        = text_field :book, 'quality', :value=>@book[:quality], class: 'form-control'
-  
+        = select_tag 'quality', options_for_select({"bad"=>"bad","good"=>"good","great"=>"great"}) 
   .form-group
     .row
       .col-md-4
