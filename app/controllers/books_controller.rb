@@ -7,6 +7,23 @@ class BooksController < ApplicationController
   def show #displayed when user clicks on book title link
     id = params[:id] # retrieve book ID from URI route
     @book = Book.find(id) # look up book by unique ID
+    puts "book id is: " + @book.id.to_s
+    #@keywords = Tag.find @book.id
+    #puts @keywords.tag
+    if Tag.where("book_id=="+@book.id.to_s).exists?#getting the keywords if there are any
+      @keywords = Array.new
+      Tag.find_each do |keyword|
+        if keyword.book_id == @book.id
+          @keywords << keyword
+        end
+      end
+
+      puts "in if this exists"
+      #puts "keyword tag is:" + @keywords.tag
+    else
+      puts "doesn't exist"
+      @keywords = { }
+    end
     # will render app/views/books/show.<extension> by default
   end
 
@@ -82,11 +99,16 @@ class BooksController < ApplicationController
 
   def update #routes here when you click 'Update info' button on edit view and redirects show
     @info = book_params
+    keywords=params[:book][:keyword]
     @info[:isbn]=@info[:isbn].gsub(/[-' ']/,'')
     testbook = Book.new(@info)
     if(testbook.valid?)
       @book = Book.find params[:id]
       @book.update_attributes!(@info)
+      Tag.delete_all @book.id #deleting all of the keysword for this book
+       keywords.each do |key, value| #adding all of the keywords to the keyword database
+        Tag.create!({:book_id => @book.id, :tag => value}) #adding in the new keywords
+      end
       flash[:notice] = "#{@book.title} was successfully updated."
       redirect_to book_path(@book)
     else 

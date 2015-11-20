@@ -17,8 +17,18 @@
   %li
     Auction Price:
     =@book.auction_start_price
+    
+  %li
+    Keywords:
+    - @keywords.each do |keyword|
+      =keyword.tag
+      ,
 
 %h3 Description:
 
 %p#description= @book.description
+  
+  
+
+  
 
