@@ -7,7 +7,13 @@ class BooksController < ApplicationController
   def show #displayed when user clicks on book title link
     id = params[:id] # retrieve book ID from URI route
     @book = Book.find(id) # look up book by unique ID
-
+    tags=Tag.all
+    tags.each do |keyword|
+       puts "keyword id: " + keyword.id.to_s
+       puts "keyword book_id: " + keyword.book_id.to_s
+       puts "keyword tag: " + keyword.tag
+       puts "----------------------------------------"
+    end
     if Tag.where("book_id=="+@book.id.to_s).exists?#getting the keywords if there are any
       @keywords = Array.new
       Tag.find_each do |keyword|
@@ -121,7 +127,7 @@ class BooksController < ApplicationController
     if(testbook.valid?)
       @book = Book.find params[:id]
       @book.update_attributes!(@info)
-      Tag.delete_all @book.id #deleting all of the keysword for this book
+      Tag.delete_all "book_id=="+@book.id.to_s #deleting all of the keysword for this book
        keywords.each do |key, value| #adding all of the keywords to the keyword database
         Tag.create!({:book_id => @book.id, :tag => value}) #adding in the new keywords
       end
@@ -136,7 +142,7 @@ class BooksController < ApplicationController
 
   def destroy #routes here when you click 'delete' on mybooks view and redirects to index method
     @book = Book.find(params[:id])
-    Tag.delete_all @book.id
+    Tag.delete_all "book_id=="+@book.id.to_s
     @book.destroy
     flash[:notice] = "'#{@book.title}' deleted."
     redirect_to mybooks_path
