@@ -15,5 +15,5 @@ Given ssmith32 is selling the following books:
   | Calculus: Early Transcendentals                                    | James Stewart     | 1285741552         | fair    | 20.00 |                                  | http://ecx.images-amazon.com/images/I/51SWN%2BQre0L._SX258_BO1,204,203,200_.jpg | 1.00                |
 
 Scenario: remove item from  existing collection of seller items
-    When I remove a book with title "Algorithm Design"
-    Then I should not see a book with title "Algorithm Design" in MyBooks
+    When I remove a book with title "Calculus: Early Transcendentals"
+    Then I should not see a book with title "Calculus: Early Transcendentals" in MyBooks

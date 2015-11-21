@@ -4,9 +4,14 @@ Given /^ssmith32 is selling the following books:$/ do |books_table|
     @user=User.find_by_email('stephanie-k-smith@uiowa.edu')
     puts "user is " + @user.id.to_s
     Tag.delete_all
+    b = Tag.all
+    puts "theres should be no books left in the db:"
+    b.each do |i|
+        puts "b: " + i.title
+    end
     books_table.hashes.each do |book|
         book[:user_id]=@user.id
-        Book.find_or_create_by(book)
+        Book.create(book)
     end
     @books=Book.where("user_id=="+@user.id.to_s).all
     @books.each do |book| #printing stuff out to test
@@ -28,8 +33,8 @@ Given /^ssmith32 is on the MyBooks page$/ do
 end
 
 Given /ssmith32 has selected to edit "(.*?)"$/ do |book_title|
-
-    book=Book.find_by_title(book_title)   
+    
+    book=Book.find_by title: book_title   
     visit edit_book_path(book)
 end
 
@@ -82,10 +87,10 @@ Then /I should see a book with title "(.*?)", author "(.*?)" and isbn "(.*?)" ad
     expect(result).to be_truthy
 end
 
-When /I remove a book with title "(.*?)"$/ do |title|
-    puts title
-     book=Book.find_by title: title 
-     #puts book.title.to_s
+When /I remove a book with title "(.*?)"$/ do |book_title|
+     puts "title is: " + book_title
+     @book=Book.find_by! title: book_title
+     #puts @book.title.to_s
      
      #Capybara.current_session.driver.delete book_path(book.id)
      #visit mybooks_path
