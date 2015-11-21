@@ -131,7 +131,7 @@ class BooksController < ApplicationController
     @keywords = []
     puts "is empty?"
     puts @keywords.empty?
-    if Tag.find_by(book_id: @book.id.to_s).exists? #getting the keywords if there are an
+    if !Tag.find_by(book_id: @book.id.to_s) #getting the keywords if there are an
       puts "id is: " +  @book.id.to_s
       Tag.find_each  do |keyword|
         if keyword.book_id.equals @book.id
