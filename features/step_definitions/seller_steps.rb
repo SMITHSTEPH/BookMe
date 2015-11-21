@@ -1,15 +1,18 @@
 Given /^ssmith32 is selling the following books:$/ do |books_table|
+
     puts "in selling the following books"
-    #session=User.find_by_email('foobar@uiowa.edu').session_token
-    session=User.find_by_email('stephanie-k-smith@uiowa.edu')
-    puts "session is " + session.user_id.to_s
-    @books = Book.where(seller:session.user_id)
-        Book.where(seller:session.user_id).delete_all
-        books_table.hashes.each do |book|
-        book[:seller]=session.user_id
+    @user=User.find_by_email('stephanie-k-smith@uiowa.edu')
+    puts "user is " + @user.id.to_s
+    Tag.delete_all
+    books_table.hashes.each do |book|
+        book[:user_id]=@user.id
         Book.find_or_create_by(book)
     end
-    books=Book.where(seller:session).all
+    @books=Book.where("user_id=="+@user.id.to_s).all
+    @books.each do |book| #printing stuff out to test
+        puts "id: " + book.user_id.to_s
+        puts "title: " + book.title
+    end
 end
 Given /^that ssmith32 has logged in$/ do
     @user=User.new({first_name:'Stephanie', last_name:'Smith',password:'password', password_confirmation:'password', user_id:'ssmith32', email:'stephanie-k-smith@uiowa.edu'})
