@@ -144,6 +144,7 @@ class BooksController < ApplicationController
   
 
   def update #routes here when you click 'Update info' button on edit view and redirects show
+    puts "IN UPDATE"
     @info = book_params
     keywords=params[:book][:keyword]
     @info[:isbn]=@info[:isbn].gsub(/[-' ']/,'')
@@ -183,7 +184,7 @@ class BooksController < ApplicationController
 
   def destroy #routes here when you click 'delete' on mybooks view and redirects to index method
     @book = Book.find(params[:id])
-    Tag.delete_all "book_id=="+@book.id.to_s
+    Tag.delete_all book_id: @book.id
     @book.destroy
     flash[:notice] = "'#{@book.title}' deleted."
     redirect_to mybooks_path
