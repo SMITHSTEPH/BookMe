@@ -13,19 +13,19 @@ Background: ssmith32 has logged in and on mybooks page
   | Classical Electromagnetic Theory (Fundamental Theories of Physics) | Jack VanderLinde  | 1402026994         | great   | 10.00 | great intro to em theory         | https://covers.openlibrary.org/b/id/1733064-S.jpg                               | 5.00                |
   | Calculus: Early Transcendentals                                    | James Stewart     | 1285741552         | fair    | 20.00 |                                  | http://ecx.images-amazon.com/images/I/51SWN%2BQre0L._SX258_BO1,204,203,200_.jpg | 1.00                |
   And ssmith32 is on the MyBooks page
-  And ssmith32 has selected to edit "Algorithm Design"
+  And ssmith32 has selected to edit "The adventures of Tom Sawyer"
 
 Scenario: change price
-    When I change field "Price" to "$60"
+    When I change field "Price" to "60.00"
     And  ssmith32 is on the MyBooks page
-    Then the "price" of "Algorithm Design" should be "$60"
+    Then the "price" of "The adventures of Tom Sawyer" should be "60.00"
 
 
 Scenario: change author
     When I change field "Author" to "Ron"
     And  ssmith32 is on the MyBooks page
-    Then the "author" of "Algorithm Design" should be "Ron"
+    Then the "author" of "The adventures of Tom Sawyer" should be "Ron"
 
 Scenario: deleting too much information
   When I change field "Author" to ""
-  Then I should see flash message "need to have * fields filled out"
+  Then I should see flash message "Author can't be blank"

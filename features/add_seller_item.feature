@@ -13,5 +13,5 @@ Scenario: add item (without required information) to existing collection of sell
 
 Scenario: add an invalid item to existing collection of seller items
   When I add a book with title "", author "" and isbn ""
-  Then I should see flash message "fill out all fields marked with '*' to add book"
+  Then I should see flash message ""
   
