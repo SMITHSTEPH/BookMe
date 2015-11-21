@@ -115,7 +115,6 @@ class BooksController < ApplicationController
     else
       @info[:auction_time]=@info[:auction_time].to_s
       @book=@info
-
       @book[:keyword]=keywords
       messages = testbook.errors.full_messages
       flash[:warning] = messages.join("<br/>").html_safe
