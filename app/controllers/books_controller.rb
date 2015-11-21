@@ -137,7 +137,7 @@ class BooksController < ApplicationController
         if keyword.book_id == @book.id
           puts "in if keyword matches"
            @keywords << keyword
-        end
+         end
       end
     end
   end
@@ -169,7 +169,7 @@ class BooksController < ApplicationController
       @book = Book.find params[:id]
       @book.update_attributes!(@info)
       Tag.delete_all "book_id=="+@book.id.to_s #deleting all of the keysword for this book
-       keywords.each do |key, value| #adding all of the keywords to the keyword database
+      keywords.each do |key, value| #adding all of the keywords to the keyword database
         Tag.create!({:book_id => @book.id, :tag => value}) #adding in the new keywords
       end
       flash[:notice] = "#{@book.title} was successfully updated."
