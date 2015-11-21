@@ -40,8 +40,17 @@ class BooksController < ApplicationController
 
   def mybooks #routed here when user hits "mybooks" button and renders mybooks view
     puts "mybooks path"
-    @user = User.find_by_id(@current_user.id)
+    puts "current user"
+    puts "current user id: " + @current_user.user_id.to_s
+    @user = User.find(@current_user.id.to_s)
+    puts "user id: " + @user.id.to_s
+    puts "USSSSER"
     @books = @user.books
+    @books.each do |book|
+      puts book.title
+      puts book.quality
+      puts book.auction_start_price
+    end
   end
 
   def new #routed here when user hits 'add book' button and renders new view
