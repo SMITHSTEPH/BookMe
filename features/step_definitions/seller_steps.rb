@@ -1,15 +1,23 @@
 Given /^ssmith32 is selling the following books:$/ do |books_table|
+
     puts "in selling the following books"
-    #session=User.find_by_email('foobar@uiowa.edu').session_token
-    session=User.find_by_email('stephanie-k-smith@uiowa.edu')
-    puts "session is " + session.user_id.to_s
-    @books = Book.where(seller:session.user_id)
-        Book.where(seller:session.user_id).delete_all
-        books_table.hashes.each do |book|
-        book[:seller]=session.user_id
-        Book.find_or_create_by(book)
+    @user=User.find_by_email('stephanie-k-smith@uiowa.edu')
+    puts "user is " + @user.id.to_s
+    Tag.delete_all
+    b = Tag.all
+    puts "theres should be no books left in the db:"
+    b.each do |i|
+        puts "b: " + i.title
     end
-    books=Book.where(seller:session).all
+    books_table.hashes.each do |book|
+        book[:user_id]=@user.id
+        Book.create(book)
+    end
+    @books=Book.where("user_id=="+@user.id.to_s).all
+    @books.each do |book| #printing stuff out to test
+        puts "id: " + book.user_id.to_s
+        puts "title: " + book.title
+    end
 end
 Given /^that ssmith32 has logged in$/ do
     @user=User.new({first_name:'Stephanie', last_name:'Smith',password:'password', password_confirmation:'password', user_id:'ssmith32', email:'stephanie-k-smith@uiowa.edu'})
@@ -25,8 +33,8 @@ Given /^ssmith32 is on the MyBooks page$/ do
 end
 
 Given /ssmith32 has selected to edit "(.*?)"$/ do |book_title|
-
-    book=Book.find_by_title(book_title)   
+    
+    book=Book.find_by title: book_title   
     visit edit_book_path(book)
 end
 
@@ -62,9 +70,10 @@ end
 
 When /I add a book with title "(.*?)", author "(.*?)" and isbn "(.*?)"$/ do |title, author, isbn|
     click_button 'Add Book'
-    fill_in "* Title", :with => title
-    fill_in "* Author", :with => author
-    fill_in "* ISBN", :with => isbn, exact: true
+    #visit new_book_path
+    fill_in "*Title", :with => title
+    fill_in "*Author", :with => author
+    fill_in "*ISBN", :with => isbn, exact: true
     click_button 'Save Changes'
 end
 Then /I should see a book with title "(.*?)", author "(.*?)" and isbn "(.*?)" added mybooks$/ do |title, author, isbn|
@@ -78,11 +87,13 @@ Then /I should see a book with title "(.*?)", author "(.*?)" and isbn "(.*?)" ad
     expect(result).to be_truthy
 end
 
-When /I remove a book with title "(.*?)"$/ do |title|
-     book=Book.find_by_title(title)   
-     puts book.title.to_s
-     Capybara.current_session.driver.delete book_path(book.id)
-     visit mybooks_path
+When /I remove a book with title "(.*?)"$/ do |book_title|
+     puts "title is: " + book_title
+     @book=Book.find_by! title: book_title
+     #puts @book.title.to_s
+     
+     #Capybara.current_session.driver.delete book_path(book.id)
+     #visit mybooks_path
 
 end
 Then /I should not see a book with title "(.*?)" in MyBooks$/ do |title|

@@ -19,7 +19,7 @@ class BooksController < ApplicationController
 #   @book[:time_left]= hours + " hrs " + mins +" mins"
     #@book.update_attribute(:time_left, hours + " hrs " + mins +" mins")
     
-    if Tag.where("book_id=="+@book.id.to_s).exists?#getting the keywords if there are any
+    if !Tag.find_by(book_id: @book.id) #getting the keywords if there are any
       @keywords = Array.new
       Tag.find_each do |keyword|
         if keyword.book_id == @book.id
@@ -40,8 +40,17 @@ class BooksController < ApplicationController
 
   def mybooks #routed here when user hits "mybooks" button and renders mybooks view
     puts "mybooks path"
-    @user = User.find_by_id(@current_user.id)
+    puts "current user"
+    puts "current user id: " + @current_user.user_id.to_s
+    @user = User.find(@current_user.id.to_s)
+    puts "user id: " + @user.id.to_s
+    puts "USSSSER"
     @books = @user.books
+    @books.each do |book|
+      #puts book.title
+      #puts book.quality
+      #puts book.auction_start_price
+    end
   end
 
   def new #routed here when user hits 'add book' button and renders new view
@@ -108,6 +117,7 @@ class BooksController < ApplicationController
       @book=@info
 
       @book[:keyword]=keywords
+      messages = testbook.errors.full_messages
       flash[:warning] = messages.join("<br/>").html_safe
       render new_book_path
     end
@@ -121,19 +131,20 @@ class BooksController < ApplicationController
     @keywords = []
     puts "is empty?"
     puts @keywords.empty?
-    if Tag.where("book_id=="+@book.id.to_s).exists? #getting the keywords if there are an
+    if !Tag.find_by(book_id: @book.id.to_s) #getting the keywords if there are an
       puts "id is: " +  @book.id.to_s
       Tag.find_each  do |keyword|
-        if keyword.book_id == @book.id
+        if keyword.book_id.equals @book.id
           puts "in if keyword matches"
            @keywords << keyword
-        end
+         end
       end
     end
   end
   
 
   def update #routes here when you click 'Update info' button on edit view and redirects show
+    puts "IN UPDATE"
     @info = book_params
     keywords=params[:book][:keyword]
     @info[:isbn]=@info[:isbn].gsub(/[-' ']/,'')
@@ -158,8 +169,10 @@ class BooksController < ApplicationController
     if(testbook.valid?)
       @book = Book.find params[:id]
       @book.update_attributes!(@info)
-      Tag.delete_all "book_id=="+@book.id.to_s #deleting all of the keysword for this book
+
+      Tag.delete_all(book_id: @book.id) #deleting all of the keysword for this book
        keywords.each do |key, value| #adding all of the keywords to the keyword database
+
         Tag.create!({:book_id => @book.id, :tag => value}) #adding in the new keywords
       end
       flash[:notice] = "#{@book.title} was successfully updated."
@@ -173,7 +186,7 @@ class BooksController < ApplicationController
 
   def destroy #routes here when you click 'delete' on mybooks view and redirects to index method
     @book = Book.find(params[:id])
-    Tag.delete_all "book_id=="+@book.id.to_s
+    Tag.delete_all book_id: @book.id
     @book.destroy
     flash[:notice] = "'#{@book.title}' deleted."
     redirect_to mybooks_path
