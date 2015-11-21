@@ -168,7 +168,7 @@ class BooksController < ApplicationController
     if(testbook.valid?)
       @book = Book.find params[:id]
       @book.update_attributes!(@info)
-      Tag.delete_all("book_id=="+@book.id.to_s) #deleting all of the keysword for this book
+      Tag.delete_all(book_id: @book.id) #deleting all of the keysword for this book
        keywords.each do |key, value| #adding all of the keywords to the keyword database
         Tag.create!({:book_id => @book.id, :tag => value}) #adding in the new keywords
       end
