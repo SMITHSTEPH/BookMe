@@ -15,19 +15,19 @@
     .row
       .col-md-4
         = label :book, :title,  '*Title'
-        = text_field :book, 'title', :value=>@book[:title], class: 'form-control', required: true
+        = text_field :book, 'title', :value=>@book[:title], class: 'form-control'
   
   .form-group
     .row
       .col-md-4
         = label :book, :author, '*Author'
-        = text_field :book, 'author', :value=>@book[:author], class: 'form-control', required: true
+        = text_field :book, 'author', :value=>@book[:author], class: 'form-control'
 
   .form-group
     .row
       .col-md-4
         = label :book, :isbn, '*ISBN'
-        = text_field :book, 'isbn', :value=>@book[:isbn], class: 'form-control', required: true
+        = text_field :book, 'isbn', :value=>@book[:isbn], class: 'form-control'
 
   .form-group
     .row
