@@ -89,7 +89,7 @@ Then(/^I should see the message "(.*?)"$/) do |message|
 end
 
 Given(/^frodo is on the all books page$/) do
-  
+  visit login_path
 end
 
 When(/^frodo searches for a book by "(.*?)"$/) do |keyword|

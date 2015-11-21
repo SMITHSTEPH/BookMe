@@ -45,7 +45,7 @@
     .row
       .col-md-4
         = label :book, :quality, 'Quality'
-        =select_tag 'book[quality]', options_for_select({"bad"=>"bad","fair" => "fair","good"=>"good","great"=>"great"})
+        =select_tag 'book[quality]', options_for_select({"bad"=>"bad","fair" => "fair","good"=>"good","great"=>"great"}), :class => 'btn btn-default dropdown-toggle', type: 'button'
   .form-group
     .row
       .col-md-4
