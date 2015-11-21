@@ -19,7 +19,7 @@ class BooksController < ApplicationController
 #   @book[:time_left]= hours + " hrs " + mins +" mins"
     #@book.update_attribute(:time_left, hours + " hrs " + mins +" mins")
     
-    if Tag.where("book_id=="+@book.id.to_s).exists?#getting the keywords if there are any
+    if !Tag.find_by(book_id: @book.id) #getting the keywords if there are any
       @keywords = Array.new
       Tag.find_each do |keyword|
         if keyword.book_id == @book.id
