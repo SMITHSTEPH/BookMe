@@ -65,9 +65,10 @@ end
 
 When /I add a book with title "(.*?)", author "(.*?)" and isbn "(.*?)"$/ do |title, author, isbn|
     click_button 'Add Book'
-    fill_in "* Title", :with => title
-    fill_in "* Author", :with => author
-    fill_in "* ISBN", :with => isbn, exact: true
+    #visit new_book_path
+    fill_in "*Title", :with => title
+    fill_in "*Author", :with => author
+    fill_in "*ISBN", :with => isbn, exact: true
     click_button 'Save Changes'
 end
 Then /I should see a book with title "(.*?)", author "(.*?)" and isbn "(.*?)" added mybooks$/ do |title, author, isbn|
@@ -82,10 +83,12 @@ Then /I should see a book with title "(.*?)", author "(.*?)" and isbn "(.*?)" ad
 end
 
 When /I remove a book with title "(.*?)"$/ do |title|
-     book=Book.find_by_title(title)   
-     puts book.title.to_s
-     Capybara.current_session.driver.delete book_path(book.id)
-     visit mybooks_path
+    puts title
+     book=Book.find_by title: title 
+     #puts book.title.to_s
+     
+     #Capybara.current_session.driver.delete book_path(book.id)
+     #visit mybooks_path
 
 end
 Then /I should not see a book with title "(.*?)" in MyBooks$/ do |title|

@@ -47,9 +47,9 @@ class BooksController < ApplicationController
     puts "USSSSER"
     @books = @user.books
     @books.each do |book|
-      puts book.title
-      puts book.quality
-      puts book.auction_start_price
+      #puts book.title
+      #puts book.quality
+      #puts book.auction_start_price
     end
   end
 
