@@ -17,5 +17,5 @@ Background: ssmith32 has logged in and on mybooks page
   
   Scenario: add class information
     When I change field "Course" to "Rhetoric"
-    And  ssmith32 is on the MyBooks page
-    Then the "course" of "The adventures of Tom Sawyer" should be "Rhetoric"
+    Then the new item "Course" should be "Rhetoric"
+
