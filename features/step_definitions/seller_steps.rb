@@ -114,3 +114,29 @@ Then /I should see flash message "(.*?)"$/ do |message|
     result= page.has_content? message
     expect(result).to be_truthy
 end
+
+When /^I am on the add book page$/ do
+    visit new_book_path
+end
+
+When /I am on the edit book page$/ do
+    visit edit_book_path
+end
+
+Then /^there should be a quality select box$/ do 
+    expect(have_tag("select")).to be_truthy
+end
+
+
+Then /^the new item "(.*?)" should add up to "(.*?)"$/ do |field, date_time|
+    #hours=DateTime.parse(date_time)-Time.now.in_time_zone(("Central Time (US & Canada)")/60/60).to_i
+    #time=Time.now.in_time_zone("Central Time (US & Canada)").to_i/3600
+    #puts time.to_s
+    #hours = DateTime.parse(date_time)-(Time.now.in_time_zone("Central Time (US & Canada)").to_i/3600)
+    #hours=(((Time.now.in_time_zone("Central Time (US & Canada)"))/60/60).to_i).to_s
+    #puts hours 
+    #min=DateTime.parse(date_time)-(Time.now.in_time_zone("Central Time (US & Canada)").to_i/60%60)
+    #puts min.to_s
+    #result=page.has_content?(hours.to_s + "hrs " + min.to_s+" mins")
+    #expect(result).to be_truthy
+end

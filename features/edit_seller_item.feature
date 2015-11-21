@@ -16,9 +16,9 @@ Background: ssmith32 has logged in and on mybooks page
   And ssmith32 has selected to edit "The adventures of Tom Sawyer"
 
 Scenario: change price
-    When I change field "Price" to "60.00"
+    When I change field "Auction Price" to "2.00"
     And  ssmith32 is on the MyBooks page
-    Then the "price" of "The adventures of Tom Sawyer" should be "60.00"
+    Then the "Auction Price" of "The adventures of Tom Sawyer" should be "2.00"
 
 
 Scenario: change author
