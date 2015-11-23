@@ -19,7 +19,8 @@ Scenario: viewing buy now price on the show book page
     Then I should see a "Course" section
  
 Scenario: adding buy now price on the add books page
-  When I add a book with title Analog Electronic Design: Principles and Practice of Creative Design, author Johnathan Scott, isbn 0130331929, and "Course" to "Electronic Circuits"
+  When ssmith32 is on the MyBooks page
+  And I add a book with title Analog Electronic Design: Principles and Practice of Creative Design, author Johnathan Scott, isbn 0130331929, and "Course" to "Electronic Circuits"
   Then the new item "Course" shoud be "Electronic Circuits"
   
 Scenario: editing buy now price on the edit book page

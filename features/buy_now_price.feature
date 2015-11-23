@@ -18,7 +18,8 @@ Scenario: viewing buy now price on the show book page
     Then I should see a "Buy Now Price" section
  
 Scenario: adding buy now price on the add books page
-  When I add a book with title Analog Electronic Design: Principles and Practice of Creative Design, author Johnathan Scott, isbn 0130331929, and "Buy Now Price" to "30.00"
+  When ssmith32 is on the MyBooks page
+  And I add a book with title Analog Electronic Design: Principles and Practice of Creative Design, author Johnathan Scott, isbn 0130331929, and "Buy Now Price" to "30.00"
   Then the new item "Buy Now Price" should be "30.00"
   
 Scenario: editing buy now price on the edit book page

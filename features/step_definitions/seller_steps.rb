@@ -33,7 +33,11 @@ Given(/^ssmith32 is on the MyBooks page$/) do
 end
 Given(/^ssmith32 is viewing the book$/) do
 end
-Given(/ssmith32 has selected to edit "(.*?)" $/) do |book_title|
+Given(/^ssmith32 has selected to edit "(.*?)" $/) do |book_title|
+    book=Book.find_by title: book_title  
+    visit edit_book_path(book)
+end
+And(/^ssmith32 has selected to edit "(.*?)" $/) do |book_title|
     book=Book.find_by title: book_title  
     visit edit_book_path(book)
 end
@@ -172,4 +176,19 @@ Then(/^the book should have the keywords "(.*?)", "(.*?)", and "(.*?)" $/) do |k
     end
     expect(result).to be_truthy
 end
-
+And(/^I have put in the keywords "(.*?)", "(.*?)", and "(.*?)" $/) do |keyword1, keyword2, keyword3|
+    click_button "add keywords"
+    click_button "add keywords"
+    fill_in "keyword[0]", :with => keyword1
+    fill_in "keyword[1]", :with => keyword2
+    fill_in "keyword[2]", :with => keyword3
+    click_button 'Update Book Info'
+end
+When(/^I add a book with title Analog Electronic Design: Principles and Practice of Creative Design, author Johnathan Scott, isbn 0130331929, and "(.*?)" to "(.*?)"$/) do |field, change|
+    click_button 'Add Book'
+    fill_in "*Title", :with => "Analog Electronic Design: Principles and Practice of Creative Design"
+    fill_in "*Author", :with => "Johnathan Scott"
+    fill_in "*ISBN", :with => "0123456789", exact: true
+    fill_in field, :with=> change
+    click_button 'Save Changes'
+end

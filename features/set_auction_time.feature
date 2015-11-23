@@ -18,7 +18,8 @@ Scenario: viewing keywords on the show book page
     Then I should see a "Time Left" section
  
 Scenario: adding auction time on the add books page
-  When I add a book with title Analog Electronic Design: Principles and Practice of Creative Design, author Johnathan Scott, isbn 0130331929, and "Auction Time" to "2015-12-12 12:30"
+  When ssmith32 is on the MyBooks page
+  And I add a book with title Analog Electronic Design: Principles and Practice of Creative Design, author Johnathan Scott, isbn 0130331929, and "Auction Time" to "2015-12-12 12:30"
   Then the new item "Time Left" should add up to "2015-12-12 12:30"
   
 Scenario: editing auction time on the edit book page
