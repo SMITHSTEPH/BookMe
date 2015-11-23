@@ -166,8 +166,8 @@ When(/^I add a book with title Analog Electronic Design: Principles and Practice
     fill_in "keyword[2]", :with => keyword3
     click_button 'Save Changes'
 end
-Then(/^the book should have the keywords "(.*?)", "(.*?)", and "(.*?)" $/) do |keyword1, keyword2, keyword3|
-    book=Book.find_by title: "I add a book with title Analog Electronic Design: Principles and Practice of Creative Design" 
+Then(/^the book should have the keywords "(.*?)", "(.*?)", and "(.*?)"$/) do |keyword1, keyword2, keyword3|
+      book=Book.find_by title: "I add a book with title Analog Electronic Design: Principles and Practice of Creative Design" 
     visit book_path(book)
     if (page.has_content?keyword1 && (page.has_content?keyword2) && (page.has_content?keyword3))
         result=true
@@ -176,7 +176,7 @@ Then(/^the book should have the keywords "(.*?)", "(.*?)", and "(.*?)" $/) do |k
     end
     expect(result).to be_truthy
 end
-And(/^I have put in the keywords "(.*?)", "(.*?)", and "(.*?)" $/) do |keyword1, keyword2, keyword3|
+When(/^I have put in the keywords "(.*?)", "(.*?)", and "(.*?)"$/) do |keyword1, keyword2, keyword3|
     click_button "add keywords"
     click_button "add keywords"
     fill_in "keyword[0]", :with => keyword1
@@ -191,4 +191,7 @@ When(/^I add a book with title Analog Electronic Design: Principles and Practice
     fill_in "*ISBN", :with => "0123456789", exact: true
     fill_in field, :with=> change
     click_button 'Save Changes'
+end
+When(/^ssmith(\d+) has selected to edit "(.*?)"$/) do |arg1, arg2|
+  pending # express the regexp above with the code you wish you had
 end
