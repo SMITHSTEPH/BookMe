@@ -35,11 +35,22 @@ Given /^ssmith32 is viewing the book$/ do
 end
 Given /ssmith32 has selected to edit "(.*?)" $/ do |book_title|
     book=Book.find_by title: book_title  
-    #puts "book title"
-    #puts book.title
     visit edit_book_path(book)
 end
-
+When(/^I am viewing information about "(.*?)"$/) do |book_title|
+    book=Book.find_by title: book_title  
+    book2= Book.all
+    puts "book2 found"
+    book2.each do |i|
+        puts i
+    end
+    
+    visit book_path(book)
+end
+Then(/^I should see a "(.*?)" section$/) do |section_name|
+    result= page.has_content? section_name
+    expect(result).to be_truthy
+end
 Then /^I should see all of the books I am selling$/ do
     result=false
     row_count=0

@@ -2,6 +2,9 @@ Feature: Tagging books with keywords
     As a seller
     So that my books can easily be found
     I want to tag them keywords
+
+Background: ssmith32 has logged in and is selling the following books
+ Given that ssmith32 has logged in
  Given ssmith32 is selling the following books:
   | title                                                              | author            | isbn               | quality | price | description                      | image                                                                           | auction_start_price |
   | Algorithm Design                                                   | Kleinberg Tardos  | 978-81-317-0310-6  | great   | 50.00 | for juinor ece class             | http://ecx.images-amazon.com/images/I/51BHNytrZCL._SX258_BO1,204,203,200_.jpg   | 2.00                |
@@ -13,7 +16,7 @@ Feature: Tagging books with keywords
  
   
 Scenario: viewing keywords on the show book page
-    When I am viewing information about "The adventures of Tom Sawyer"
+    When I am viewing information about "Calculus: Early Transcendentals"
     Then I should see a "Keyword" section
     
 Scenario: tagging keywords to a book on the add books page
