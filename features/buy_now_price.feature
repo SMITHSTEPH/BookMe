@@ -19,9 +19,9 @@ Scenario: viewing buy now price on the show book page
  
 Scenario: adding buy now price on the add books page
   When I add a book with title Analog Electronic Design: Principles and Practice of Creative Design, author Johnathan Scott, isbn 0130331929, and "Buy Now Price" to "30.00"
-  Then the new item "Buy Now Price" should add up to "30.00"
+  Then the new item "Buy Now Price" should be "30.00"
   
 Scenario: editing buy now price on the edit book page
     When ssmith32 has selected to edit "The adventures of Tom Sawyer"
     And I change field "Buy Now Price" to "40.00"
-    Then the new item "Buy Now Price" should add up to "40.00"
+    Then the new item "Buy Now Price" should be "40.00"

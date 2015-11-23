@@ -13,9 +13,17 @@ Background: ssmith32 has logged in and on mybooks page
   | Classical Electromagnetic Theory (Fundamental Theories of Physics) | Jack VanderLinde  | 1402026994         | great   | 10.00 | great intro to em theory         | https://covers.openlibrary.org/b/id/1733064-S.jpg                               | 5.00                |
   | Calculus: Early Transcendentals                                    | James Stewart     | 1285741552         | fair    | 20.00 |                                  | http://ecx.images-amazon.com/images/I/51SWN%2BQre0L._SX258_BO1,204,203,200_.jpg | 1.00                |
   And ssmith32 is on the MyBooks page
-  And ssmith32 has selected to edit "The adventures of Tom Sawyer"
+ 
+Scenario: viewing buy now price on the show book page
+    When I am viewing information about "The adventures of Tom Sawyer"
+    Then I should see a "Course" section
+ 
+Scenario: adding buy now price on the add books page
+  When I add a book with title Analog Electronic Design: Principles and Practice of Creative Design, author Johnathan Scott, isbn 0130331929, and "Course" to "Electronic Circuits"
+  Then the new item "Course" shoud be "Electronic Circuits"
   
-  Scenario: add class information
-    When I change field "Course" to "Rhetoric"
+Scenario: editing buy now price on the edit book page
+    When ssmith32 has selected to edit "The adventures of Tom Sawyer"
+    And I change field "Course" to "Rhetoric"
     Then the new item "Course" should be "Rhetoric"
 
