@@ -33,8 +33,10 @@ Given /^ssmith32 is on the MyBooks page$/ do
 end
 Given /^ssmith32 is viewing the book$/ do
 end
-Given /ssmith32 has selected to edit "(.*?)"$/ do |book_title|
-    book=Book.find_by title: book_title   
+Given /ssmith32 has selected to edit "(.*?)" $/ do |book_title|
+    book=Book.find_by title: book_title  
+    #puts "book title"
+    #puts book.title
     visit edit_book_path(book)
 end
 
