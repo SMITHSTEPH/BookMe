@@ -87,3 +87,17 @@ Then(/^I should see the message "(.*?)"$/) do |message|
   result= page.has_content? message
   expect(result).to be_truthy
 end
+
+Given(/^frodo is on the all books page$/) do
+  visit login_path
+end
+
+When(/^frodo searches for a book by "(.*?)"$/) do |keyword|
+    fill_in 'search_term', :with => "keyword"
+    click_button 'search_submit'
+end
+
+Then(/^frodo sees a list with book "(.*?)"$/) do |title|
+    result = page.has_content? title
+    expect(result).to be_truthy
+end

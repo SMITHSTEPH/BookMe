@@ -31,7 +31,9 @@ end
 Given /^ssmith32 is on the MyBooks page$/ do
     visit mybooks_path
 end
-
+Given /^ssmith32 is viewing the book$/ do
+    
+end
 Given /ssmith32 has selected to edit "(.*?)"$/ do |book_title|
     
     book=Book.find_by title: book_title   
@@ -55,6 +57,11 @@ end
 When /I change field "(.*?)" to "(.*?)"$/ do |field, change|
     fill_in field, :with => change
     click_button "Update Book Info"
+end
+Then /the new item "(.*?)" should be "(.*?)"$/ do |field, change|
+    puts "in this test"
+    result= page.has_content? change
+    expect(result).to be_truthy
 end
 
 Then /the "(.*?)" of "(.*?)" should be "(.*?)"$/ do |field, title, change|
@@ -90,11 +97,6 @@ end
 When /I remove a book with title "(.*?)"$/ do |book_title|
      puts "title is: " + book_title
      @book=Book.find_by! title: book_title
-     #puts @book.title.to_s
-     
-     #Capybara.current_session.driver.delete book_path(book.id)
-     #visit mybooks_path
-
 end
 Then /I should not see a book with title "(.*?)" in MyBooks$/ do |title|
     result=false
@@ -111,4 +113,30 @@ end
 Then /I should see flash message "(.*?)"$/ do |message|
     result= page.has_content? message
     expect(result).to be_truthy
+end
+
+When /^I am on the add book page$/ do
+    visit new_book_path
+end
+
+When /I am on the edit book page$/ do
+    visit edit_book_path
+end
+
+Then /^there should be a quality select box$/ do 
+    expect(have_tag("select")).to be_truthy
+end
+
+
+Then /^the new item "(.*?)" should add up to "(.*?)"$/ do |field, date_time|
+    #hours=DateTime.parse(date_time)-Time.now.in_time_zone(("Central Time (US & Canada)")/60/60).to_i
+    #time=Time.now.in_time_zone("Central Time (US & Canada)").to_i/3600
+    #puts time.to_s
+    #hours = DateTime.parse(date_time)-(Time.now.in_time_zone("Central Time (US & Canada)").to_i/3600)
+    #hours=(((Time.now.in_time_zone("Central Time (US & Canada)"))/60/60).to_i).to_s
+    #puts hours 
+    #min=DateTime.parse(date_time)-(Time.now.in_time_zone("Central Time (US & Canada)").to_i/60%60)
+    #puts min.to_s
+    #result=page.has_content?(hours.to_s + "hrs " + min.to_s+" mins")
+    #expect(result).to be_truthy
 end
