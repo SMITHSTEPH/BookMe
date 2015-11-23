@@ -14,7 +14,7 @@ class BooksController < ApplicationController
         hours="0"
         mins="0"
       end
-       @book.update_attribute(:time_left, hours + " hrs " + mins +" mins")
+       @book.update_attribute(:time_left, hours + " hrs " + mins + " mins")
     end
 #   @book[:time_left]= hours + " hrs " + mins +" mins"
     #@book.update_attribute(:time_left, hours + " hrs " + mins +" mins")
@@ -83,7 +83,7 @@ class BooksController < ApplicationController
           hours="0"
           mins="0"
         end
-        @info[:time_left]= hours + " hrs " + mins +" mins"
+        @info[:time_left]= hours + " hrs " + mins + " mins"
         
       rescue
         flash[:warning] = "Invalid auction time."
@@ -126,7 +126,7 @@ class BooksController < ApplicationController
         if keyword.book_id.equals @book.id
           puts "in if keyword matches"
            @keywords << keyword
-         end
+        end
       end
     end
   end
@@ -147,7 +147,7 @@ class BooksController < ApplicationController
           hours="0"
           mins="0"
         end
-        @info[:time_left]= hours + " hrs " + mins +" mins"
+        @info[:time_left]= hours + " hrs " + mins + " mins"
       rescue ArgumentError
         flash[:warning] = "Invalid auction time."
         redirect_to edit_book_path
