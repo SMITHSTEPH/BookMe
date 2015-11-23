@@ -26,6 +26,6 @@ Scenario: tagging keywords to a book on the add books page
 Scenario: editing keywords for a book on the edit book page
   When ssmith32 is on the MyBooks page
   And ssmith32 has selected to edit "Calculus: Early Transcendentals"
-  #And has put in the keywords "rhetoric", "classic", and "english"
-  #Then the book has the keywords "rhetoric", "classic", and "english"
+  And I have put in the keywords "rhetoric", "classic", and "english"
+  Then the book has the keywords "rhetoric", "classic", and "english"
   
