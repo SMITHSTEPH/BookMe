@@ -195,3 +195,12 @@ end
 When(/^ssmith(\d+) has selected to edit "(.*?)"$/) do |arg1, arg2|
   pending # express the regexp above with the code you wish you had
 end
+
+When(/^I add a book with title "(.*?)", author "(.*?)", isbn "(.*?)", and "(.*?)" "(.*?)"$/) do |title, author, isbn, field, change|
+    click_button 'Add Book'
+    fill_in "*Title", :with => title
+    fill_in "*Author", :with => author
+    fill_in "*ISBN", :with => isbn, exact: true
+    fill_in field, :with=> change
+    click_button 'Save Changes'
+end
