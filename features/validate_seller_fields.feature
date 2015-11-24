@@ -20,5 +20,5 @@ Scenario: add book with invalid auction_start_price
     Then I should see flash message "Auction start price is invalid"
     
 Scenario: all valid fields
-  When I add a book with title "Analog Electronic Design: Principles and Practice of Creative Design", author "Johnathan Scott", isbn "0123456789", Buy Now Price "60.00", and auction_start_price "2.00"
-  Then I should see a book with title "Analog Electronic Design: Principles and Practice of Creative Design", author "Johnathan Scott", isbn "0123456789", price "60.00", and auction_start_price "2.00"
+  When I add a book with title "Analog Electronic Design: Principles and Practice of Creative Design", author "Johnathan Scott", isbn "0123456789", Buy Now Price "60.00", and Auction Price "2.00"
+  Then I should see a book with title "Analog Electronic Design: Principles and Practice of Creative Design", author "Johnathan Scott", isbn "0123456789", price "60.00", and Auction Price "2.00"

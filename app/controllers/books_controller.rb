@@ -67,7 +67,7 @@ class BooksController < ApplicationController
   def create #routed here when user saves changes on added book and redirects to index
     @info = book_params
     keywords=params[:book][:keyword]
-
+    puts "IN CREATE!!"
     if @info[:image].to_s.empty?
       @info[:image]="nobook.gif"
     end
@@ -100,6 +100,7 @@ class BooksController < ApplicationController
       flash[:notice] = "#{book.title} was successfully added."
       keywords.each do |key, value| #adding all of the keywords to the keyword database
         Tag.create!({:book_id => book.id, :tag => value})
+        puts "created keyword: " + value
       end
       redirect_to mybooks_path
     else
