@@ -7,17 +7,15 @@ class BooksController < ApplicationController
   def show #displayed when user clicks on book title link
     id = params[:id] # retrieve book ID from URI route
     @book = Book.find(id) # look up book by unique ID
-    unless @book.auction_time.nil? 
-      hours = (((@book.auction_time-Time.now.in_time_zone("Central Time (US & Canada)"))/60/60).to_i).to_s
-      mins = (((@book.auction_time-Time.now.in_time_zone("Central Time (US & Canada)"))/60%60).to_i).to_s
-      if(hours.to_i<0)
-        hours="0"
-        mins="0"
-      end
-       @book.update_attribute(:time_left, hours + " hrs " + mins + " mins")
+    days = (((@book.auction_time-Time.now.in_time_zone("Central Time (US & Canada)"))/60/60/24).to_i).to_s
+    hours = (((@book.auction_time-Time.now.in_time_zone("Central Time (US & Canada)"))/60/60%24).to_i).to_s
+    mins = (((@book.auction_time-Time.now.in_time_zone("Central Time (US & Canada)"))/60%60).to_i).to_s
+    if(days.to_i<0)
+      days="0"
+      hours="0"
+      mins="0"
     end
-#   @book[:time_left]= hours + " hrs " + mins +" mins"
-    #@book.update_attribute(:time_left, hours + " hrs " + mins +" mins")
+    @book.update_attribute(:time_left, days + " days " + hours + " hrs " + mins + " mins")
     
     if !Tag.find_by(book_id: @book.id) #getting the keywords if there are any
       @keywords = Array.new
@@ -73,26 +71,12 @@ class BooksController < ApplicationController
     end
 
     @info[:isbn]=@info[:isbn].gsub(/[-' ']/,'')
-    unless @info[:auction_time].empty?
-      begin
-        @info[:auction_time]=@info[:auction_time]+" CST"
-        @info[:auction_time]=Time.parse(@info[:auction_time])
-        hours = (((@info[:auction_time]-Time.now)/60/60).to_i).to_s
-        mins = (((@info[:auction_time]-Time.now)/60%60).to_i).to_s
-        if(hours.to_i<0)
-          hours="0"
-          mins="0"
-        end
-        @info[:time_left]= hours + " hrs " + mins + " mins"
-        
-      rescue
-        flash[:warning] = "Invalid auction time."
-        @info[:auction_time]=""
-        @book=@info
-        render new_book_path
-        return
-      end
-    end
+    
+    @info["auction_time(1i)"]=params["book"]["auction_time"]["{}(1i)"]
+    @info["auction_time(2i)"]=params["book"]["auction_time"]["{}(2i)"]
+    @info["auction_time(3i)"]=params["book"]["auction_time"]["{}(3i)"]
+    @info["auction_time(4i)"]=params["book"]["auction_time"]["{}(4i)"]
+    @info["auction_time(5i)"]=params["book"]["auction_time"]["{}(5i)"]
     testbook = Book.new(@info)
 
     if(testbook.valid?)
@@ -104,14 +88,13 @@ class BooksController < ApplicationController
       end
       redirect_to mybooks_path
     else
-      @info[:auction_time]=@info[:auction_time].to_s
+#      @info[:auction_time]=@info[:auction_time].to_s
       @book=@info
       @book[:keyword]=keywords
       messages = testbook.errors.full_messages
       flash[:warning] = messages.join("<br/>").html_safe
       render new_book_path
     end
-
   end
 
 
@@ -134,27 +117,17 @@ class BooksController < ApplicationController
   
 
   def update #routes here when you click 'Update info' button on edit view and redirects show
-    puts "IN UPDATE"
     @info = book_params
     keywords=params[:book][:keyword]
     @info[:isbn]=@info[:isbn].gsub(/[-' ']/,'')
-    unless @info[:auction_time].empty?
-      begin
-        @info[:auction_time]=@info[:auction_time]+" CST"
-        @info[:auction_time]=Time.parse(@info[:auction_time])
-        hours = (((@info[:auction_time]-Time.now)/60/60).to_i).to_s
-        mins = (((@info[:auction_time]-Time.now)/60%60).to_i).to_s
-        if(hours.to_i<0)
-          hours="0"
-          mins="0"
-        end
-        @info[:time_left]= hours + " hrs " + mins + " mins"
-      rescue ArgumentError
-        flash[:warning] = "Invalid auction time."
-        redirect_to edit_book_path
-        return
-      end
-    end
+    
+    @info["auction_time(1i)"]=params["book"]["auction_time"]["{}(1i)"]
+    @info["auction_time(2i)"]=params["book"]["auction_time"]["{}(2i)"]
+    @info["auction_time(3i)"]=params["book"]["auction_time"]["{}(3i)"]
+    @info["auction_time(4i)"]=params["book"]["auction_time"]["{}(4i)"]
+    @info["auction_time(5i)"]=params["book"]["auction_time"]["{}(5i)"]
+    
+
     testbook = Book.new(@info)
     if(testbook.valid?)
       @book = Book.find params[:id]

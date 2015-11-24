@@ -66,8 +66,8 @@
     .row
       .col-md-4
         = label :book, :auction_time, 'Auction Time (year-month-day hr:min)'
-        = text_field :book, 'auction_time' , :value => @book[:auction_time], class: 'form-control'
-        
+        = datetime_select('book[auction_time]', options={})
+ 
   .component
     .form-group
       .row
