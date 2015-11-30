@@ -12,8 +12,7 @@ Background: ssmith32 has logged in and is selling the following books
   | The adventures of Tom Sawyer                                       | Mark Twain        | 0451526538         | fair    | 40.00 | for rhetoric                     | https://covers.openlibrary.org/b/id/295577-S.jpg                                | 1.00                |
   | Classical Electromagnetic Theory (Fundamental Theories of Physics) | Jack VanderLinde  | 1402026994         | great   | 10.00 | great intro to em theory         | https://covers.openlibrary.org/b/id/1733064-S.jpg                               | 5.00                |
   | Calculus: Early Transcendentals                                    | James Stewart     | 1285741552         | fair    | 20.00 | freshman year calc               | http://ecx.images-amazon.com/images/I/51SWN%2BQre0L._SX258_BO1,204,203,200_.jpg | 1.00                |
- 
- 
+ Given ssmith32 is on the MyBooks page
   
 Scenario: viewing keywords on the show book page
     When I am viewing information about "Calculus: Early Transcendentals"
@@ -24,8 +23,7 @@ Scenario: tagging keywords to a book on the add books page
     Then the book should have the keywords "circuits", "engineering", and "electronics"
     
 Scenario: editing keywords for a book on the edit book page
-  When ssmith32 is on the MyBooks page
-  And ssmith32 has selected to edit "Calculus: Early Transcendentals"
+  When ssmith32 has selected to edit "Calculus: Early Transcendentals"
   And I have put in the keywords "rhetoric", "classic", and "english"
   Then the book should have the keywords "rhetoric", "classic", and "english"
   
