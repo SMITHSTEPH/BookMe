@@ -7,17 +7,18 @@ class BooksController < ApplicationController
   def show #displayed when user clicks on book title link
     id = params[:id] # retrieve book ID from URI route
     @book = Book.find(id) # look up book by unique ID
-    days = (((@book.auction_time-Time.now.in_time_zone("Central Time (US & Canada)"))/60/60/24).to_i).to_s
-    hours = (((@book.auction_time-Time.now.in_time_zone("Central Time (US & Canada)"))/60/60%24).to_i).to_s
-    mins = (((@book.auction_time-Time.now.in_time_zone("Central Time (US & Canada)"))/60%60).to_i).to_s
-    if(days.to_i<0)
+    time_diff = @book.auction_time-Time.now.in_time_zone("Central Time (US & Canada)")
+    days = ((time_diff/60/60/24).to_i).to_s
+    hours = ((time_diff/60/60%24).to_i).to_s
+    mins = ((time_diff/60%60).to_i).to_s
+    if(time_diff<0)
       days="0"
       hours="0"
       mins="0"
     end
     @book.update_attribute(:time_left, days + " days " + hours + " hrs " + mins + " mins")
     
-    if !Tag.find_by(book_id: @book.id) #getting the keywords if there are any
+    if Tag.find_by(book_id: @book.id) #getting the keywords if there are any
       @keywords = Array.new
       Tag.find_each do |keyword|
         if keyword.book_id == @book.id
@@ -32,13 +33,15 @@ class BooksController < ApplicationController
   def index #rendered when user clicks on 'allBooks'
     @books = Book.search(params[:search])
     session[:session_token]= @current_user.user_id
-    puts @current_user.user_id
   end
 
 
   def mybooks #routed here when user hits "mybooks" button and renders mybooks view
     @user = User.find(@current_user.id.to_s)
     @books = @user.books.search(params[:search])
+    params.each do |p|
+      puts p.to_s
+    end
   end
 
   def new #routed here when user hits 'add book' button and renders new view
@@ -103,10 +106,10 @@ class BooksController < ApplicationController
     @keywords = []
     puts "is empty?"
     puts @keywords.empty?
-    if !Tag.find_by(book_id: @book.id.to_s) #getting the keywords if there are an
+    if Tag.find_by(book_id: @book.id.to_s) #getting the keywords if there are an
       puts "id is: " +  @book.id.to_s
       Tag.find_each  do |keyword|
-        if keyword.book_id.equals @book.id
+        if keyword.book_id == @book.id
           puts "in if keyword matches"
            @keywords << keyword
         end
@@ -126,7 +129,7 @@ class BooksController < ApplicationController
     @info["auction_time(4i)"]=params["book"]["auction_time"]["{}(4i)"]
     @info["auction_time(5i)"]=params["book"]["auction_time"]["{}(5i)"]
     
-
+    puts "HIIIIIII"
     testbook = Book.new(@info)
     if(testbook.valid?)
       @book = Book.find params[:id]
