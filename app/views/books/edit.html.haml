@@ -79,16 +79,17 @@
   
   .component#keyword_div_0
     .form-group
-      .col-md-4
-        = label :book, :keyword, 'Keywords:'
-        -if @keywords.empty?
-          = text_field :book, 'keyword[0]', :value => @keywords[0], :class => 'keywords  form-control'
-        -else
-          - @keywords.each_with_index do |keyword, index|
-            <br/>
-            -i=index
-            =text_field :book, 'keyword['+i.to_s+']', :value => @keywords[index].tag, :class => 'keywords form-control'
-  -i=i+1 
+      .row
+        .col-md-4
+          = label :book, :keyword, 'Keywords:'
+          -if @keywords.empty?
+            = text_field :book, 'keyword[0]', :value => @keywords[0], :class => 'keywords  form-control'
+          -else
+            - @keywords.each_with_index do |keyword, index|
+              <br/>
+              -i=index
+              =text_field :book, 'keyword['+i.to_s+']', :value => @keywords[index].tag, :class => 'keywords form-control'
+    -i=i+1 
   = submit_tag 'Update Book Info', :id=>'add_book', class: 'btn btn-primary'
 =button_tag "add keywords", :id=>'add_keywords', :onclick => 'click_handler()', class: 'btn btn-default'
 

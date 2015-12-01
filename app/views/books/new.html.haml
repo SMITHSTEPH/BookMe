@@ -76,13 +76,14 @@
           = text_area :book, 'description', :value => @book[:description], class: 'form-control', rows: '3'
   .component#keyword_div_0
     .form-group
-      .col-md-4
-        =label :book, :keyword, 'Keywords:'
-        = text_field :book, 'keyword[0]', :value => @book[:keyword]["0"], :class => 'keywords form-control'
-        - @book[:keyword].each do |key, value|
-          - if(key != "0")
-            =text_field :book, 'keyword[key]', :value => value, :class => 'keywords form-control'
-            </br>
+      .row
+        .col-md-4
+          =label :book, :keyword, 'Keywords:'
+          = text_field :book, 'keyword[0]', :value => @book[:keyword]["0"], :class => 'keywords form-control'
+          - @book[:keyword].each do |key, value|
+            - if(key != "0")
+              =text_field :book, 'keyword[key]', :value => value, :class => 'keywords form-control'
+              </br>
   = submit_tag 'Save Changes', :id=>'add_book', class: 'btn btn-primary'
 =button_tag "add keywords", :id=>'add_keywords', class: 'btn btn-default', :onclick => 'click_handler()'
 
