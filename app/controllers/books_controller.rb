@@ -36,7 +36,18 @@ class BooksController < ApplicationController
   end
 
   def index #rendered when user clicks on 'allBooks'
-    @books = Book.search(params[:search])
+    sort = params[:sort] || session[:sort]
+    case sort
+    when 'title'
+      ordering,@title_header = {:title => :asc}, 'hilite'
+    when 'price'
+      ordering,@price_header = {:price => :asc}, 'hilite'
+    when 'auctionPrice'
+      ordering,@auctionPrice_header = {:auction_start_price => :asc}, 'hilite'
+    when 'author'
+      ordering,@author_header = {:author => :asc}, 'hilite'
+    end
+    @books = Book.search(params[:search]).order(ordering)
     session[:session_token]= @current_user.user_id
   end
 
@@ -137,7 +148,6 @@ class BooksController < ApplicationController
     @info["auction_time(4i)"]=params["book"]["auction_time"]["{}(4i)"]
     @info["auction_time(5i)"]=params["book"]["auction_time"]["{}(5i)"]
     
-    puts "HIIIIIII"
     testbook = Book.new(@info)
     if(testbook.valid?)
       @book = Book.find params[:id]
