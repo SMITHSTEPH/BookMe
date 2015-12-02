@@ -157,4 +157,16 @@ class BooksController < ApplicationController
     flash[:notice] = "'#{@book.title}' deleted."
     redirect_to mybooks_path
   end
+
+  def buy_now
+    @book = Book.find(params[:id])
+    if @book[:status]=="sold"
+      flash[:notice] = "Sorry '#{@book.title}' already sold."
+      redirect_to book_path
+    else
+      @book.update_attribute(:bidder_id, @current_user[:user_id])
+      @book.update_attribute(:status, "sold")
+      redirect_to books_path
+    end
+  end
 end

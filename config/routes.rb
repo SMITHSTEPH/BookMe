@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   match '/search_open_lib', to: 'books#search_open_lib', via: :get
   match '/login', to: 'sessions#new', via: :get
   match '/logout', to: 'sessions#destroy', via: :delete
+  match '/buy_now/:id', to: 'books#buy_now', via: :get, as: :buy_now
+  match '/make_bid', to: 'books#make_bid', via: :put
   
   resources	:sessions,	only:	[:new,	:create,	:destroy]
   
