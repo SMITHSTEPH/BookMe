@@ -12,20 +12,11 @@
     Quality:
     = @book.quality
   %li
-    Buy Now Price:
-    ="$"+@book.price
-  %li
-    Auction Price:
-    ="$"+@book.auction_start_price
-  %li
     Course:
     = @book.course
   %li
     Department:
     = @book.department
-  %li
-    Sale ends in:
-    =@book.time_left 
   %li
     Keywords:
     - @keywords.each_with_index do |keyword ,index|
@@ -36,5 +27,18 @@
 %h3 Description:
 
 %p#description= @book.description
-  
-= button_to 'Buy Now', buy_now_path(@book), :method=>:get
+
+="Price $"+@book.price
+= button_to 'Buy Now', buy_now_path(@book), :method=>:put
+
+</br>
+
+= form_tag make_bid_path, :method => :put do
+  ="Auction Price $"+@book.bid_price
+  </br>
+  = "Sale ends in: "+@book.time_left 
+  </br>
+  = "$"
+  = text_field :book, 'bid_price', :value=>""
+  = submit_tag 'Bid'
+

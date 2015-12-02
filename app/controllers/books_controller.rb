@@ -1,7 +1,7 @@
 class BooksController < ApplicationController
   before_filter :set_current_user
   def book_params
-    params.require(:book).permit(:title, :author, :isbn, :department, :course, :quality, :price, :auction_start_price, :auction_time, :description, :image, :keyword, :time_left)
+    params.require(:book).permit(:title, :author, :isbn, :department, :course, :quality, :price, :auction_start_price, :auction_time, :description, :image, :keyword, :time_left, :bid_price)
   end
 
   def show #displayed when user clicks on book title link
@@ -15,6 +15,11 @@ class BooksController < ApplicationController
       days="0"
       hours="0"
       mins="0"
+      if @book[:bidder_id] == nil
+        @book.update_attribute(:status, "sale")
+      else
+        @book.update_attribute(:status, "sold")
+      end
     end
     @book.update_attribute(:time_left, days + " days " + hours + " hrs " + mins + " mins")
     
@@ -74,7 +79,9 @@ class BooksController < ApplicationController
     end
 
     @info[:isbn]=@info[:isbn].gsub(/[-' ']/,'')
-    
+    @info[:bid_price]=@info[:auction_start_price]
+    @info[:status]= "auction"
+
     @info["auction_time(1i)"]=params["book"]["auction_time"]["{}(1i)"]
     @info["auction_time(2i)"]=params["book"]["auction_time"]["{}(2i)"]
     @info["auction_time(3i)"]=params["book"]["auction_time"]["{}(3i)"]
@@ -168,5 +175,27 @@ class BooksController < ApplicationController
       @book.update_attribute(:status, "sold")
       redirect_to books_path
     end
+  end
+
+  def make_bid
+    @book = Book.find(params[:id])
+    @info = book_params
+    puts @info[:bid_price]
+    puts @book[:bid_price]
+
+    if @info[:bid_price].to_f > @book[:bid_price].to_f
+      if @book[:status]=="auction"
+        @book.update_attribute(:bid_price, @info[:bid_price])
+        @book.update_attribute(:bidder_id, @current_user[:user_id])
+        redirect_to books_path
+      else
+        flash[:notice] = "Sorry, auction has ended."
+        redirect_to book_path
+      end  
+    else
+      flash[:notice] = "Bid must be greater than current bid."
+      redirect_to book_path
+    end
+
   end
 end
