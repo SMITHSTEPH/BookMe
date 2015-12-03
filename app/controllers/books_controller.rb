@@ -190,20 +190,22 @@ class BooksController < ApplicationController
   def make_bid
     @book = Book.find(params[:id])
     @info = book_params
-    puts @info[:bid_price]
-    puts @book[:bid_price]
-
-    if @info[:bid_price].to_f > @book[:bid_price].to_f
-      if @book[:status]=="auction"
-        @book.update_attribute(:bid_price, @info[:bid_price])
-        @book.update_attribute(:bidder_id, @current_user[:user_id])
-        redirect_to books_path
+    if (@info[:bid_price]=~/\A[0-9]+\.?[0-9]*\z/) == 0
+      if @info[:bid_price].to_f > @book[:bid_price].to_f
+        if @book[:status]=="auction"
+          @book.update_attribute(:bid_price, @info[:bid_price])
+          @book.update_attribute(:bidder_id, @current_user[:user_id])
+          redirect_to books_path
+        else
+          flash[:notice] = "Sorry, auction has ended."
+          redirect_to book_path
+        end  
       else
-        flash[:notice] = "Sorry, auction has ended."
+        flash[:notice] = "Bid must be greater than current bid."
         redirect_to book_path
-      end  
+      end
     else
-      flash[:notice] = "Bid must be greater than current bid."
+      flash[:notice] = "Invalid bid price."
       redirect_to book_path
     end
 

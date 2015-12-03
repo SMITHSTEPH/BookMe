@@ -111,7 +111,7 @@ describe BooksController do
     context 'Required fields are filled in' do
       before :each do
         @book_param = {"title" => "Book", "author" => "Sarah", "isbn" => "1234567890", "image" => "nobook.gif", "auction_time"=>{"{}(1i)"=>"2015", "{}(2i)"=>"12", "{}(3i)"=>"12", "{}(4i)"=>"12", "{}(5i)"=>"30"},"keyword"=>{"1"=>"book"}}
-        @book_model = {"title" => "Book", "author" => "Sarah", "isbn" => "1234567890", "image" => "nobook.gif", "auction_time(1i)"=>"2015", "auction_time(2i)"=>"12", "auction_time(3i)"=>"12", "auction_time(4i)"=>"12", "auction_time(5i)"=>"30"}
+        @book_model = {"title" => "Book", "author" => "Sarah", "isbn" => "1234567890", "image" => "nobook.gif", "auction_time(1i)"=>"2015", "auction_time(2i)"=>"12", "auction_time(3i)"=>"12", "auction_time(4i)"=>"12", "auction_time(5i)"=>"30","bid_price"=>nil, "status"=>"auction",}
         @fake_book_result = double(:book=>{:title => "Book Title"})
         allow(Book).to receive(:create!).with(@book_param).and_return(@fake_book_result)
         allow(@fake_book_result).to receive(:title).and_return('Book')
