@@ -1,5 +1,6 @@
 class BooksController < ApplicationController
   before_filter :set_current_user
+  helper_method :sort_column, :sort_direction
   def book_params
     params.require(:book).permit(:title, :author, :isbn, :department, :course, :quality, :price, :auction_start_price, :auction_time, :description, :image, :keyword, :time_left, :bid_price)
   end
@@ -27,8 +28,7 @@ class BooksController < ApplicationController
     end
     @book.update_attribute(:time_left, days + " days " + hours + " hrs " + mins + " mins")
     end
-
-  end
+  end  
 
   def show #displayed when user clicks on book title link
     id = params[:id] # retrieve book ID from URI route
@@ -59,7 +59,7 @@ class BooksController < ApplicationController
     when 'author'
       ordering,@author_header = {:author => :asc}, 'hilite'
     end
-    @books = Book.search(params[:search]).order(ordering)
+    @books = Book.search(params[:search]).order(sort_column + ' ' + sort_direction)
     session[:session_token]= @current_user.user_id
   end
 
@@ -233,25 +233,34 @@ class BooksController < ApplicationController
       flash[:notice] = "Sorry '#{@book.title}' already sold."
       redirect_to book_path
     else
-    if (@info[:bid_price]=~/\A[0-9]+\.?[0-9]*\z/) == 0
-      if @info[:bid_price].to_f > @book[:bid_price].to_f
-        if @book[:status]=="auction"
-          @book.update_attribute(:bid_price, @info[:bid_price])
-          @book.update_attribute(:bidder_id, @current_user[:user_id])
-          flash[:notice] = "$"+@book.bid_price+" bid made for "+@book.title
-          redirect_to books_path
+      if (@info[:bid_price]=~/\A[0-9]+\.?[0-9]*\z/) == 0
+        if @info[:bid_price].to_f > @book[:bid_price].to_f
+          if @book[:status]=="auction"
+            @book.update_attribute(:bid_price, @info[:bid_price])
+            @book.update_attribute(:bidder_id, @current_user[:user_id])
+            flash[:notice] = "$"+@book.bid_price+" bid made for "+@book.title
+            redirect_to books_path
+          else
+            flash[:notice] = "Sorry, auction has ended."
+            redirect_to book_path
+          end  
         else
-          flash[:notice] = "Sorry, auction has ended."
+          flash[:notice] = "Bid must be greater than current bid."
           redirect_to book_path
-        end  
+        end
       else
-        flash[:notice] = "Bid must be greater than current bid."
+        flash[:notice] = "Invalid bid price."
         redirect_to book_path
       end
-    else
-      flash[:notice] = "Invalid bid price."
-      redirect_to book_path
     end
-    end
+  end
+  
+  private
+  def sort_column
+    params[:sort] || "title"
+  end
+  
+  def sort_direction
+    params[:direction] || "asc"
   end
 end
