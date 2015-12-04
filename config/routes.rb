@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :books
   
   match '/mybooks', to: 'books#mybooks', via: :get
+  match '/mybids', to: 'books#mybids', via: :get
  # root :to => redirect('/books')
   root 'books#index'
   match '/books', to: 'books#index', via: :put

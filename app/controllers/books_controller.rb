@@ -4,9 +4,11 @@ class BooksController < ApplicationController
     params.require(:book).permit(:title, :author, :isbn, :department, :course, :quality, :price, :auction_start_price, :auction_time, :description, :image, :keyword, :time_left, :bid_price)
   end
 
-  def show #displayed when user clicks on book title link
-    id = params[:id] # retrieve book ID from URI route
+  def update_time(id)
     @book = Book.find(id) # look up book by unique ID
+    if @book.status == "sold"
+      @book.update_attribute(:time_left, "sale ended")
+    else
     time_diff = @book.auction_time-Time.now.in_time_zone("Central Time (US & Canada)")
     days = ((time_diff/60/60/24).to_i).to_s
     hours = ((time_diff/60/60%24).to_i).to_s
@@ -20,8 +22,18 @@ class BooksController < ApplicationController
       else
         @book.update_attribute(:status, "sold")
       end
+    else
+      @book.update_attribute(:status, "auction")
     end
     @book.update_attribute(:time_left, days + " days " + hours + " hrs " + mins + " mins")
+    end
+
+  end
+
+  def show #displayed when user clicks on book title link
+    id = params[:id] # retrieve book ID from URI route
+    @book = Book.find(id) # look up book by unique ID
+    update_time(id)
     
     if Tag.find_by(book_id: @book.id) #getting the keywords if there are any
       @keywords = Array.new
@@ -59,6 +71,20 @@ class BooksController < ApplicationController
       puts p.to_s
     end
   end
+  
+  def mybids #routed here when user hits "mybooks" button and renders mybooks view
+    @user = User.find(@current_user.id.to_s)
+    #@books = @user.books.search(params[:search])
+    @books = Book.where(bidder_id:@user.user_id).where(status:"auction")
+    @books.each do |book|
+      update_time(book.id)
+      puts book.bid_price
+    end
+    @booksBought = Book.where(bidder_id:@user.user_id).where(status:"sold")
+    params.each do |p|
+      puts p.to_s
+    end
+  end
 
   def new #routed here when user hits 'add book' button and renders new view
     keywords={"0"=>""}
@@ -90,6 +116,12 @@ class BooksController < ApplicationController
     end
 
     @info[:isbn]=@info[:isbn].gsub(/[-' ']/,'')
+    if @info[:price]==""
+      @info[:price]="0.00"
+    end
+    if @info[:auction_start_price]==""
+      @info[:auction_start_price]="0.00"
+    end
     @info[:bid_price]=@info[:auction_start_price]
     @info[:status]= "auction"
 
@@ -148,6 +180,12 @@ class BooksController < ApplicationController
     @info["auction_time(4i)"]=params["book"]["auction_time"]["{}(4i)"]
     @info["auction_time(5i)"]=params["book"]["auction_time"]["{}(5i)"]
     
+    if @info[:price]==""
+      @info[:price]="0.00"
+    end
+    if @info[:auction_start_price]==""
+      @info[:auction_start_price]="0.00"
+    end
     testbook = Book.new(@info)
     if(testbook.valid?)
       @book = Book.find params[:id]
@@ -183,6 +221,7 @@ class BooksController < ApplicationController
     else
       @book.update_attribute(:bidder_id, @current_user[:user_id])
       @book.update_attribute(:status, "sold")
+      flash[:notice] = "You have purchased "+@book.title+". Thank you!"
       redirect_to books_path
     end
   end
@@ -190,11 +229,16 @@ class BooksController < ApplicationController
   def make_bid
     @book = Book.find(params[:id])
     @info = book_params
+    if @info[:status]=="sold"
+      flash[:notice] = "Sorry '#{@book.title}' already sold."
+      redirect_to book_path
+    else
     if (@info[:bid_price]=~/\A[0-9]+\.?[0-9]*\z/) == 0
       if @info[:bid_price].to_f > @book[:bid_price].to_f
         if @book[:status]=="auction"
           @book.update_attribute(:bid_price, @info[:bid_price])
           @book.update_attribute(:bidder_id, @current_user[:user_id])
+          flash[:notice] = "$"+@book.bid_price+" bid made for "+@book.title
           redirect_to books_path
         else
           flash[:notice] = "Sorry, auction has ended."
@@ -208,6 +252,6 @@ class BooksController < ApplicationController
       flash[:notice] = "Invalid bid price."
       redirect_to book_path
     end
-
+    end
   end
 end
