@@ -4,7 +4,7 @@ class BooksController < ApplicationController
   def book_params
     params.require(:book).permit(:title, :author, :isbn, :department, :course, :quality, :price, :auction_start_price, :auction_time, :description, :image, :keyword, :time_left, :bid_price)
   end
-
+=begin
   def update_time(id)
     @book = Book.find(id) # look up book by unique ID
     if @book.status == "sold"
@@ -29,13 +29,11 @@ class BooksController < ApplicationController
     @book.update_attribute(:time_left, days + " days " + hours + " hrs " + mins + " mins")
     end
   end  
-
+=end
   def show #displayed when user clicks on book title link
     id = params[:id] # retrieve book ID from URI route
     @book = Book.find(id) # look up book by unique ID
-    update_time(id)
-  
-    
+    Book.update_time(id)
     if Tag.find_by(book_id: @book.id) #getting the keywords if there are any
       @keywords = Array.new
       Tag.find_each do |keyword|
@@ -78,7 +76,7 @@ class BooksController < ApplicationController
     #@books = @user.books.search(params[:search])
     @books = Book.where(bidder_id:@user.user_id).where(status:"auction")
     @books.each do |book|
-      update_time(book.id)
+      Book.update_time(book.id)
       puts book.bid_price
     end
     @booksBought = Book.where(bidder_id:@user.user_id).where(status:"sold")

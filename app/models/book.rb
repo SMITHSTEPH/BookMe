@@ -46,6 +46,28 @@ class Book < ActiveRecord::Base
     end 
     @book
   end
-
-
+  def self.update_time(id)
+    @book = Book.find(id) # look up book by unique ID
+    if @book.status == "sold"
+      @book.update_attribute(:time_left, "sale ended")
+    else
+    time_diff = @book.auction_time-Time.now.in_time_zone("Central Time (US & Canada)")
+    days = ((time_diff/60/60/24).to_i).to_s
+    hours = ((time_diff/60/60%24).to_i).to_s
+    mins = ((time_diff/60%60).to_i).to_s
+    if(time_diff<0)
+      days="0"
+      hours="0"
+      mins="0"
+      if @book[:bidder_id] == nil
+        @book.update_attribute(:status, "sale")
+      else
+        @book.update_attribute(:status, "sold")
+      end
+    else
+      @book.update_attribute(:status, "auction")
+    end
+    @book.update_attribute(:time_left, days + " days " + hours + " hrs " + mins + " mins")
+    end
+  end
 end
