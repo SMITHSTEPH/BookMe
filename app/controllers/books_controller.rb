@@ -4,32 +4,7 @@ class BooksController < ApplicationController
   def book_params
     params.require(:book).permit(:title, :author, :isbn, :department, :course, :quality, :price, :auction_start_price, :auction_time, :description, :image, :keyword, :time_left, :bid_price)
   end
-=begin
-  def update_time(id)
-    @book = Book.find(id) # look up book by unique ID
-    if @book.status == "sold"
-      @book.update_attribute(:time_left, "sale ended")
-    else
-    time_diff = @book.auction_time-Time.now.in_time_zone("Central Time (US & Canada)")
-    days = ((time_diff/60/60/24).to_i).to_s
-    hours = ((time_diff/60/60%24).to_i).to_s
-    mins = ((time_diff/60%60).to_i).to_s
-    if(time_diff<0)
-      days="0"
-      hours="0"
-      mins="0"
-      if @book[:bidder_id] == nil
-        @book.update_attribute(:status, "sale")
-      else
-        @book.update_attribute(:status, "sold")
-      end
-    else
-      @book.update_attribute(:status, "auction")
-    end
-    @book.update_attribute(:time_left, days + " days " + hours + " hrs " + mins + " mins")
-    end
-  end  
-=end
+  
   def show #displayed when user clicks on book title link
     id = params[:id] # retrieve book ID from URI route
     @book = Book.find(id) # look up book by unique ID
@@ -237,6 +212,20 @@ class BooksController < ApplicationController
           if @book[:status]=="auction"
             @book.update_attribute(:bid_price, @info[:bid_price])
             @book.update_attribute(:bidder_id, @current_user[:user_id])
+            #get id of this user
+            puts "-------------------BOOKS PARARMS ARE---------------"
+            puts @book.id.to_s
+            puts @current_user.id
+            puts @info[:bid_price]
+            #alert potential other user that they may be out of the bid
+            if !Bid.where(:book_id => @book.id, :user_id => @user_id).blank? #if this users bid already exists
+              Bid.select(:book_id => @book.id, :user_id => @user_id).update_attribute(:bid, @info[:bid_price]) #just update the bid
+            else
+              if (!Bid.where(:book_id => @book.id).blank? && Bid.find_by(book_id: @book.id) < @info[:bid_price])
+                Bid.where(":book_id =="+ @book.id.to_s).update_attribute(:notification => true) #give them a notification
+              end
+              Bid.create!({:book_id => @book.id, :user_id => @current_user.id, :bid =>  @info[:bid_price], :notification => false}) #adding bid to the bid database
+            end
             flash[:notice] = "$"+@book.bid_price+" bid made for "+@book.title
             redirect_to books_path
           else
