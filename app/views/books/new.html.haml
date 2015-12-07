@@ -49,7 +49,7 @@
   .form-group
     .row
       .col-md-4
-        = label :book, :price, 'Price'
+        = label :book, :price, 'Buy Now Price'
         .input-group
           %span.input-group-addon $
           = text_field :book, 'price' , :value=>@book[:price], class: 'form-control'
@@ -66,8 +66,8 @@
     .row
       .col-md-4
         = label :book, :auction_time, 'Auction Time (year-month-day hr:min)'
-        = text_field :book, 'auction_time' , :value => @book[:auction_time], class: 'form-control'
-        
+        = datetime_select('book[auction_time]', options={})
+ 
   .component
     .form-group
       .row
@@ -76,13 +76,14 @@
           = text_area :book, 'description', :value => @book[:description], class: 'form-control', rows: '3'
   .component#keyword_div_0
     .form-group
-      .col-md-4
-        =label :book, :keyword, 'Keywords:'
-        = text_field :book, 'keyword[0]', :value => @book[:keyword]["0"], :class => 'keywords form-control'
-        - @book[:keyword].each do |key, value|
-          - if(key != "0")
-            =text_field :book, 'keyword[key]', :value => value, :class => 'keywords form-control'
-            </br>
+      .row
+        .col-md-4
+          =label :book, :keyword, 'Keywords:'
+          = text_field :book, 'keyword[0]', :value => @book[:keyword]["0"], :class => 'keywords form-control'
+          - @book[:keyword].each do |key, value|
+            - if(key != "0")
+              =text_field :book, 'keyword[key]', :value => value, :class => 'keywords form-control'
+              </br>
   = submit_tag 'Save Changes', :id=>'add_book', class: 'btn btn-primary'
 =button_tag "add keywords", :id=>'add_keywords', class: 'btn btn-default', :onclick => 'click_handler()'
 

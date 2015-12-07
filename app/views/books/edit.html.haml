@@ -1,53 +1,95 @@
 -# edit.html.haml using partial
-= button_to 'All Books', books_path, :method =>:get, :id => 'allbooks'
-= button_to 'My Books', mybooks_path, :method =>:get, :id => 'mybooks'
+= button_to 'All Books', books_path, :method =>:get, :id => 'allbooks', class: 'btn btn-info'
+= button_to 'My Books', mybooks_path, :method =>:get, :id => 'mybooks', class: 'btn btn-primary'
 %h1 Edit Existing Book
 -i=0
 = form_tag book_path(@book), :method => :put, :id =>'edit_book' do
   = image_tag asset_path(@book[:image]), :size => '75x100'
 
-  = label :book, :title, 'Title'
-  = text_field :book, 'title'
+  .form-group
+    .row
+      .col-md-4
+        = label :book, :title, 'Title'
+        = text_field :book, 'title', class: 'form-control'
   
-  = label :book, :author, 'Author'
-  = text_field :book, 'author', :value => @book.author
+  .form-group
+    .row
+      .col-md-4
+        = label :book, :author, 'Author'
+        = text_field :book, 'author', :value => @book.author, class: 'form-control'
+  
+  .form-group
+    .row
+      .col-md-4        
+        = label :book, :isbn, 'ISBN'
+        = text_field :book, 'isbn', :value => @book.isbn, class: 'form-control'
+  
+  .form-group
+    .row
+      .col-md-4
+        = label :book, :department, 'Department'
+        = text_field :book, 'department', :value=>@book.department, class: 'form-control'
+        
+  .form-group
+    .row
+      .col-md-4
+        = label :book, :course, 'Course'
+        = text_field :book, 'course', :value=>@book.course, class: 'form-control'
+  
+  .form-group
+    .row
+      .col-md-4
+        = label :book, :quality, 'Quality'
+        =select_tag 'book[quality]', options_for_select({"bad"=>"bad","fair" => "fair","good"=>"good","great"=>"great"}, @book.quality), :class => 'btn btn-default dropdown-toggle', type: 'button'
+  
+  .form-group
+    .row
+      .col-md-4
+        = label :book, :price, 'Buy Now Price'
+        .input-group
+          %span.input-group-addon $
+          = text_field :book, 'price' , :value=>@book.price, class: 'form-control'
 
-  = label :book, :isbn, 'ISBN'
-  = text_field :book, 'isbn', :value => @book.isbn
+  .form-group
+    .row
+      .col-md-4
+        = label :book, :auction_start_price, 'Auction Price'
+        .input-group
+          %span.input-group-addon $
+          = text_field :book, 'auction_start_price' , :value=>@book.auction_start_price, class: 'form-control'
+  
+  .form-group
+    .row
+      .col-md-4
+        = label :book, :auction_time, 'Auction Time (year-month-day hr:min)'
+        = datetime_select('book[auction_time]', options={})
 
-  = label :book, :department, 'Department'
-  = text_field :book, 'department', :value=>@book.department
-  
-  = label :book, :course, 'Course'
-  = text_field :book, 'course', :value=>@book.course
+  .component
+    .form-group
+      .row
+        .col-md-4
+          = label :book, :description, 'Description'
+          = text_area :book, 'description', :value => @book.description, class: 'form-control', rows: '3'
 
-  = label :book, :quality, 'Quality'
-  =select_tag 'book[quality]', options_for_select({"bad"=>"bad","fair" => "fair","good"=>"good","great"=>"great"}, @book.quality)
+  .form-group
+    .row
+      .col-md-4
+        = label :book, :image, 'Image'
+        = text_field :book, :image, :value=>@book[:image], class: 'form-control' 
   
-  = label :book, :price, 'Price'
-  = text_field :book, 'price', :value => @book.price
-  
-  = label :book, :auction_start_price, 'Auction Price'
-  = text_field :book, 'auction_start_price' , :value => @book.auction_start_price
-  
-  = label :book, :auction_time, 'Auction Time  (yearr-month-day hr:min)'
-  = text_field :book, 'auction_time' , :value => @book.auction_time
-
-  = label :book, :description, 'Description'
-  = text_area :book, 'description', :value => @book.description
-
-  = label :book, :image, 'Image'
-  = text_field :book, :image, :value=>@book[:image]  
-  
-  = label :book, :keyword, 'Keywords:'
-  -if @keywords.empty?
-    = text_field :book, 'keyword[0]', :value => @keywords[0], :class => 'keywords'
-  -else
-    - @keywords.each_with_index do |keyword, index|
-      <br/>
-      -i=index
-      =text_field :book, 'keyword['+i.to_s+']', :value => @keywords[index].tag, :class => 'keywords'
-  -i=i+1 
-  = submit_tag 'Update Book Info', :id=>'add_book', class: 'btn btn-default'
-=button_tag "add keywords", :id=>'add_keywords', :onclick => 'click_handler()'
+  .component#keyword_div_0
+    .form-group
+      .row
+        .col-md-4
+          = label :book, :keyword, 'Keywords:'
+          -if @keywords.empty?
+            = text_field :book, 'keyword[0]', :value => @keywords[0], :class => 'keywords  form-control'
+          -else
+            - @keywords.each_with_index do |keyword, index|
+              <br/>
+              -i=index
+              =text_field :book, 'keyword['+i.to_s+']', :value => @keywords[index].tag, :class => 'keywords form-control'
+    -i=i+1 
+  = submit_tag 'Update Book Info', :id=>'add_book', class: 'btn btn-primary'
+=button_tag "add keywords", :id=>'add_keywords', :onclick => 'click_handler()', class: 'btn btn-default'
 

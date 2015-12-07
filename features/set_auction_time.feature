@@ -12,9 +12,18 @@ Background: ssmith32 has logged in and on mybooks page
   | The adventures of Tom Sawyer                                       | Mark Twain        | 0451526538         | fair    | 40.00 | for rhetoric                     | https://covers.openlibrary.org/b/id/295577-S.jpg                                | 1.00                |
   | Classical Electromagnetic Theory (Fundamental Theories of Physics) | Jack VanderLinde  | 1402026994         | great   | 10.00 | great intro to em theory         | https://covers.openlibrary.org/b/id/1733064-S.jpg                               | 5.00                |
   | Calculus: Early Transcendentals                                    | James Stewart     | 1285741552         | fair    | 20.00 |                                  | http://ecx.images-amazon.com/images/I/51SWN%2BQre0L._SX258_BO1,204,203,200_.jpg | 1.00                |
-  And ssmith32 is on the MyBooks page
-  And ssmith32 has selected to edit "The adventures of Tom Sawyer"
+
+Scenario: viewing keywords on the show book page
+    When I am viewing information about "The adventures of Tom Sawyer"
+    Then I should see a "Time Left" section
+ 
+Scenario: adding auction time on the add books page
+  When ssmith32 is on the MyBooks page
+  And I add a book with title Analog Electronic Design: Principles and Practice of Creative Design, author Johnathan Scott, isbn 0130331929, and "Auction Time" to "2015-12-12 12:30"
+  Then the new item "Time Left" should add up to "2015-12-12 12:30"
   
-  Scenario: add auction time
-    When I change field "Auction Time" to "2015-12-12 12:30"
+Scenario: editing auction time on the edit book page
+    When ssmith32 has selected to edit "The adventures of Tom Sawyer"
+    And I change field "Auction Time" to "2015-12-12 12:30"
     Then the new item "Time Left" should add up to "2015-12-12 12:30"
+    

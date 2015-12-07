@@ -1,6 +1,7 @@
 -#  This file is app/views/books/index.html.haml
 %br/
 = button_to 'My Books', mybooks_path, :method =>:get, :id => 'mybooks', class: 'btn btn-primary'
+= button_to 'My Bids', mybids_path, :method =>:get, :id => 'mybids', class: 'btn btn-primary'
 
 %h1 All Books
 
@@ -8,14 +9,14 @@
   = text_field_tag :search, params[:search], class: 'form-control', :id => 'search_term', placeholder: 'Search Terms'
   = submit_tag "Search", class: 'btn btn-default', :id => 'search_submit'
 
-%table#books
+%table#books{:class => "sortBooks"}
   %thead
     %tr
       %th{:width => "100"}
-      %th{:width => "200"} Book Title
-      %th{:width => "200"} Author
-      %th{:width => "100"} Price
-      %th{:width => "100"} Auction Price
+      %th{:width => "200"}= Sortable "title", "Book Title"
+      %th{:width => "200"}= Sortable "author"
+      %th{:width => "200"}= Sortable "price", "Buy Now Price"
+      %th{:width => "100"}= Sortable "auction_start_price", "Auction Price"
   %tbody
     - @books.each do |book|
       %tr

@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :books
   
   match '/mybooks', to: 'books#mybooks', via: :get
+  match '/mybids', to: 'books#mybids', via: :get
  # root :to => redirect('/books')
   root 'books#index'
   match '/books', to: 'books#index', via: :put
@@ -12,6 +13,8 @@ Rails.application.routes.draw do
   match '/search_open_lib', to: 'books#search_open_lib', via: :get
   match '/login', to: 'sessions#new', via: :get
   match '/logout', to: 'sessions#destroy', via: :delete
+  match '/buy_now/:id', to: 'books#buy_now', via: :put, as: :buy_now
+  match '/make_bid/:id', to: 'books#make_bid', via: :put, as: :make_bid
   
   resources	:sessions,	only:	[:new,	:create,	:destroy]
   

@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 var text_template="</br><div class='component' id='keyword_div_NUM'><div class='form-group'><div class='col-md-4'>"
+=======
+var text_template="<div class='component' id='keyword_div_NUM'><div class='form-group'><div class='row'><div class='col-md-4'>"
+>>>>>>> 3663cd61d56637db4cfb1e9b1f241087fbabd84b
 +"<input type='text' name='book[keyword[NUM]]' id='book[keyword][NUM]' class='keywords form-control'>"
-+"</div></div></div>"+"</br></br>"
++"</div></div></div></div>"+"</br></br>"
 
 
 function click_handler(){

@@ -1,5 +1,4 @@
 class Book < ActiveRecord::Base
-  
   belongs_to :user 
   belongs_to :tag
 
@@ -42,7 +41,7 @@ class Book < ActiveRecord::Base
       if(book_image==nil || book_image.empty?)
         @book = {title:book_title, author:book_author, isbn:isbn, image:"nobook.gif", price:"", quality:""}
       else
-      @book = {title:book_title, author:book_author, isbn:isbn, image:book_image, price:"", quality:""}
+        @book = {title:book_title, author:book_author, isbn:isbn, image:book_image, price:"", quality:""}
       end
     end 
     @book
