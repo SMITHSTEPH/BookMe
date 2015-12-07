@@ -34,6 +34,7 @@ class BooksController < ApplicationController
     id = params[:id] # retrieve book ID from URI route
     @book = Book.find(id) # look up book by unique ID
     update_time(id)
+  
     
     if Tag.find_by(book_id: @book.id) #getting the keywords if there are any
       @keywords = Array.new
@@ -221,7 +222,7 @@ class BooksController < ApplicationController
     else
       @book.update_attribute(:bidder_id, @current_user[:user_id])
       @book.update_attribute(:status, "sold")
-      flash[:notice] = "You have purchased "+@book.title+". Thank you!"
+      flash[:notice] = "You have purchased "+ @book.title + ". Thank you!"
       redirect_to books_path
     end
   end
