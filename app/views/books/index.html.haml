@@ -1,6 +1,10 @@
 -#  This file is app/views/books/index.html.haml
-%br/
-= button_to 'My Books', mybooks_path, :method =>:get, :id => 'mybooks', class: 'btn btn-primary'
+%br
+%div
+  = button_to 'My Books', mybooks_path, :method =>:get, :id => 'mybooks', class: 'btn btn-primary'
+  %span{:class => 'badge badge-notify'}
+
+  
 = button_to 'My Bids', mybids_path, :method =>:get, :id => 'mybids', class: 'btn btn-primary'
 = button_to 'Edit Profile', edit_user_path(@current_user), :method =>:get, class: 'btn btn-primary'
 
@@ -25,4 +29,4 @@
         %td= link_to "#{book.title}", book_path(book)
         %td= book.author
         %td= "$"+book.price
-        %td= "$"+book.auction_start_price
+        %td= "$"+book.bid_price

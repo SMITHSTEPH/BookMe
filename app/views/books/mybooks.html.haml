@@ -3,9 +3,6 @@
 %h1 #{@current_user.first_name}'s Books
 = button_to 'Add Book', new_book_path, :method =>:get, :id => 'addbook', class: 'btn btn-success'
 
-= form_tag mybooks_path, :method => 'get', class: 'form-inline' do 
-    = text_field_tag :search, params[:search], class: 'form-control', :id => 'search_term', placeholder: 'Search Terms'
-    = submit_tag "Search", class: 'btn btn-default', :id => 'search_submit'
 
 %table#books
     %tbody
