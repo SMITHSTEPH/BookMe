@@ -230,9 +230,7 @@ class BooksController < ApplicationController
     else
       @book.update_attribute(:bidder_id, @current_user[:user_id])
       @book.update_attribute(:status, "sold")
-<<<<<<< HEAD
-      flash[:notice] = "You have purchased "+ @book.title + ". Thank you!"
-=======
+
       bidder = User.find_by_user_id(@book.bidder_id)
       seller = User.find(@book.user_id)
 
@@ -240,12 +238,12 @@ class BooksController < ApplicationController
       seller.update_attribute(:books_sold, (seller.books_sold)+1)
       
       flash[:notice] = "You have purchased "+@book.title+". Thank you!"
->>>>>>> e673b65d0dc4122d1fe306488fcc2ce325d5ee67
+
       redirect_to books_path
     end
   end
 
-  def make_bid
+  def make_bid #should move to bids controller, really
     @book = Book.find(params[:id])
     @info = book_params
     if @info[:status]=="sold"
@@ -265,11 +263,18 @@ class BooksController < ApplicationController
             #alert potential other user that they may be out of the bid
             if !Bid.where(:book_id => @book.id, :user_id => @user_id).blank? #if this users bid already exists
               Bid.select(:book_id => @book.id, :user_id => @user_id).update_attribute(:bid, @info[:bid_price]) #just update the bid
+              Bid.select(:book_id => @book.id, :user_id => @user_id).update_attribute(:status, "highest bid") #just update the status
             else
-              if (!Bid.where(:book_id => @book.id).blank? && Bid.find_by(book_id: @book.id) < @info[:bid_price])
-                Bid.where(":book_id =="+ @book.id.to_s).update_attribute(:notification => true) #give them a notification
+              if (!Bid.where(:book_id => @book.id).blank? && Bid.find_by(book_id: @book.id).bid.to_f < (@info[:bid_price].to_f))
+                Bid.select(:book_id => @book.id, :status => "highest bid").update_all(:notification => true) #give them a notification
+                Bid.select(:book_id => @book.id, :status => "highest bid").update_all(:status => "out of bid") #change the status of their bid
               end
               Bid.create!({:book_id => @book.id, :user_id => @current_user.id, :bid =>  @info[:bid_price], :notification => false}) #adding bid to the bid database
+            end
+            puts "testing bids!!\n\n"
+            @bid=Bid.all
+            @bid.each do |bid|
+              puts "user_id: " + bid.user_id.to_s + " book_id: "+ bid.book_id.to_s + " bid: " + bid.bid.to_s + " notification: " + bid.notification.to_s + " bid status: " + bid.status
             end
             flash[:notice] = "$"+@book.bid_price+" bid made for "+@book.title
             redirect_to books_path
