@@ -1,6 +1,10 @@
 -#  This file is app/views/books/index.html.haml
-%br/
-= button_to 'My Books', mybooks_path, :method =>:get, :id => 'mybooks', class: 'btn btn-primary'
+%br
+%div
+  %span{:class => 'badge badge-notify'}
+  = button_to 'My Books', mybooks_path, :method =>:get, :id => 'mybooks', class: 'btn btn-primary'
+
+  
 = button_to 'My Bids', mybids_path, :method =>:get, :id => 'mybids', class: 'btn btn-primary'
 
 %h1 All Books

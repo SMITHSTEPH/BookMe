@@ -95,7 +95,13 @@ class BooksController < ApplicationController
     else
       @bids.each do |bid|
         book=Book.find(bid.book_id)
-        @mybids << {:book_title => book.title, :book_author => book.author, :book_isbn => book.isbn, :bid_price => bid.bid, :bid_status => bid.status, :time_left => book.time_left, :image => book.image}
+        if bid.notification
+          color='red'
+          bid.update_attribute(:notification, false)
+        else 
+          color='normal'
+        end
+        @mybids << {:book_title => book.title, :book_author => book.author, :book_isbn => book.isbn, :bid_price => bid.bid, :bid_status => bid.status, :time_left => book.time_left, :image => book.image, :color => color}
       end
     end
     @booksBought = Book.where(bidder_id:@user.user_id).where(status:"sold")
