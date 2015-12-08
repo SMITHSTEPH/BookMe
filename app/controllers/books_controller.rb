@@ -74,6 +74,7 @@ class BooksController < ApplicationController
   def mybooks #routed here when user hits "mybooks" button and renders mybooks view
     @user = User.find(@current_user.id.to_s)
     @books = @user.books.search(params[:search])-Book.where(status:"sold")
+    @books_sold = @user.books.search(params[:search]).where(status:"sold")
     params.each do |p|
       puts p.to_s
     end
