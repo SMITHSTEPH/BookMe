@@ -248,7 +248,7 @@ class BooksController < ApplicationController
     else
       @book.update_attribute(:bidder_id, @current_user[:user_id])
       @book.update_attribute(:status, "sold")
-
+      #UPDATE BID HERE
       bidder = User.find_by_user_id(@book.bidder_id)
       seller = User.find(@book.user_id)
 

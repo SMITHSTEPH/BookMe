@@ -7,7 +7,29 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
   end
+  
+  def edit
+    @user = User.find(params[:id])
+  end
+  
+  def update 
+    @info = user_params
+    puts user_params
+    puts @info
+    @current_user = User.find params[:id]
+    puts "cool"
+    puts @current_user
+    puts "cool"
+    if @current_user.update_attributes(@info)
+      puts @current_user
+      redirect_to mybooks_path
+    else
+      render 'edit'
+      puts "sudhfblahbgslkdfbglsdfhbgldbg"
+    end
 
+  end
+  
   def new
     # default: render 'new' template
   end
