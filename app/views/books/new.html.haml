@@ -49,7 +49,7 @@
   .form-group
     .row
       .col-md-4
-        = label :book, :price, 'Buy Now Price'
+        = label :book, :price, '*Buy Now Price'
         .input-group
           %span.input-group-addon $
           = text_field :book, 'price' , :value=>@book[:price], class: 'form-control'

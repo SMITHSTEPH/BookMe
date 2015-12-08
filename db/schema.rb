@@ -11,6 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20151207185738) do
 
   create_table "bids", force: :cascade do |t|
@@ -22,6 +23,9 @@ ActiveRecord::Schema.define(version: 20151207185738) do
 
   add_index "bids", ["book_id"], name: "index_bids_on_book_id"
   add_index "bids", ["user_id"], name: "index_bids_on_user_id"
+=======
+ActiveRecord::Schema.define(version: 20151207172100) do
+>>>>>>> e673b65d0dc4122d1fe306488fcc2ce325d5ee67
 
   create_table "books", force: :cascade do |t|
     t.integer  "user_id"
@@ -61,6 +65,8 @@ ActiveRecord::Schema.define(version: 20151207185738) do
     t.string   "user_id"
     t.string   "password_digest"
     t.string   "session_token"
+    t.integer  "books_sold"
+    t.integer  "books_bought"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

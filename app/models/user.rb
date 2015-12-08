@@ -14,6 +14,8 @@ class User < ActiveRecord::Base
     validates	:password_confirmation,	presence:	true
 private
   def create_session_token
-    self.session_token = SecureRandom.urlsafe_base64
+    if self.session_token==nil
+      self.session_token = SecureRandom.urlsafe_base64
+    end
   end
 end
