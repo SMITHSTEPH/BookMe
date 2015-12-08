@@ -91,9 +91,7 @@ class BooksController < ApplicationController
     #getting my bids
     @mybids=Array.new
     @bids=Bid.where(user_id:@current_user.id)
-    if @bids.empty?
-      #@mybids << {:book_title => "", :book_author => "", :book_isbn => "", :bid_price => "", :bid_status => "", :time_left => "", :image => "nobook.gif"}
-    else
+    if !@bids.empty?
       @bids.each do |bid|
         book=Book.find(bid.book_id)
         if bid.notification
@@ -248,7 +246,19 @@ class BooksController < ApplicationController
     else
       @book.update_attribute(:bidder_id, @current_user[:user_id])
       @book.update_attribute(:status, "sold")
+      
+      
       #UPDATE BID HERE
+      if(Bid.exists?(:book_id => @book.id))
+        @bid = Bid.where(:book_id => @book.id)
+        @bid.each do |bid|
+          bid.update_attribute(:status, "sold") #change status to sold
+          if @current_user.id != bid.user_id
+            bid.update_attribute(:notification, true) #give notification to everyone except the person who bought it
+          end
+        end
+      end
+      
       bidder = User.find_by_user_id(@book.bidder_id)
       seller = User.find(@book.user_id)
 
