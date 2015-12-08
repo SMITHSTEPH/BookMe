@@ -221,6 +221,13 @@ class BooksController < ApplicationController
     else
       @book.update_attribute(:bidder_id, @current_user[:user_id])
       @book.update_attribute(:status, "sold")
+      bidder = User.find_by_user_id(@book.bidder_id)
+      seller = User.find(@book.user_id)
+
+      bidder.update_attribute(:books_bought, (bidder.books_bought)+1)
+      seller.update_attribute(:books_sold, (seller.books_sold)+1)
+      
+      cookies[:session_token] = seller[:session_token]
       flash[:notice] = "You have purchased "+@book.title+". Thank you!"
       redirect_to books_path
     end

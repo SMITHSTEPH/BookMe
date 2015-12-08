@@ -15,6 +15,8 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
+      @user.update_attribute(:books_sold, 0)
+      @user.update_attribute(:books_bought, 0)
       flash[:notice] = "Welcome #{@user.user_id}. Your account has been created."
       redirect_to login_path
     else
