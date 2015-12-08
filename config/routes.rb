@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
   resources :users
   resources :books
+  resources :bids
   
   match '/mybooks', to: 'books#mybooks', via: :get
   match '/mybids', to: 'books#mybids', via: :get
@@ -15,6 +16,7 @@ Rails.application.routes.draw do
   match '/logout', to: 'sessions#destroy', via: :delete
   match '/buy_now/:id', to: 'books#buy_now', via: :put, as: :buy_now
   match '/make_bid/:id', to: 'books#make_bid', via: :put, as: :make_bid
+
   
   resources	:sessions,	only:	[:new,	:create,	:destroy]
   

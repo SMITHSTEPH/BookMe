@@ -77,6 +77,7 @@ class BooksController < ApplicationController
     params.each do |p|
       puts p.to_s
     end
+  
   end
   
   def mybids #routed here when user hits "mybooks" button and renders mybooks view
@@ -101,7 +102,7 @@ class BooksController < ApplicationController
         else 
           color='normal'
         end
-        @mybids << {:book_title => book.title, :book_author => book.author, :book_isbn => book.isbn, :bid_price => bid.bid, :bid_status => bid.status, :time_left => book.time_left, :image => book.image, :color => color}
+        @mybids << {:book_title => book.title, :book_author => book.author, :book_isbn => book.isbn, :bid_price => bid.bid, :bid_status => bid.status, :time_left => book.time_left, :image => book.image, :color => color, :bid_id => bid.id, :book_id => book.id}
       end
     end
     @booksBought = Book.where(bidder_id:@user.user_id).where(status:"sold")
@@ -271,15 +272,16 @@ class BooksController < ApplicationController
           if @book[:status]=="auction"
             @book.update_attribute(:bid_price, @info[:bid_price])
             @book.update_attribute(:bidder_id, @current_user[:user_id])
-            #get id of this user
+            #get id of this usr
             puts "-------------------BOOKS PARARMS ARE---------------"
             puts @book.id.to_s
             puts @current_user.id
             puts @info[:bid_price]
             #alert potential other user that they may be out of the bid
-            if !Bid.where(:book_id => @book.id, :user_id => @user_id).blank? #if this users bid already exists
-              Bid.find_by_book_id_and_user_id(@book.id, @user.id).update_attribute(:bid, @info[:bid_price]) #just update the bid
-              Bid.find_by_book_id_and_user_id(@book.id, @user.id).update_attribute(:status, "highest bid") #just update the status
+            if Bid.exists?(:book_id => @book.id, :user_id => @current_user.id) #if this users bid already exist
+            puts "INNNN IIFFF"
+              Bid.find_by_book_id_and_user_id(@book.id, @current_user.id).update_attribute(:bid, @info[:bid_price]) #just update the bid
+              Bid.find_by_book_id_and_user_id(@book.id, @current_user.id).update_attribute(:status, "highest bid") #just update the status
             else
               if (!Bid.where(:book_id => @book.id, :status=>"highest bid").blank?)
                 @bid = Bid.find_by_book_id_and_status(@book.id,"highest bid")
@@ -289,6 +291,7 @@ class BooksController < ApplicationController
                 @bid.update_attribute(:notification, true) #give them a notification
                 @bid.update_attribute(:status, "out of bid") #change the status of their bid
               end
+              puts "in else!!!!"
               Bid.create({:book_id => @book.id, :user_id => @current_user.id, :bid =>  @info[:bid_price], :notification => false}) #adding bid to the bid database
             end
             puts "testing bids!!\n\n"

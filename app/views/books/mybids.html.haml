@@ -29,7 +29,8 @@
                 %br
                 %b Time left:
                 =book[:time_left]
-
+            %td=button_to 'Edit', book_path(book[:book_id]), :method => :get, class: 'btn btn-info'
+            %td=button_to 'Remove Bid', bid_path(book[:bid_id]), :method => :delete, :confirm => 'Are you sure?', class: 'btn btn-danger'
 %h1 #{@current_user.first_name}'s Purchases
 
 %table#booksBought
