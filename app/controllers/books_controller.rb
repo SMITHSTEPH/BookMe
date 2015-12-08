@@ -63,7 +63,7 @@ class BooksController < ApplicationController
     when 'author'
       ordering,@author_header = {:author => :asc}, 'hilite'
     end
-    @books = Book.search(params[:search]).order(sort_column + ' ' + sort_direction)
+    @books = Book.search(params[:search]).order(sort_column + ' ' + sort_direction)-Book.where(status:"sold")
     session[:session_token]= @current_user.user_id
   end
 
