@@ -8,29 +8,30 @@ class BooksController < ApplicationController
   def update_time(id)
     @book = Book.find(id) # look up book by unique ID
     if @book.status == "sold"
-      @book.update_attribute(:time_left, "sale ended")
+      @book.update_attribute(:time_left, "auction ended")
     else
-    time_diff = @book.auction_time-Time.now.in_time_zone("Central Time (US & Canada)")
-    days = ((time_diff/60/60/24).to_i).to_s
-    hours = ((time_diff/60/60%24).to_i).to_s
-    mins = ((time_diff/60%60).to_i).to_s
-    if(time_diff<0)
-      days="0"
-      hours="0"
-      mins="0"
-      if @book[:bidder_id] == nil
-        @book.update_attribute(:status, "sale")
+      time_diff = @book.auction_time-Time.now.in_time_zone("Central Time (US & Canada)")
+      days = ((time_diff/60/60/24).to_i).to_s
+      hours = ((time_diff/60/60%24).to_i).to_s
+      mins = ((time_diff/60%60).to_i).to_s
+      if(time_diff<0)
+        days="0"
+        hours="0"
+        mins="0"
+        if @book[:bidder_id] == nil
+          @book.update_attribute(:status, "sale")
+        else
+          @book.update_attribute(:status, "sold")
+          bidder = User.find_by_user_id(@book.bidder_id)
+          seller = User.find(@book.user_id)
+          bidder.update_attribute(:books_bought, (bidder.books_bought)+1)
+          seller.update_attribute(:books_sold, (seller.books_sold)+1)
+        end
+        @book.update_attribute(:time_left, "auction ended")
       else
-        @book.update_attribute(:status, "sold")
-        bidder = User.find_by_user_id(@book.bidder_id)
-        seller = User.find(@book.user_id)
-        bidder.update_attribute(:books_bought, (bidder.books_bought)+1)
-        seller.update_attribute(:books_sold, (seller.books_sold)+1)
+        @book.update_attribute(:status, "auction")
+        @book.update_attribute(:time_left, days + " days " + hours + " hrs " + mins + " mins")
       end
-    else
-      @book.update_attribute(:status, "auction")
-    end
-    @book.update_attribute(:time_left, days + " days " + hours + " hrs " + mins + " mins")
     end
   end  
 
@@ -64,6 +65,9 @@ class BooksController < ApplicationController
       ordering,@author_header = {:author => :asc}, 'hilite'
     end
     @books = Book.search(params[:search]).order(sort_column + ' ' + sort_direction)-Book.where(status:"sold")
+    @books.each do |book|
+      update_time(book.id)
+    end
     session[:session_token]= @current_user.user_id
   end
 
@@ -143,6 +147,7 @@ class BooksController < ApplicationController
         Tag.create!({:book_id => book.id, :tag => value})
         puts "created keyword: " + value
       end
+      update_time(book.id)
       redirect_to mybooks_path
     else
 #      @info[:auction_time]=@info[:auction_time].to_s
@@ -201,6 +206,7 @@ class BooksController < ApplicationController
         Tag.create!({:book_id => @book.id, :tag => value}) #adding in the new keywords
       end
       flash[:notice] = "#{@book.title} was successfully updated."
+      update_time(@book.id)
       redirect_to book_path(@book)
     else 
       messages = testbook.errors.full_messages
