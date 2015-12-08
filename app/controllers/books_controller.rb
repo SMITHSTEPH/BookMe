@@ -10,7 +10,7 @@ class BooksController < ApplicationController
     if @book.status == "sold"
       @book.update_attribute(:time_left, "auction ended")
     else
-      time_diff = @book.auction_time-Time.now.in_time_zone("Central Time (US & Canada)")
+      time_diff = (@book.auction_time).to_i - Time.now.in_time_zone("Central Time (US & Canada)").to_i
       days = ((time_diff/60/60/24).to_i).to_s
       hours = ((time_diff/60/60%24).to_i).to_s
       mins = ((time_diff/60%60).to_i).to_s
