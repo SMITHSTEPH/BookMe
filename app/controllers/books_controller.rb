@@ -280,8 +280,14 @@ class BooksController < ApplicationController
             #alert potential other user that they may be out of the bid
             if Bid.exists?(:book_id => @book.id, :user_id => @current_user.id) #if this users bid already exist
             puts "INNNN IIFFF"
-              Bid.find_by_book_id_and_user_id(@book.id, @current_user.id).update_attribute(:bid, @info[:bid_price]) #just update the bid
-              Bid.find_by_book_id_and_user_id(@book.id, @current_user.id).update_attribute(:status, "highest bid") #just update the status
+              @bid = Bid.find_by_book_id_and_status(@book.id,"highest bid")
+              @bid.update_attribute(:notification, true) #give them a notification
+              @bid.update_attribute(:status, "out of bid") #change the status of their bid
+              @mybid=Bid.find_by_book_id_and_user_id(@book.id, @current_user.id)
+              @mybid.update_attribute(:bid, @info[:bid_price]) #just update the bid
+              @mybid.update_attribute(:status, "highest bid") #just update the status
+              @mybid.update_attribute(:notification, false) #just update the status
+              
             else
               if (!Bid.where(:book_id => @book.id, :status=>"highest bid").blank?)
                 @bid = Bid.find_by_book_id_and_status(@book.id,"highest bid")

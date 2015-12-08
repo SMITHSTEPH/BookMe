@@ -1,17 +1,26 @@
 class BidsController < ApplicationController
     
-    def edit
-        redirect_to :back
-    end
+  
     
     def destroy
-=begin
-        @ = Book.find(params[:id])
-        Tag.delete_all book_id: @book.id
-        @book.destroy
-        flash[:notice] = "'#{@book.title}' deleted."
-        redirect_to mybooks_path
-=end
+
+        @bid = Bid.find(params[:id])
+        book_id = @bid.book_id
+        puts "BOOOOOOOKKKKK IIDDDDDD ISSS ------------------------"
+        puts @bid.book_id
+        @bid.destroy
+        @book=Book.find(book_id)
+        
+        if(Bid.exists?(:book_id => book_id))
+            Bid.order("bid asc").to_sql
+            new_highest=Bid.find_by_book_id(book_id)
+            new_highest.update_attribute(:status, "highest bid")
+            new_highest.update_attribute(:notification, true)
+        else
+            @book.update_attribute(:bid_price, @book.auction_start_price) #if no one else has placed a bid
+        end
+        
+        flash[:notice] = "'#{@book.title}' removed from bid"
         redirect_to :back
     end
 end
