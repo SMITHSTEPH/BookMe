@@ -47,6 +47,7 @@ class Book < ActiveRecord::Base
     end 
     @book
   end
+  
   def self.update_time(id)
     @book = Book.find(id) # look up book by unique ID
     if @book.status == "sold"
