@@ -7,6 +7,7 @@ class Book < ActiveRecord::Base
                    format: {with: VALID_ISBN_REGEX}
   validates :title, presence:true
   validates :author, presence:true
+  validates :price, presence:true
   
   VALID_PRICE_REGEX = /\A[0-9]*(\.[0-9][0-9])?\z/
   validates :price, format: {with: VALID_PRICE_REGEX}

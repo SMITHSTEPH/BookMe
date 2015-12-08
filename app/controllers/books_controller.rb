@@ -120,11 +120,11 @@ class BooksController < ApplicationController
     end
 
     @info[:isbn]=@info[:isbn].gsub(/[-' ']/,'')
-    if @info[:price]==""
-      @info[:price]="0.00"
-    end
+#    if @info[:price]==""
+#      @info[:price]="0.00"
+#    end
     if @info[:auction_start_price]==""
-      @info[:auction_start_price]="0.00"
+      @info[:auction_start_price]=@info[:price]
     end
     @info[:bid_price]=@info[:auction_start_price]
     @info[:status]= "auction"
