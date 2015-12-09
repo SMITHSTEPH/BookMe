@@ -65,12 +65,21 @@ class Book < ActiveRecord::Base
           @book.update_attribute(:status, "sale")
         else
           @book.update_attribute(:status, "sold")
+          if(Bid.exists?(:book_id => @book.id))
+            @bid = Bid.where(:book_id => @book.id)
+              @bid.each do |bid|
+              bid.update_attribute(:status, "sold") #change status to sold
+              bid.update_attribute(:notification, true) #give notification to everyone except the person who bought it
+            end
+          end
+        
           bidder = User.find_by_user_id(@book.bidder_id)
           seller = User.find(@book.user_id)
           bidder.update_attribute(:books_bought, (bidder.books_bought)+1)
           seller.update_attribute(:books_sold, (seller.books_sold)+1)
         end
         @book.update_attribute(:time_left, "auction ended")
+        @book.update_attribute(:notification, true)
       else
         @book.update_attribute(:status, "auction")
         @book.update_attribute(:time_left, days + " days " + hours + " hrs " + mins + " mins")
