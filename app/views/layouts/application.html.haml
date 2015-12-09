@@ -56,7 +56,9 @@
                           !
                   // = button_to 'My Bids', mybids_path, :method =>:get, :id => 'mybids', class: 'btn btn-primary'
                 %li
-                  = button_to 'Edit Profile', edit_user_path(@current_user), :method =>:get, class: 'btn btn-primary'
+                  %a{:href=> edit_user_path(@current_user)}
+                    %button.btn.btn-primary{:method =>:get}
+                      Edit Profile
                 %li.divider
               %li
                 %a 
@@ -64,8 +66,10 @@
                     %li
                       %p{class: 'nounderline'}
                         You are logged in as #{@current_user.email} (User name: #{@current_user.user_id})
-                    %li    
-                      = button_to 'Log Out', logout_path, :method => 'delete', class: 'btn btn-danger'
+                    %li
+                      %a{:href=>logout_path}
+                        %button.btn.btn-danger{:method =>'delete'}
+                          Log Out
                   - else
                     %li
                       = button_to 'Sign Up/Login', login_path, :method =>:get, class: 'btn btn-info'

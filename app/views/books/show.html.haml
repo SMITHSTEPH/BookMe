@@ -1,6 +1,4 @@
 -# in app/views/books/show.html.haml
-= button_to 'All Books', books_path, :method =>:get, :id => 'allbooks'
-= button_to 'My Books', mybooks_path, :method =>:get, :id => 'mybooks'
 %h2 #{@book.title}
 
 %ul#details
@@ -27,18 +25,22 @@
 %h3 Description:
 
 %p#description= @book.description
-
-="Price $"+@book.price
-= button_to 'Buy Now', buy_now_path(@book), :method=>:put
+%h5
+  ="Price $"+@book.price
+= button_to 'Buy Now', buy_now_path(@book), :method=>:put, class: 'btn btn-success'
 
 </br>
 
 = form_tag make_bid_path, :method => :put do
-  = "Auction Price $"+@book.bid_price
-  </br>
-  = "Sale ends in: "+@book.time_left 
-  </br>
-  = "$"
-  = text_field :book, 'bid_price', :value=>""
-  = submit_tag 'Bid'
+  %h5
+    = "Auction Price $"+@book.bid_price
+  %h5
+    = "Sale ends in: "+@book.time_left 
+  .form-group
+    .row
+      .col-md-4
+        .input-group
+          %span.input-group-addon $
+          = text_field :book, 'bid_price', :value=>"", class: 'form-control'
+  = submit_tag 'Bid', class: 'btn btn-primary'
 
