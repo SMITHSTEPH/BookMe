@@ -1,4 +1,5 @@
 -#  This file is app/views/books/index.html.haml
+
 %br
 %div
   = button_to 'My Books', mybooks_path, :method =>:get, :id => 'mybooks', class: 'btn btn-primary'
@@ -8,11 +9,8 @@
 = button_to 'My Bids', mybids_path, :method =>:get, :id => 'mybids', class: 'btn btn-primary'
 = button_to 'Edit Profile', edit_user_path(@current_user), :method =>:get, class: 'btn btn-primary'
 
-%h1 All Books
 
-= form_tag books_path, :method => 'get', class: 'form-inline' do 
-  = text_field_tag :search, params[:search], class: 'form-control', :id => 'search_term', placeholder: 'Search Terms'
-  = submit_tag "Search", class: 'btn btn-default', :id => 'search_submit'
+%h1 All Books
 
 %table#books{:class => "sortBooks"}
   %thead

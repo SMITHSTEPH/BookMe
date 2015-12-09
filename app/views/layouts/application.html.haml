@@ -7,7 +7,7 @@
     = csrf_meta_tags
 
   
-  %nav.navbar.navbar-default{:role => "navigation"}
+  %nav.navbar.navbar-default.navbar-inverse{:role => "navigation"}
     .container-fluid
       .navbar-header
         %button.navbar-toggle{"data-target" => "#bs-example-navbar-collapse-1", "data-toggle" => "collapse", :type => "button"}
@@ -15,42 +15,43 @@
           %span.icon-bar
           %span.icon-bar
           %span.icon-bar
-        %a.navbar-brand{:href => root_path} BookMe
-        %ul.nav.navbar-nav
+        %a.navbar-brand{:href => root_path, class: 'nounderline'} BookMe
+      .collapse.navbar-collapse
+        - if @current_user
+          %form.navbar-form.navbar-left{:role => "search"}
+            .form-group
+              = form_tag books_path, :method => 'get', class: 'form-inline' do 
+                = text_field_tag :search, params[:search], class: 'form-control', :id => 'search_term', placeholder: 'Search Terms'
+                = submit_tag "Search", class: 'btn btn-default', :id => 'search_submit'
         %ul.nav.navbar-nav.navbar-right
           %li.dropdown
-            %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-              Dropdown
+          %li.dropdown
+            %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#", class: 'nounderline'}
+              Options
               %span.caret
             %ul.dropdown-menu{:role => "menu"}
-              %li
-                %a{:href => "#"} "Test 1"
-              %li
-                %a{:href => "#"} "Test 2"
-              %li.divider
+              - if @current_user
+                %li
+                  = button_to 'All Books', books_path, :method =>:get, :id => 'allbooks', class: 'btn btn-info'
+                %li
+                  = button_to 'My Books', mybooks_path, :method =>:get, :id => 'mybooks', class: 'btn btn-primary'
+                %li.divider
               %li
                 %a 
-                  - if flash[:notice]
-                    #notice.flash_message= flash[:notice]
-                  - elsif flash[:warning]
-                    #warning.message= flash[:warning]
                   - if @current_user
-                    %p You are logged in as #{@current_user.email} (User name: #{@current_user.user_id})
-                    = link_to 'Log Out', logout_path, :method => 'delete', class: 'btn btn-danger'
+                    %li
+                      %p{class: 'nounderline'}
+                        You are logged in as #{@current_user.email} (User name: #{@current_user.user_id})
+                    %li    
+                      = button_to 'Log Out', logout_path, :method => 'delete', class: 'btn btn-danger'
                   - else
-                    = link_to 'Sign Up/Login', login_path, :method =>:get, class: 'btn btn-info'
-    // %h1.title
-    //   = link_to "BookMe", root_path, class: 'nounderline'
-    
+                    %li
+                      = button_to 'Sign Up/Login', login_path, :method =>:get, class: 'btn btn-info'
+
   %body
     #main
       - if flash[:notice]
         #notice.flash_message= flash[:notice]
       - elsif flash[:warning]
         #warning.message= flash[:warning]
-      - if @current_user
-        %p You are logged in as #{@current_user.email} (User name: #{@current_user.user_id})
-        = button_to 'Log Out', logout_path, :method => 'delete', class: 'btn btn-danger'
-      - else
-        = button_to 'Sign Up/Login', login_path, :method =>:get, class: 'btn btn-info'
       = yield
