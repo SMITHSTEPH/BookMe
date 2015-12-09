@@ -78,8 +78,10 @@ class Book < ActiveRecord::Base
           bidder.update_attribute(:books_bought, (bidder.books_bought)+1)
           seller.update_attribute(:books_sold, (seller.books_sold)+1)
         end
-        @book.update_attribute(:time_left, "auction ended")
-        @book.update_attribute(:notification, true)
+        if @book.time_left != "auction ended"
+          @book.update_attribute(:time_left, "auction ended")
+          @book.update_attribute(:notification, true)
+        end
       else
         @book.update_attribute(:status, "auction")
         @book.update_attribute(:time_left, days + " days " + hours + " hrs " + mins + " mins")
