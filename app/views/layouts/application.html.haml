@@ -29,12 +29,24 @@
             %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#", class: 'nounderline'}
               Options
               %span.caret
+              %span.badge 
+                7
             %ul.dropdown-menu{:role => "menu"}
               - if @current_user
                 %li
-                  = button_to 'All Books', books_path, :method =>:get, :id => 'allbooks', class: 'btn btn-info'
+                  %a{:href=> books_path}
+                    %button.btn.btn-info{:method =>:get, :id => 'allbooks'}
+                      All Books
+                      %span.badge 
+                        7
+                  // = button_to 'All Books', books_path, :method =>:get, :id => 'allbooks', class: 'btn btn-info'
                 %li
-                  = button_to 'My Books', mybooks_path, :method =>:get, :id => 'mybooks', class: 'btn btn-primary'
+                  %span
+                    = button_to 'My Books', mybooks_path, :method =>:get, :id => 'mybooks', class: 'btn btn-primary inline'
+                %li
+                  = button_to 'My Bids', mybids_path, :method =>:get, :id => 'mybids', class: 'btn btn-primary'
+                %li
+                  = button_to 'Edit Profile', edit_user_path(@current_user), :method =>:get, class: 'btn btn-primary'
                 %li.divider
               %li
                 %a 
