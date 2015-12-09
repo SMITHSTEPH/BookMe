@@ -247,9 +247,8 @@ class BooksController < ApplicationController
     else
       @book.update_attribute(:bidder_id, @current_user[:user_id])
       @book.update_attribute(:status, "sold")
-      
-      
-      #UPDATE BID HERE
+      @book.update_attribute(:notification, true)
+  
       if(Bid.exists?(:book_id => @book.id))
         @bid = Bid.where(:book_id => @book.id)
         @bid.each do |bid|
@@ -283,6 +282,7 @@ class BooksController < ApplicationController
           if @book[:status]=="auction"
             @book.update_attribute(:bid_price, @info[:bid_price])
             @book.update_attribute(:bidder_id, @current_user[:user_id])
+            @book.update_attribute(:notification, true)
             #get id of this usr
             puts "-------------------BOOKS PARARMS ARE---------------"
             puts @book.id.to_s
