@@ -247,6 +247,7 @@ class BooksController < ApplicationController
       redirect_to book_path
     else
       @book.update_attribute(:bidder_id, @current_user[:user_id])
+      @book.update_attribute(:bid_price, @book.price)
       @book.update_attribute(:status, "sold")
       @book.update_attribute(:notification, true)
       
