@@ -72,6 +72,7 @@ class BooksController < ApplicationController
 
 
   def mybooks #routed here when user hits "mybooks" button and renders mybooks view
+    
     @user = User.find(@current_user.id.to_s)
     @books = @user.books.search(params[:search])-Book.where(status:"sold")
     @books_sold = @user.books.search(params[:search]).where(status:"sold")
@@ -248,7 +249,7 @@ class BooksController < ApplicationController
       @book.update_attribute(:bidder_id, @current_user[:user_id])
       @book.update_attribute(:status, "sold")
       @book.update_attribute(:notification, true)
-  
+      
       if(Bid.exists?(:book_id => @book.id))
         @bid = Bid.where(:book_id => @book.id)
         @bid.each do |bid|
@@ -257,6 +258,7 @@ class BooksController < ApplicationController
             bid.update_attribute(:notification, true) #give notification to everyone except the person who bought it
           end
         end
+        #Bid.create({:user_id => @current_user.id, })
       end
       
       bidder = User.find_by_user_id(@book.bidder_id)

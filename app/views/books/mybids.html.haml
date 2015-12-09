@@ -21,7 +21,9 @@
                 ='$'+book[:bid_price]
                 %br
                 %b Bid Status:
-                =book[:bid_status]
+                -if book[:color] == 'red'
+                    notify
+                =book[:bid_status] 
                 %br
                 %b Time left:
                 =book[:time_left]
@@ -46,4 +48,10 @@
                 %br
                 %b Price paid:
                 ='$'+book.bid_price
+                %br
+                %b Seller email:
+                =User.find(book.user_id).email
+            %td=button_to 'Remove Bid', book_path(book.id), :method => :delete, :confirm => 'Are you sure?', class: 'btn btn-danger'
+   
+
         
