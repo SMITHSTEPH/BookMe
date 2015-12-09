@@ -84,8 +84,10 @@
             - if(key != "0")
               =text_field :book, 'keyword[key]', :value => value, :class => 'keywords form-control'
               </br>
+  =button_tag "add keywords", :id=>'add_keywords', class: 'btn btn-default', :onclick => 'click_handler(); return false;'
   = submit_tag 'Save Changes', :id=>'add_book', class: 'btn btn-primary'
-=button_tag "add keywords", :id=>'add_keywords', class: 'btn btn-default', :onclick => 'click_handler()'
+
+
 
 
 %hr

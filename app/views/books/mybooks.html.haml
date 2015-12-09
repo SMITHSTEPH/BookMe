@@ -25,12 +25,16 @@
                 %b Price:
                 ='$'+book.price
                 %br
-                %b Auction Price:
                 -if book.notification == true && book.time_left != "auction ended"
-                    notified
-                    -book.update_attribute(:notification, false)
-                = '$' + book.bid_price
-                %br
+                    .notify
+                        %b Auction Price:
+                        = '$' + book.bid_price
+                        -book.update_attribute(:notification, false)
+                -else
+                    %div
+                        %b Auction Price:
+                        = '$' + book.bid_price
+                
                 %b Sale ends in:
                 -if book.notification == true && book.time_left == "auction ended"
                     notified
@@ -59,11 +63,14 @@
                 %b Price paid:
                 ='$'+book.bid_price     
                 %br
-                %b Buyer email:
                 -if book.notification
-                    =User.find_by_user_id(book.bidder_id).email
-                    notified
-                    -book.update_attribute(:notification, false)
+                    .notify
+                        %b Buyer email:
+                        =User.find_by_user_id(book.bidder_id).email
+                        -book.update_attribute(:notification, false)
                 -else
-                    =User.find_by_user_id(book.bidder_id).email
+                    %div
+                        %b Buyer email:
+                        =User.find_by_user_id(book.bidder_id).email
+                %td=button_to 'Delete', book_path(book), :method => :delete, :confirm => 'Are you sure?', class: 'btn btn-danger'
                 
