@@ -20,11 +20,14 @@
                 %b Bid Price:
                 ='$'+book[:bid_price]
                 %br
-                %b Bid Status:
                 -if book[:color] == 'red'
-                    notify
-                =book[:bid_status] 
-                %br
+                    .notify
+                        %b Bid Status:
+                        =book[:bid_status] 
+                -else
+                    %div
+                        %b Bid Status:
+                        =book[:bid_status]
                 %b Time left:
                 =book[:time_left]
             %td=button_to 'Edit', book_path(book[:book_id]), :method => :get, class: 'btn btn-info'
