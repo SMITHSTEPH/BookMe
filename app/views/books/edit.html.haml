@@ -76,20 +76,25 @@
       .col-md-4
         = label :book, :image, 'Image'
         = text_field :book, :image, :value=>@book[:image], class: 'form-control' 
-  
-  .component#keyword_div_0
-    .form-group
-      .row
-        .col-md-4
-          = label :book, :keyword, 'Keywords:'
-          -if @keywords.empty?
+  -if @keywords.empty?
+    .component#keyword_div_0
+      .form-group
+        .row
+          .col-md-4
+            = label :book, :keyword, 'Keywords:'
             = text_field :book, 'keyword[0]', :value => @keywords[0], :class => 'keywords  form-control'
-          -else
-            - @keywords.each_with_index do |keyword, index|
-              <br/>
-              -i=index
-              =text_field :book, 'keyword['+i.to_s+']', :value => @keywords[index].tag, :class => 'keywords form-control'
-    -i=i+1 
+  -else
+    - @keywords.each_with_index do |keyword, index|
+      .component{:id=>"keyword_div_#{index.to_s}"}
+        .form-group
+          .row
+            .col-md-4
+            -if index==0
+              = label :book, :keyword, 'Keywords:'
+            -i=index
+            =text_field :book, 'keyword['+i.to_s+']', :value => @keywords[index].tag, :class => 'keywords form-control'
+            -i=i+1 
+  =button_tag "add keywords", :id=>'add_keywords', :onclick => 'click_handler(); return false;', class: 'btn btn-default'
   = submit_tag 'Update Book Info', :id=>'add_book', class: 'btn btn-primary'
-=button_tag "add keywords", :id=>'add_keywords', :onclick => 'click_handler()', class: 'btn btn-default'
+
 
