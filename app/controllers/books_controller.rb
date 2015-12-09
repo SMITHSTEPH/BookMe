@@ -249,7 +249,7 @@ class BooksController < ApplicationController
       @book.update_attribute(:bidder_id, @current_user[:user_id])
       @book.update_attribute(:status, "sold")
       @book.update_attribute(:notification, true)
-  
+      
       if(Bid.exists?(:book_id => @book.id))
         @bid = Bid.where(:book_id => @book.id)
         @bid.each do |bid|
@@ -258,6 +258,7 @@ class BooksController < ApplicationController
             bid.update_attribute(:notification, true) #give notification to everyone except the person who bought it
           end
         end
+        #Bid.create({:user_id => @current_user.id, })
       end
       
       bidder = User.find_by_user_id(@book.bidder_id)
