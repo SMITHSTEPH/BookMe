@@ -51,4 +51,10 @@
                 ='$'+book.bid_price     
                 %br
                 %b Buyer email:
-                =User.find_by_user_id(book.bidder_id).email
+                -if book.notification
+                    =User.find_by_user_id(book.bidder_id).email
+                    notified
+                    -book.update_attribute(:notification, false)
+                -else
+                    =User.find_by_user_id(book.bidder_id).email
+                
