@@ -22,8 +22,13 @@ books = [{:title => 'Algorithm Design', :author => 'Kleinberg Tardos', :isbn => 
 
 ]
 
-user1 = User.find_by_user_id("ssmith")
+user1 = User.find_by_user_id("segerard")
+user2 = User.find_by_user_id("ssmith")
+user3 = User.find_by_user_id("bdunham")
+user4 = User.find_by_user_id("rpuliadi")
 
-books.each do |book|
-  user1.books.create!(book)
-end
+user1.books.create!(books[0])
+user2.books.create!(books[1])
+user3.books.create!(books[2])
+user4.books.create!(books[3])
+
