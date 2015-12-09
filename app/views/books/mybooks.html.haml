@@ -35,11 +35,16 @@
                         %b Auction Price:
                         = '$' + book.bid_price
                 
-                %b Sale ends in:
+                
                 -if book.notification == true && book.time_left == "auction ended"
-                    notified
-                    -book.update_attribute(:notification, false)
-                = book.time_left
+                    .notify
+                        %b Sale ends in:
+                        -book.update_attribute(:notification, false)
+                        = book.time_left
+                -else
+                    %div
+                        %b Sale ends in:
+                        = book.time_left
             %td=button_to 'Edit', edit_book_path(book), :method => :get, class: 'btn btn-info'
             %td=button_to 'Delete', book_path(book), :method => :delete, :confirm => 'Are you sure?', class: 'btn btn-danger'
 
