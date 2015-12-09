@@ -3,9 +3,6 @@
 %h1 #{@current_user.first_name}'s Books
 = button_to 'Add Book', new_book_path, :method =>:get, :id => 'addbook', class: 'btn btn-success'
 
-= form_tag mybooks_path, :method => 'get', class: 'form-inline' do 
-    = text_field_tag :search, params[:search], class: 'form-control', :id => 'search_term', placeholder: 'Search Terms'
-    = submit_tag "Search", class: 'btn btn-default', :id => 'search_submit'
 
 %table#books
     %tbody
@@ -26,10 +23,35 @@
                 =book.quality
                 %br
                 %b Price:
-                =book.price
+                ='$'+book.price
                 %br
                 %b Auction Price:
-                ='$'+ book.auction_start_price
+                ='$'+ book.bid_price
+                %br
+                %b Sale ends in:
+                = book.time_left
             %td=button_to 'Edit', edit_book_path(book), :method => :get, class: 'btn btn-info'
             %td=button_to 'Delete', book_path(book), :method => :delete, :confirm => 'Are you sure?', class: 'btn btn-danger'
-        
+
+%h1 #{@current_user.first_name}'s Sold Books	
+
+%table#booksBought
+    %tbody
+    - @books_sold.each do |book|
+        %tr
+            %td=image_tag asset_path(book.image), :size => '150x200'
+            %td{:rowspan => 1}
+                %b Title:
+                =book.title
+                %br
+                %b Author:
+                =book.author
+                %br
+                %b ISBN:
+                =book.isbn
+                %br
+                %b Price paid:
+                ='$'+book.bid_price     
+                %br
+                %b Buyer email:
+                =User.find_by_user_id(book.bidder_id).email

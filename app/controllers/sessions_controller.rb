@@ -7,6 +7,7 @@ class SessionsController < ApplicationController
   end
 
   def create
+    puts "Not suppposed"
     user = User.find_by_email(params[:session][:email])
     if user && user.authenticate(params[:session][:password])
       #sign in and redirect to show page
@@ -20,6 +21,7 @@ class SessionsController < ApplicationController
 
   def destroy
     cookies.delete(:session_token) 
+    puts "Looooooooged Out"
     @current_user=nil
     flash[:notice]= 'You have logged out'
     redirect_to login_path

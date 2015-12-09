@@ -7,10 +7,10 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 
-books = [{:title => 'Algorithm Design', :author => 'Kleinberg Tardos', :isbn => '9788131703106', :quality => 'great', :price => '50.00', :image => 'nobook.gif', :auction_start_price=>''},
-          {:title => 'Medical Imaging', :author => 'Sonka Fitzpatrick', :isbn => '0819436224', :quality => 'fair', :price => '60.00', :image => 'nobook.gif', :auction_start_price=>''},
-          {:title => 'Image Processing, Analysis, and Machine Vision', :author => 'Sonka Hlavac Boyle', :isbn => '0534953930', :quality => 'great', :price => '55.00', :image => 'nobook.gif', :auction_start_price=>''},
-          {:title => 'A Guide to Latex', :author => 'Kopka Daly', :isbn => '0201568896', :quality => 'great', :price => '40.00',:image => 'nobook.gif', :auction_start_price=>''},
+books = [{:title => 'Algorithm Design', :author => 'Kleinberg Tardos', :isbn => '9788131703106', :quality => 'great', :price => '50.00', :image => 'nobook.gif', :bid_price=>'3.00',:auction_start_price=>'3.00', :auction_time=> DateTime.strptime("01/01/2016 8:00", "%m/%d/%Y %H:%M")},
+          {:title => 'Medical Imaging', :author => 'Sonka Fitzpatrick', :isbn => '0819436224', :quality => 'fair', :price => '60.00', :image => 'nobook.gif', :bid_price=>'1.00',:auction_start_price=>'1.00', :auction_time=> DateTime.strptime("01/01/2016 8:00", "%m/%d/%Y %H:%M")},
+          {:title => 'Image Processing, Analysis, and Machine Vision', :author => 'Sonka Hlavac Boyle', :isbn => '0534953930', :quality => 'great', :price => '55.00', :image => 'nobook.gif', :bid_price=>'4.00', :auction_time=> DateTime.strptime("01/01/2016 8:00", "%m/%d/%Y %H:%M") },
+          {:title => 'A Guide to Latex', :author => 'Kopka Daly', :isbn => '0201568896', :quality => 'great', :price => '40.00',:image => 'nobook.gif', :bid_price=>'2.00', :auction_start_price=>'2.00', :auction_time=> DateTime.strptime("01/01/2016 8:00", "%m/%d/%Y %H:%M")},
 
 ]
 

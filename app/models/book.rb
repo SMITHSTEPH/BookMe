@@ -47,6 +47,44 @@ class Book < ActiveRecord::Base
     end 
     @book
   end
-
+  
+  def self.update_time(id)
+    @book = Book.find(id) # look up book by unique ID
+    if @book.status == "sold"
+      @book.update_attribute(:time_left, "auction ended")
+    else
+      time_diff = (@book.auction_time).to_i - Time.now.in_time_zone("Central Time (US & Canada)").to_i
+      days = ((time_diff/60/60/24).to_i).to_s
+      hours = ((time_diff/60/60%24).to_i).to_s
+      mins = ((time_diff/60%60).to_i).to_s
+      if(time_diff<0)
+        days="0"
+        hours="0"
+        mins="0"
+        if @book[:bidder_id] == nil
+          @book.update_attribute(:status, "sale")
+        else
+          @book.update_attribute(:status, "sold")
+          if(Bid.exists?(:book_id => @book.id))
+            @bid = Bid.where(:book_id => @book.id)
+              @bid.each do |bid|
+              bid.update_attribute(:status, "sold") #change status to sold
+              bid.update_attribute(:notification, true) #give notification to everyone except the person who bought it
+            end
+          end
+        
+          bidder = User.find_by_user_id(@book.bidder_id)
+          seller = User.find(@book.user_id)
+          bidder.update_attribute(:books_bought, (bidder.books_bought)+1)
+          seller.update_attribute(:books_sold, (seller.books_sold)+1)
+        end
+        @book.update_attribute(:time_left, "auction ended")
+        @book.update_attribute(:notification, true)
+      else
+        @book.update_attribute(:status, "auction")
+        @book.update_attribute(:time_left, days + " days " + hours + " hrs " + mins + " mins")
+      end
+    end
+  end  
 
 end
