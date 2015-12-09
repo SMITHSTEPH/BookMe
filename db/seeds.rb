@@ -19,7 +19,7 @@ books = [{:title => 'Algorithm Design', :author => 'Kleinberg Tardos', :isbn => 
           {:title => 'Medical Imaging', :author => 'Sonka Fitzpatrick', :isbn => '0819436224', :quality => 'fair', :price => '60.00', :image => 'medicalimaging.jpg', :bid_price=>'25.00',:auction_start_price=>'25.00', :auction_time=> DateTime.strptime("01/01/2016 8:00", "%m/%d/%Y %H:%M")},
           {:title => 'Image Processing, Analysis, and Machine Vision', :author => 'Sonka Hlavac Boyle', :isbn => '0534953930', :quality => 'great', :price => '55.00', :image => 'imageprocessing.jpg', :bid_price=>'15.00', :auction_start_price =>'15.00', :auction_time=> DateTime.strptime("01/01/2016 8:00", "%m/%d/%Y %H:%M")},
           {:title => 'A Guide to Latex', :author => 'Kopka Daly', :isbn => '0201568896', :quality => 'great', :price => '40.00',:image => 'latex.jpg', :bid_price=>'10.00', :auction_start_price=>'10.00', :auction_time=> DateTime.strptime("01/01/2016 8:00", "%m/%d/%Y %H:%M")},
-
+          {:title => 'Engineering Software as a Service: An Agile Approach Using Cloud Computing', :author => 'Fox Patterson', :isbn => '0984881247', :quality => 'great', :price => '35.00', :image => 'selt.jpg', :bid_price=>'15.00',:auction_start_price=>'15.00', :auction_time=> DateTime.strptime("01/01/2016 8:00", "%m/%d/%Y %H:%M"), :department => "ECE", :course => "5820"},
 ]
 
 user1 = User.find_by_user_id("segerard")
@@ -31,4 +31,5 @@ user1.books.create!(books[0])
 user2.books.create!(books[1])
 user3.books.create!(books[2])
 user4.books.create!(books[3])
+user2.books.create!(books[4])
 
