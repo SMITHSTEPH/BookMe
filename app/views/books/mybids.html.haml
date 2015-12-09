@@ -50,8 +50,10 @@
                 ='$'+book.bid_price
                 %br
                 %b Seller email:
-                =User.find(book.user_id).email
-            %td=button_to 'Remove Bid', book_path(book.id), :method => :delete, :confirm => 'Are you sure?', class: 'btn btn-danger'
+                = User.find(book.user_id).email
+                
+                %td=button_to 'Remove Bid', book_path(book.id), :method => :delete, :confirm => 'Are you sure?', class: 'btn btn-danger'
+            
    
 
         

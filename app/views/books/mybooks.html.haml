@@ -66,4 +66,5 @@
                     -book.update_attribute(:notification, false)
                 -else
                     =User.find_by_user_id(book.bidder_id).email
+                %td=button_to 'Delete', book_path(book), :method => :delete, :confirm => 'Are you sure?', class: 'btn btn-danger'
                 
