@@ -21,7 +21,8 @@
                 ='$'+book[:bid_price]
                 %br
                 %b Bid Status:
-                
+                -if book[:color] == 'red'
+                    notify
                 =book[:bid_status] 
                 %br
                 %b Time left:
