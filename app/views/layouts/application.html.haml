@@ -34,7 +34,6 @@
                     !
             %ul.dropdown-menu{:role => "menu"}
               - if @current_user != nil
-<<<<<<< HEAD
                 .menu_elements
                   %li
                     %a{:href=> books_path}
@@ -72,7 +71,7 @@
                         You are logged in as #{@current_user.email} (User name: #{@current_user.user_id})
                     %li
                       %a{:href=>logout_path}
-                        %button.btn.btn-danger{:method =>'delete'}
+                        %button.btn.btn-danger{:method =>:get}
                           Log Out
                   - else
                     %li
