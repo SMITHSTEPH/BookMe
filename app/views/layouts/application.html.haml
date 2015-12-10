@@ -67,15 +67,18 @@
                 %a 
                   - if @current_user != nil
                     %li
-                      %p{class: 'nounderline'}
-                        You are logged in as #{@current_user.email} (User name: #{@current_user.user_id})
+                      .menu_elements
+                        %p{class: 'nounderline'}
+                          You are logged in as #{@current_user.email} (User name: #{@current_user.user_id})
                     %li
-                      %a{:href=>logout_path}
-                        %button.btn.btn-danger{:method =>:get}
-                          Log Out
+                      .menu_elements
+                        %a{:href=>logout_path}
+                          %button.btn.btn-danger#logout{:method =>:get}
+                            Log Out
                   - else
                     %li
-                      = button_to 'Sign Up/Login', login_path, :method =>:get, class: 'btn btn-info'
+                      .menu_elements
+                        = button_to 'Sign Up/Login', login_path, :method =>:get, class: 'btn btn-info'
 
   %body
     #main

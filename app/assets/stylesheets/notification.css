@@ -16,13 +16,12 @@
 	box-shadow:0 0 1px #333;
 }*/
 
-.notify{
-  
-   color:red;
-}
-.mybutton{width:100%;
+.notify{color:red;}
+.mybutton{
+	width:100%;
 	margin-left:5px;
 }
 .menu_elements{display:inline-block}
+#logout{margin-left:5px;}
 
 
