@@ -1,3 +1,95 @@
+Given(/^the following books have been added to BookMe:$/) do |table|
+    table.hashes.each do |book|
+    Book.find_or_create_by(title: book[:title], author: book[:author], price: book[:price], bid_price: book[:bid_price])
+  end
+end
+
+Given(/^I am on the BookMe home page$/) do
+    visit books_path
+end
+
+When(/^I have sorted books by title$/) do
+  if page.has_link?('Book Title') 
+    page.click_link('Book Title')
+  end
+end
+
+Then(/^I should see book title "(.*?)" before "(.*?)"$/) do |arg1, arg2|
+      result = true
+    count = 0
+    all("tr").each do |tr|
+        if tr.has_content?(arg1)
+            count = 1
+            result = true
+        elsif tr.has_content?(arg2) && count == 0
+            result = false
+        end
+    end
+    expect(result).to be_truthy
+end
+
+When(/^I have sorted books by author$/) do
+  if page.has_link?('Author') 
+    page.click_link('Author')
+  end
+end
+
+Then(/^I should see author "(.*?)" before "(.*?)"$/) do |arg1, arg2|
+      result = true
+    count = 0
+    all("tr").each do |tr|
+        if tr.has_content?(arg1)
+            count = 1
+            result = true
+        elsif tr.has_content?(arg2) && count == 0
+            result = false
+        end
+    end
+    expect(result).to be_truthy
+end
+
+When(/^I have sorted books by buy now price$/) do
+  if page.has_link?('Buy Now Price') 
+    page.click_link('Buy Now Price')
+  end
+end
+
+Then(/^I should see price "(.*?)" before "(.*?)"$/) do |arg1, arg2|
+      result = true
+    count = 0
+    all("tr").each do |tr|
+        if tr.has_content?(arg1)
+            count = 1
+            result = true
+        elsif tr.has_content?(arg2) && count == 0
+            result = false
+        end
+    end
+    expect(result).to be_truthy
+end
+
+When(/^I have sorted books by auction price$/) do
+  if page.has_link?('Auction Price') 
+    page.click_link('Auction Price')
+  end
+end
+
+Then(/^I should see auction price "(.*?)" before "(.*?)"$/) do |arg1, arg2|
+    result = true
+    count = 0
+    all("tr").each do |tr|
+        if tr.has_content?(arg1)
+            count = 1
+            result = true
+        elsif tr.has_content?(arg2) && count == 0
+            result = false
+        end
+    end
+    expect(result).to be_truthy
+end
+
+
+
 Given /^I am on the BookMe user page$/ do
   visit book_path
  end
