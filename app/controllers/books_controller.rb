@@ -186,9 +186,11 @@ class BooksController < ApplicationController
     if Tag.find_by(book_id: @book.id.to_s) #getting the keywords if there are an
       puts "id is: " +  @book.id.to_s
       Tag.find_each  do |keyword|
-        if keyword.book_id == @book.id
-          puts "in if keyword matches"
-           @keywords << keyword
+        if !keyword.tag.empty?
+          if keyword.book_id == @book.id
+            puts "in if keyword matches"
+             @keywords << keyword
+          end
         end
       end
     end

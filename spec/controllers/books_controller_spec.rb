@@ -4,6 +4,8 @@ describe BooksController do
   before :each do
     @user=User.new({first_name:'Foo', last_name:'Bar',password:'foobar100', password_confirmation:'foobar100', user_id:'foobar', email:'foobar@uiowa.edu'})
     @user.save
+    @info = {"title" => "Book", "author" => "Sarah", "isbn" => "1234567890", "price"=>"100.00", "image" => "nobook.gif", "auction_time(1i)"=>"2015", "auction_time(2i)"=>"12", "auction_time(3i)"=>"12", "auction_time(4i)"=>"12", "auction_time(5i)"=>"30"}
+    @user.books.create!(@info)
     @userbooks=@user.books
     cookies.permanent[:session_token] = User.find_by_email('foobar@uiowa.edu').session_token
   end
@@ -22,8 +24,8 @@ describe BooksController do
   end
   describe "Show and delete book" do
     before :each do
-      @book_model = {"title" => "Book", "author" => "Sarah", "isbn" => "1234567890", "image" => "nobook.gif", "auction_time(1i)"=>"2015", "auction_time(2i)"=>"12", "auction_time(3i)"=>"12", "auction_time(4i)"=>"12", "auction_time(5i)"=>"30"}
-      @book_model_exp = {"title" => "Book", "author" => "Sarah", "isbn" => "1234567890", "image" => "nobook.gif", "auction_time(1i)"=>"2010", "auction_time(2i)"=>"12", "auction_time(3i)"=>"12", "auction_time(4i)"=>"12", "auction_time(5i)"=>"30"}
+      @book_model = {"title" => "Book", "author" => "Sarah", "isbn" => "1234567890", "price"=>"100.00", "image" => "nobook.gif", "auction_time(1i)"=>"2015", "auction_time(2i)"=>"12", "auction_time(3i)"=>"12", "auction_time(4i)"=>"12", "auction_time(5i)"=>"30"}
+      @book_model_exp = {"title" => "Book", "author" => "Sarah", "isbn" => "1234567890", "price"=>"100.00", "image" => "nobook.gif", "auction_time(1i)"=>"2010", "auction_time(2i)"=>"12", "auction_time(3i)"=>"12", "auction_time(4i)"=>"12", "auction_time(5i)"=>"30"}
       @new_book = Book.new(@book_model)
       @new_book.save
       @new_book_exp = Book.new(@book_model_exp)
@@ -63,7 +65,8 @@ describe BooksController do
       expect(assigns(:books)).to eq(@userbooks)
     end
     it 'should assign books to be type association' do
-      expect(assigns(:books)).to be_a(Book::ActiveRecord_AssociationRelation)
+      #expect(assigns(:books)).to be_a(Book::ActiveRecord_AssociationRelation)
+      expect(assigns(:books)).to be_a(Array)
     end
     it 'should render my books template' do
         expect(response).to render_template('mybooks')
@@ -110,8 +113,8 @@ describe BooksController do
   describe 'adding books' do
     context 'Required fields are filled in' do
       before :each do
-        @book_param = {"title" => "Book", "author" => "Sarah", "isbn" => "1234567890", "image" => "nobook.gif", "auction_time"=>{"{}(1i)"=>"2015", "{}(2i)"=>"12", "{}(3i)"=>"12", "{}(4i)"=>"12", "{}(5i)"=>"30"},"keyword"=>{"1"=>"book"}}
-        @book_model = {"title" => "Book", "author" => "Sarah", "isbn" => "1234567890", "image" => "nobook.gif", "auction_time(1i)"=>"2015", "auction_time(2i)"=>"12", "auction_time(3i)"=>"12", "auction_time(4i)"=>"12", "auction_time(5i)"=>"30","bid_price"=>nil, "status"=>"auction",}
+        @book_param = {"title" => "Book", "author" => "Sarah", "isbn" => "1234567890", "price"=>"100.00", "image" => "nobook.gif", "auction_time"=>{"{}(1i)"=>"2015", "{}(2i)"=>"12", "{}(3i)"=>"12", "{}(4i)"=>"12", "{}(5i)"=>"30"},"keyword"=>{"1"=>"book"}}
+        @book_model = {"title" => "Book", "author" => "Sarah", "isbn" => "1234567890", "price"=>"100.00", "image" => "nobook.gif", "auction_time(1i)"=>"2015", "auction_time(2i)"=>"12", "auction_time(3i)"=>"12", "auction_time(4i)"=>"12", "auction_time(5i)"=>"30","bid_price"=>nil, "status"=>"auction",}
         @fake_book_result = double(:book=>{:title => "Book Title"})
         allow(Book).to receive(:create!).with(@book_param).and_return(@fake_book_result)
         allow(@fake_book_result).to receive(:title).and_return('Book')
@@ -132,6 +135,8 @@ describe BooksController do
         post :create, {:book => @book_param}
         expect(flash[:notice]).to eq("Book was successfully added.")
       end
+      it 'should assign auciton start price if it is not set' do
+      end
     end
     context 'Missing fields' do
       before :each do
@@ -146,12 +151,12 @@ describe BooksController do
         expect(response).to render_template('new')
       end
       it 'should show flash indicating empty fields' do
-        expect(flash[:warning]).to eq("Isbn can't be blank<br/>Isbn is invalid<br/>Title can't be blank<br/>Author can't be blank")
+        expect(flash[:warning]).to eq("Isbn can't be blank<br/>Isbn is invalid<br/>Title can't be blank<br/>Author can't be blank<br/>Price can't be blank")
       end
     end
     context 'Missing image' do
       before :each do
-        @book_param = {"title" => "Book", "author" => "Sarah", "isbn" => "1234567890", "image" => "", "auction_time"=>{"{}(1i)"=>"2015", "{}(2i)"=>"12", "{}(3i)"=>"12", "{}(4i)"=>"12", "{}(5i)"=>"30"},"keyword"=>{"1"=>"book"}}
+        @book_param = {"title" => "Book", "author" => "Sarah", "isbn" => "1234567890", "image" => "", "price"=>"100.00", "auction_time"=>{"{}(1i)"=>"2015", "{}(2i)"=>"12", "{}(3i)"=>"12", "{}(4i)"=>"12", "{}(5i)"=>"30"},"keyword"=>{"1"=>"book"}}
         post :create, {:book => @book_param}
       end
       it 'should fill in image' do
@@ -160,7 +165,7 @@ describe BooksController do
     end
     context 'Hyphens or spaces in isbn' do
       it 'should remove all hypens and spaces' do
-        @book_param = {"title" => "Book", "author" => "Sarah", "isbn" => "1234-567 890", "image" => "nobook.gif", "auction_time"=>{"{}(1i)"=>"2015", "{}(2i)"=>"12", "{}(3i)"=>"12", "{}(4i)"=>"12", "{}(5i)"=>"30"},"keyword"=>{"1"=>"book"}}
+        @book_param = {"title" => "Book", "author" => "Sarah", "isbn" => "1234-567 890", "price"=>"100.00", "image" => "nobook.gif", "auction_time"=>{"{}(1i)"=>"2015", "{}(2i)"=>"12", "{}(3i)"=>"12", "{}(4i)"=>"12", "{}(5i)"=>"30"},"keyword"=>{"1"=>"book"}}
         post :create, {:book => @book_param}
         expect(assigns(:info)[:isbn]).to eq('1234567890')
       end
@@ -169,8 +174,8 @@ describe BooksController do
   describe 'updating books' do
     context 'All fields entered' do
       before :each do
-        @book_param = {"title" => "Book", "author" => "Sarah", "isbn" => "1234567890", "image" => "nobook.gif", "auction_time"=>{"{}(1i)"=>"2015", "{}(2i)"=>"12", "{}(3i)"=>"12", "{}(4i)"=>"12", "{}(5i)"=>"30"},"keyword"=>{"1"=>"book"}}
-        @book_model = {"title" => "Book", "author" => "Sarah", "isbn" => "1234567890", "image" => "nobook.gif", "auction_time(1i)"=>"2015", "auction_time(2i)"=>"12", "auction_time(3i)"=>"12", "auction_time(4i)"=>"12", "auction_time(5i)"=>"30"}
+        @book_param = {"title" => "Book", "author" => "Sarah", "isbn" => "1234567890", "price"=>"100.00", "image" => "nobook.gif", "auction_time"=>{"{}(1i)"=>"2015", "{}(2i)"=>"12", "{}(3i)"=>"12", "{}(4i)"=>"12", "{}(5i)"=>"30"},"keyword"=>{"1"=>"book"}}
+        @book_model = {"title" => "Book", "author" => "Sarah", "isbn" => "1234567890", "price"=>"100.00", "image" => "nobook.gif", "auction_time(1i)"=>"2015", "auction_time(2i)"=>"12", "auction_time(3i)"=>"12", "auction_time(4i)"=>"12", "auction_time(5i)"=>"30"}
         @new_book = Book.new(@book_model)
         @new_book.save
         put :update, {:id=>@new_book.id, :book=>@book_param}
@@ -192,7 +197,7 @@ describe BooksController do
         put :update, {:id=>new_book.id, :book=>@book_param}
       end
       it 'should flash warning' do
-        expect(flash[:warning]).to eq("Title can't be blank")
+        expect(flash[:warning]).to eq("Title can't be blank<br/>Price can't be blank")
       end
       it 'should redirect to edit book path' do
         expect(response).to redirect_to(edit_book_path)
