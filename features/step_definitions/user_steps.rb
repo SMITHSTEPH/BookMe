@@ -57,7 +57,7 @@ end
 
 When(/^I have sorted books by title$/) do
   if page.has_link?('Book Title') 
-    page.click_link('Book Title')
+    page.click_on('Book Title')
   end
 end
 
@@ -227,13 +227,10 @@ Then(/^I should see the message "(.*?)"$/) do |message|
   expect(result).to be_truthy
 end
 
-Given(/^frodo is on the all books page$/) do
-  visit login_path
-end
-
-When(/^frodo searches for a book by "(.*?)"$/) do |keyword|
-    fill_in 'search_term', :with => "keyword"
-    click_button 'search_submit'
+When(/^frodo searches for a book by "(.*?)"$/) do |search|
+    page.click_link('Book Title')
+    fill_in "search", :with => search
+    click_button "search_submit"
 end
 
 Then(/^frodo sees a list with book "(.*?)"$/) do |title|
