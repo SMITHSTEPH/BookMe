@@ -1,7 +1,7 @@
 
 var text_template="<div class='component' id='keyword_div_NUM'><div class='form-group'><div class='row'><div class='col-md-4'>"
 +"<input type='text' name='book[keyword[NUM]]' id='book[keyword][NUM]' class='keywords form-control'>"
-+"</div></div></div></div>"+"</br></br>"
++"</div></div></div></div>"
 
 
 function click_handler(){
