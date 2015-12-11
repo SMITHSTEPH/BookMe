@@ -9,12 +9,14 @@ describe BooksController do
     @userbooks=@user.books
     cookies.permanent[:session_token] = User.find_by_email('foobar@uiowa.edu').session_token
   end
+
   describe "Books index" do
     it 'should set session token' do
       get :index    
       expect(session[:session_token]).to eq(@user.user_id)
     end
   end
+
   describe "Books new" do
     it 'should set session token' do
       @book_param={:title => "", :author => "", :isbn => "", :department => "", :course => "", :price => "", :auction_start_price => "", :auction_time => "", :quality => "", :image => "nobook.gif", :description => "", :keyword => {"0"=>""}, :time_left=> ""}
