@@ -71,16 +71,10 @@
                         %p{class: 'nounderline'}
                           You are logged in as #{@current_user.email} (User name: #{@current_user.user_id})
                     %li
-<<<<<<< HEAD
-                      %a{:href=> logout_path}
-                        %button.btn.btn-danger{:method => :delete}
-                          Log Out
-=======
                       .menu_elements
                         %a{:href=>logout_path}
                           %button.btn.btn-danger#logout{:method =>:get}
                             Log Out
->>>>>>> 86d7cff9ac1051b4109692de5d6b8a236e90131b
                   - else
                     %li
                       .menu_elements
