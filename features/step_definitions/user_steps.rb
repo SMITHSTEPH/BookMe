@@ -1,3 +1,142 @@
+Given(/^I am on the edit account page$/) do
+  visit new_user_path
+  fill_in 'signup_first_name', :with => "Blake"
+  fill_in 'signup_last_name', :with => "Dunham"
+  fill_in 'signup_email', :with => "g@g.com"
+  fill_in 'signup_id', :with => "dnham54"
+  fill_in 'signup_password', :with => "password"
+  fill_in 'signup_password_confirmation', :with => "password"
+  click_button 'signup_submit'
+  fill_in 'login_email', :with => "g@g.com"
+  fill_in 'login_password', :with => "password"
+  click_button 'login_submit'
+  visit edit_user_path "1"
+
+end
+
+When(/^I edit an account with firstName "(.*?)", lastName "(.*?)", user_id "(.*?)", email "(.*?)", password "(.*?)", confirmPassword "(.*?)"$/) do |firstName, lastName, email, user_id, password, confirmPassword|
+  fill_in 'edit_first_name', :with => firstName
+  fill_in 'edit_last_name', :with => lastName
+  fill_in 'edit_email', :with => email
+  fill_in 'edit_id', :with => user_id
+  fill_in 'edit_password', :with => password
+  fill_in 'edit_password_confirmation', :with => confirmPassword
+
+  click_button 'edit_submit'
+end
+
+Then(/^I should go to my books page$/) do
+    result=false
+    if page.has_button?('edit_submit')
+        result = true;
+    end
+    expect(result).to be_truthy
+end
+
+When(/^I edit an account with no parameters$/) do
+     click_button 'edit_submit'
+end
+
+Then(/^I should return to user edit page$/) do
+  result=false
+  if page.has_button?('edit_submit')
+      result = true;
+  end
+  expect(result).to be_truthy
+end
+
+Given(/^the following books have been added to BookMe:$/) do |table|
+    table.hashes.each do |book|
+    Book.find_or_create_by(title: book[:title], author: book[:author], price: book[:price], bid_price: book[:bid_price])
+  end
+end
+
+Given(/^I am on the BookMe home page$/) do
+    visit books_path
+end
+
+When(/^I have sorted books by title$/) do
+  if page.has_link?('Book Title') 
+    page.click_on('Book Title')
+  end
+end
+
+Then(/^I should see book title "(.*?)" before "(.*?)"$/) do |arg1, arg2|
+      result = true
+    count = 0
+    all("tr").each do |tr|
+        if tr.has_content?(arg1)
+            count = 1
+            result = true
+        elsif tr.has_content?(arg2) && count == 0
+            result = false
+        end
+    end
+    expect(result).to be_truthy
+end
+
+When(/^I have sorted books by author$/) do
+  if page.has_link?('Author') 
+    page.click_link('Author')
+  end
+end
+
+Then(/^I should see author "(.*?)" before "(.*?)"$/) do |arg1, arg2|
+      result = true
+    count = 0
+    all("tr").each do |tr|
+        if tr.has_content?(arg1)
+            count = 1
+            result = true
+        elsif tr.has_content?(arg2) && count == 0
+            result = false
+        end
+    end
+    expect(result).to be_truthy
+end
+
+When(/^I have sorted books by buy now price$/) do
+  if page.has_link?('Buy Now Price') 
+    page.click_link('Buy Now Price')
+  end
+end
+
+Then(/^I should see price "(.*?)" before "(.*?)"$/) do |arg1, arg2|
+      result = true
+    count = 0
+    all("tr").each do |tr|
+        if tr.has_content?(arg1)
+            count = 1
+            result = true
+        elsif tr.has_content?(arg2) && count == 0
+            result = false
+        end
+    end
+    expect(result).to be_truthy
+end
+
+When(/^I have sorted books by auction price$/) do
+  if page.has_link?('Auction Price') 
+    page.click_link('Auction Price')
+  end
+end
+
+Then(/^I should see auction price "(.*?)" before "(.*?)"$/) do |arg1, arg2|
+    result = true
+    count = 0
+    all("tr").each do |tr|
+        if tr.has_content?(arg1)
+            count = 1
+            result = true
+        elsif tr.has_content?(arg2) && count == 0
+            result = false
+        end
+    end
+    expect(result).to be_truthy
+end
+
+
+
 Given /^I am on the BookMe user page$/ do
   visit book_path
  end
@@ -88,13 +227,10 @@ Then(/^I should see the message "(.*?)"$/) do |message|
   expect(result).to be_truthy
 end
 
-Given(/^frodo is on the all books page$/) do
-  visit login_path
-end
-
-When(/^frodo searches for a book by "(.*?)"$/) do |keyword|
-    fill_in 'search_term', :with => "keyword"
-    click_button 'search_submit'
+When(/^frodo searches for a book by "(.*?)"$/) do |search|
+    page.click_link('Book Title')
+    fill_in "search", :with => search
+    click_button "search_submit"
 end
 
 Then(/^frodo sees a list with book "(.*?)"$/) do |title|

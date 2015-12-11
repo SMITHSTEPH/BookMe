@@ -24,7 +24,7 @@ class UsersController < ApplicationController
       puts @current_user
       redirect_to mybooks_path
     else
-      render 'edit'
+      redirect_to edit_user_path
       puts "sudhfblahbgslkdfbglsdfhbgldbg"
     end
 

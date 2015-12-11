@@ -17,7 +17,7 @@
         %a.navbar-brand{:href => root_path, class: 'nounderline'} BookMe
       .collapse.navbar-collapse
         - if @current_user != nil
-          %form.navbar-form.navbar-left{:role => "search"}
+          %form.navbar-form.navbar-left{:role => "search", :id => "search_form"}
             .form-group
               = form_tag books_path, :method => 'get', class: 'form-inline' do 
                 = text_field_tag :search, params[:search], class: 'form-control', :id => 'search_term', placeholder: 'Search Terms'
@@ -34,45 +34,57 @@
                     !
             %ul.dropdown-menu{:role => "menu"}
               - if @current_user != nil
-                %li
-                  %a{:href=> books_path}
-                    %button.btn.btn-info{:method =>:get, :id => 'allbooks'}
-                      All Books
-                  // = button_to 'All Books', books_path, :method =>:get, :id => 'allbooks', class: 'btn btn-info'
-                %li
-                  %a{:href=> mybooks_path}
-                    %button.btn.btn-info{:method =>:get, :id => 'mybooks'}
-                      My Books
-                      -if Book.exists?(:user_id => @current_user.id, :notification => true)
-                        %span.badge 
-                          !
-                    // = button_to 'My Books', mybooks_path, :method =>:get, :id => 'mybooks', class: 'btn btn-primary inline'
-                %li
-                  %a{:href=> mybids_path}
-                    %button.btn.btn-primary{:method =>:get, :id => 'mybids'}
-                      My Bids
-                      -if Bid.exists?(:user_id => @current_user.id, :notification => true)
-                        %span.badge 
-                          !
-                  // = button_to 'My Bids', mybids_path, :method =>:get, :id => 'mybids', class: 'btn btn-primary'
-                %li
-                  %a{:href=> edit_user_path(@current_user)}
-                    %button.btn.btn-primary{:method =>:get}
-                      Edit Profile
+                .menu_elements
+                  %li
+                    %a{:href=> books_path}
+                      %button.btn.btn-info.mybutton{:method =>:get, :id => 'allbooks'}
+                        All Books
+                    // = button_to 'All Books', books_path, :method =>:get, :id => 'allbooks', class: 'btn btn-info'
+                  %li
+                    %a{:href=> mybooks_path}
+                      %button.btn.btn-info.mybutton{:method =>:get, :id => 'mybooks'}
+                        My Books
+                        -if Book.exists?(:user_id => @current_user.id, :notification => true)
+                          %span.badge 
+                            !
+                      // = button_to 'My Books', mybooks_path, :method =>:get, :id => 'mybooks', class: 'btn btn-primary inline'
+                  %li
+                    %a{:href=> mybids_path}
+                      %button.btn.btn-primary.mybutton{:method =>:get, :id => 'mybids'}
+                        My Bids
+                        -if Bid.exists?(:user_id => @current_user.id, :notification => true)
+                          %span.badge 
+                            !
+                    // = button_to 'My Bids', mybids_path, :method =>:get, :id => 'mybids', class: 'btn btn-primary'
+                  %li
+                    %a{:href=>edit_user_path(@current_user)}
+                      %button.btn.btn-primary.mybutton{:method => :get}
+                        Edit Profile
+                    //= button_to 'Edit Profile', edit_user_path(@current_user), :method =>:get, class: 'btn btn-primary mybutton'
+
                 %li.divider
               %li
                 %a 
                   - if @current_user != nil
                     %li
-                      %p{class: 'nounderline'}
-                        You are logged in as #{@current_user.email} (User name: #{@current_user.user_id})
+                      .menu_elements
+                        %p{class: 'nounderline'}
+                          You are logged in as #{@current_user.email} (User name: #{@current_user.user_id})
                     %li
+<<<<<<< HEAD
                       %a{:href=> logout_path}
                         %button.btn.btn-danger{:method => :delete}
                           Log Out
+=======
+                      .menu_elements
+                        %a{:href=>logout_path}
+                          %button.btn.btn-danger#logout{:method =>:get}
+                            Log Out
+>>>>>>> 86d7cff9ac1051b4109692de5d6b8a236e90131b
                   - else
                     %li
-                      = button_to 'Sign Up/Login', login_path, :method =>:get, class: 'btn btn-info'
+                      .menu_elements
+                        = button_to 'Sign Up/Login', login_path, :method =>:get, class: 'btn btn-info'
 
   %body
     #main

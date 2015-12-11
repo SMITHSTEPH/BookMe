@@ -55,7 +55,7 @@
                 %b Seller email:
                 = User.find(book.user_id).email
                 
-                %td=button_to 'Remove Bid', book_path(book.id), :method => :delete, :confirm => 'Are you sure?', class: 'btn btn-danger'
+                %td=button_to 'Remove Purchase', book_path(book.id), :method => :delete, :confirm => 'Are you sure?', class: 'btn btn-danger'
             
    
 
