@@ -1,3 +1,50 @@
+Given(/^I am on the edit account page$/) do
+  visit new_user_path
+  fill_in 'signup_first_name', :with => "Blake"
+  fill_in 'signup_last_name', :with => "Dunham"
+  fill_in 'signup_email', :with => "g@g.com"
+  fill_in 'signup_id', :with => "dnham54"
+  fill_in 'signup_password', :with => "password"
+  fill_in 'signup_password_confirmation', :with => "password"
+  click_button 'signup_submit'
+  fill_in 'login_email', :with => "g@g.com"
+  fill_in 'login_password', :with => "password"
+  click_button 'login_submit'
+  visit edit_user_path "1"
+
+end
+
+When(/^I edit an account with firstName "(.*?)", lastName "(.*?)", user_id "(.*?)", email "(.*?)", password "(.*?)", confirmPassword "(.*?)"$/) do |firstName, lastName, email, user_id, password, confirmPassword|
+  fill_in 'edit_first_name', :with => firstName
+  fill_in 'edit_last_name', :with => lastName
+  fill_in 'edit_email', :with => email
+  fill_in 'edit_id', :with => user_id
+  fill_in 'edit_password', :with => password
+  fill_in 'edit_password_confirmation', :with => confirmPassword
+
+  click_button 'edit_submit'
+end
+
+Then(/^I should go to my books page$/) do
+    result=false
+    if page.has_button?('edit_submit')
+        result = true;
+    end
+    expect(result).to be_truthy
+end
+
+When(/^I edit an account with no parameters$/) do
+     click_button 'edit_submit'
+end
+
+Then(/^I should return to user edit page$/) do
+  result=false
+  if page.has_button?('edit_submit')
+      result = true;
+  end
+  expect(result).to be_truthy
+end
+
 Given(/^the following books have been added to BookMe:$/) do |table|
     table.hashes.each do |book|
     Book.find_or_create_by(title: book[:title], author: book[:author], price: book[:price], bid_price: book[:bid_price])
