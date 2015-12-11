@@ -1,5 +1,6 @@
 %br
 = button_to 'All Books', books_path, :method =>:get, :id => 'allbooks', class: 'btn btn-default'
+
 %h1 #{@current_user.first_name}'s Bids
 
 %table#books
@@ -57,6 +58,12 @@
                 
                 %td=button_to 'Remove Purchase', book_path(book.id), :method => :delete, :confirm => 'Are you sure?', class: 'btn btn-danger'
             
+%h1 #{@current_user.first_name}'s Stats   
+Books sold:
+= @current_user.books_sold
+</br>
+Books bought:
+= @current_user.books_bought
    
 
         
