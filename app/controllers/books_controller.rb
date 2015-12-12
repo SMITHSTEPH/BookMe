@@ -40,6 +40,13 @@ class BooksController < ApplicationController
     session[:session_token]= @current_user.user_id
   end
 
+  def remove_purchase
+    @book = Book.find(params[:id])
+    Tag.delete_all book_id: @book.id
+    @book.destroy
+    flash[:notice] = "'#{@book.title}' deleted."
+    redirect_to mybids_path
+  end
 
   def mybooks #routed here when user hits "mybooks" button and renders mybooks view
     #puts "IN MY BOOKS!!!!!!!!!!!!!!!!!"

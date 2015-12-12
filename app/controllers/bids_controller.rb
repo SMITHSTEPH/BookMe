@@ -1,7 +1,5 @@
 class BidsController < ApplicationController
     
-  
-    
     def destroy
         @bid = Bid.find(params[:id])
         book_id = @bid.book_id

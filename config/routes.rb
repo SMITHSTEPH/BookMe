@@ -9,6 +9,7 @@ Rails.application.routes.draw do
  # root :to => redirect('/books')
   root 'books#index'
   match '/books', to: 'books#index', via: :put
+  match '/remove_purchase/:id', to: 'books#remove_purchase', via: :put, as: :remove_purchase
   match '/add_keyword', to: 'books#add_keyword', via: :get
   match '/search_open_lib', to: 'books#search_open_lib', via: :post
   match '/search_open_lib', to: 'books#search_open_lib', via: :get
