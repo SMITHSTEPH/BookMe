@@ -3,11 +3,10 @@ class BidsController < ApplicationController
   
     
     def destroy
-        
         @bid = Bid.find(params[:id])
         book_id = @bid.book_id
-        puts "BOOOOOOOKKKKK IIDDDDDD ISSS ------------------------"
-        puts @bid.book_id
+        #puts "BOOOOOOOKKKKK IIDDDDDD ISSS ------------------------"
+        #puts @bid.book_id
         @bid.destroy
         @book=Book.find(book_id)
         if(@bid.status!='sold')

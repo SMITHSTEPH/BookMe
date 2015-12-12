@@ -16,28 +16,14 @@ end
 Given(/^ssmith is on the MyBooks page$/) do
     visit mybooks_path
 end
-
-=begin
-Given(/^ssmith32 has selected to edit "(.*?)" $/) do |book_title|
-    book=Book.find_by title: book_title  
-    visit edit_book_path(book)
-end
-And(/^ssmith32 has selected to edit "(.*?)" $/) do |book_title|
-    book=Book.find_by title: book_title  
-    visit edit_book_path(book)
-end
-=end
-
 When(/^I am viewing information about "(.*?)"$/) do |book_title|
     book=Book.find_by title: book_title  
     visit book_path(book)
 end
-
 Then(/^I should see a "(.*?)" section$/) do |section_name|
     result= page.has_content? section_name
     expect(result).to be_truthy
 end
-
 Then(/^I should see all of the books I am selling$/) do
     result=false
     row_count=0
@@ -52,18 +38,15 @@ Then(/^I should see all of the books I am selling$/) do
      end
     expect(result).to be_truthy
 end
-
 When(/I change field "(.*?)" to "(.*?)"$/) do |field, change|
     fill_in field, :with => change
     result = page.has_content? change
     click_button "Update Book Info"
 end
-
 Then(/the new item "(.*?)" should be "(.*?)"$/) do |field, change|
     result = page.has_content? change
     expect(result).to be_truthy
 end
-
 Then(/the "(.*?)" of "(.*?)" should be "(.*?)"$/) do |field, title, change|
     result=false
     all("tr").each do |tr|
@@ -75,9 +58,6 @@ Then(/the "(.*?)" of "(.*?)" should be "(.*?)"$/) do |field, title, change|
     end
     expect(result).to be_truthy
 end
-When(/^I add a book with title "(.*?)", author "(.*?)" and isbn "(.*?)", and buy now price "(.*?)", and auction start price "(.*?)"$/) do |arg1, arg2, arg3, arg4, arg5|
-  pending # express the regexp above with the code you wish you had
-end
 When(/I add a book with title "(.*?)", author "(.*?)", isbn "(.*?)", buy now price "(.*?)", and auction start price "(.*?)"$/) do |title, author, isbn, buy_now_price, auction_start_price|
     click_button 'Add Book'
     fill_in "*Title", :with => title
@@ -87,7 +67,6 @@ When(/I add a book with title "(.*?)", author "(.*?)", isbn "(.*?)", buy now pri
     fill_in "Auction Price", :with => auction_start_price
     click_button 'Save Changes'
 end
-
 Then(/I should see a book with title "(.*?)", author "(.*?)" and isbn "(.*?)" added mybooks$/) do |title, author, isbn|
     result=false
     all("tr").each do |tr|
@@ -98,7 +77,6 @@ Then(/I should see a book with title "(.*?)", author "(.*?)" and isbn "(.*?)" ad
     end
     expect(result).to be_truthy
 end
-
 When(/I remove a book with title "(.*?)"$/) do |book_title|
     @book=Book.find_by_title(book_title)
     @book.destroy
@@ -114,25 +92,19 @@ Then(/I should not see a book with title "(.*?)" in MyBooks$/) do |title|
     end
     expect(result).to be_truthy
 end
-
 Then(/I should see flash message "(.*?)"$/) do |message|
     result= page.has_content? message
     expect(result).to be_truthy
 end
-
 When(/^I am on the add book page$/) do
     visit new_book_path
 end
-
 When(/^I am on the edit book page$/) do
     visit edit_book_path
 end
-
 Then(/^there should be a quality select box$/) do 
     expect(have_tag("select")).to be_truthy
 end
-
-
 Then(/^the new item "(.*?)" should add up to "(.*?)"$/) do |field, date_time|
     #hours=DateTime.parse(date_time)-Time.now.in_time_zone(("Central Time (US & Canada)")/60/60).to_i
     #time=Time.now.in_time_zone("Central Time (US & Canada)").to_i/3600
@@ -146,7 +118,7 @@ Then(/^the new item "(.*?)" should add up to "(.*?)"$/) do |field, date_time|
     #expect(result).to be_truthy
 end
 When(/^I add a book with title Analog Electronic Design: Principles and Practice of Creative Design, author Johnathan Scott, isbn (\d+), and keywords "(.*?)", "(.*?)", and "(.*?)"$/) do |isbn, keyword1, keyword2, keyword3|
-    click_button '#addbook'
+    click_button 'Add Book'
     fill_in "*Title", :with => "Analog Electronic Design: Principles and Practice of Creative Design"
     fill_in "*Author", :with => "Johnathan Scott"
     fill_in "*ISBN", :with => isbn, exact: true
@@ -161,13 +133,6 @@ When(/^I add a book with title Analog Electronic Design: Principles and Practice
     click_button 'Save Changes'
 end
 Then(/^the book should have the keywords "(.*?)", "(.*?)", and "(.*?)"$/) do |keyword1, keyword2, keyword3|
-    #book=Book.find_by title: "Analog Electronic Design: Principles and Practice of Creative Design" 
-    #puts book.id.to_s
-    #puts book.title
-    #keyword=Tag.all
-    #keyword[0].tag.to_s
-    
-    #visit book_path(book)
     if (page.has_content?keyword1)
         result=true
     else
@@ -183,18 +148,17 @@ When(/^I have put in the keywords "(.*?)", "(.*?)", and "(.*?)"$/) do |keyword1,
     #fill_in "book[keyword[2]]", :with => keyword3
     #click_button 'Update Book Info'
 end
-
 When(/^I add a book with title Analog Electronic Design: Principles and Practice of Creative Design, author Johnathan Scott, isbn 0130331929, and "(.*?)" to "(.*?)"$/) do |field, change|
     click_button 'Add Book'
+    puts "IN ADD"
     fill_in "*Title", :with => "Analog Electronic Design: Principles and Practice of Creative Design"
     fill_in "*Author", :with => "Johnathan Scott"
     fill_in "*ISBN", :with => "0123456789", exact: true
     fill_in field, :with=> change
     click_button 'Save Changes'
 end
-
 When(/^I add a book with title "(.*?)", author "(.*?)", isbn "(.*?)", and "(.*?)" "(.*?)"$/) do |title, author, isbn, field, change|
-    click_button '#addbook'
+    click_button 'Add Book'
     fill_in "*Title", :with => title
     fill_in "*Author", :with => author
     fill_in "*ISBN", :with => isbn, exact: true
@@ -208,7 +172,6 @@ When(/^I add a book with title "(.*?)", author "(.*?)" and isbn "(.*?)", and "(.
     fill_in field, :with=> change
     click_button 'Save Changes'
 end
-
 When(/^I add a book with title "(.*?)", author "(.*?)", isbn "(.*?)", Buy Now Price "(.*?)", and Auction Price "(.*?)"$/) do |title, author, isbn, buy_now_price, auction_price|
     #page.find("#allbooks").click
     click_on("allbooks")
@@ -220,7 +183,6 @@ When(/^I add a book with title "(.*?)", author "(.*?)", isbn "(.*?)", Buy Now Pr
     fill_in "Auction Price", :with=> auction_price
     click_button 'Save Changes'
 end
-
 Then(/^I should see a book with title "(.*?)", author "(.*?)", isbn "(.*?)", price "(.*?)", and Auction Price "(.*?)"$/) do |title, author, isbn, buy_now_price, auction_price|
   result=false
     all("tr").each do |tr|
