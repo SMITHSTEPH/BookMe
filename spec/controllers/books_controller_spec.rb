@@ -29,11 +29,17 @@ describe BooksController do
     before :each do
       @book_model = {"title" => "Book", "author" => "Sarah", "isbn" => "1234567890", "price"=>"100.00", "image" => "nobook.gif", "auction_time(1i)"=>"2015", "auction_time(2i)"=>"12", "auction_time(3i)"=>"12", "auction_time(4i)"=>"12", "auction_time(5i)"=>"30"}
       @book_model_exp = {"title" => "Book", "author" => "Sarah", "isbn" => "1234567890", "price"=>"100.00", "image" => "nobook.gif", "auction_time(1i)"=>"2010", "auction_time(2i)"=>"12", "auction_time(3i)"=>"12", "auction_time(4i)"=>"12", "auction_time(5i)"=>"30"}
+      @book_model_sold = {"title" => "Sold", "author" => "Sarah", "isbn" => "1234567890", "price"=>"100.00", "image" => "nobook.gif", "auction_time(1i)"=>"2010", "auction_time(2i)"=>"12", "auction_time(3i)"=>"12", "auction_time(4i)"=>"12", "auction_time(5i)"=>"30","bidder_id"=>'foobar'}
       @new_book = Book.new(@book_model)
       @new_book.save
       @new_book_exp = Book.new(@book_model_exp)
       @new_book_exp.save
-      end
+      @user.books.create!(@book_model_sold)
+    end
+    it 'should change status to sold' do
+      get :show, {:id=>Book.where(:title=>'Sold')[0].id}
+#      expect(assigns(:book)).to eq(Book.find(@new_book_sold.id))
+    end
     it 'should assign book' do
       get :show, {:id=>@new_book.id}
       expect(assigns(:book)).to eq(Book.find(@new_book.id))
@@ -189,8 +195,8 @@ describe BooksController do
     end
     context 'Missing fields' do
       before :each do
-        @book_param = {"title" => "", "author" => "", "isbn" => "", "image" => "nobook.gif", "auction_time"=>{"{}(1i)"=>"2015", "{}(2i)"=>"12", "{}(3i)"=>"12", "{}(4i)"=>"12", "{}(5i)"=>"30"},"keyword"=>{"1"=>"book"}}
-        @book_model = {"title" => "Book", "author" => "Sarah", "isbn" => "1234567890", "image" => "nobook.gif", "auction_time(1i)"=>"2015", "auction_time(2i)"=>"12", "auction_time(3i)"=>"12", "auction_time(4i)"=>"12", "auction_time(5i)"=>"30"}
+        @book_param = {"title" => "", "author" => "", "isbn" => "", "image" => "nobook.gif", "auction_time"=>{"{}(1i)"=>"2015", "{}(2i)"=>"12", "{}(3i)"=>"12", "{}(4i)"=>"12", "{}(5i)"=>"30"},"keyword"=>{"1"=>"book"}, "auction_start_price"=>""}
+        @book_model = {"title" => "Book", "author" => "Sarah", "isbn" => "1234567890", "image" => "nobook.gif", "auction_time(1i)"=>"2015", "auction_time(2i)"=>"12", "auction_time(3i)"=>"12", "auction_time(4i)"=>"12", "auction_time(5i)"=>"30", :auction_start_price=>""}
         @fake_book_result = double(:book=>{:title => ""})
         allow(Book).to receive(:create!).with(@book_param).and_return(@fake_book_result)
         allow(@fake_book_result).to receive(:title).and_return('')
@@ -223,8 +229,8 @@ describe BooksController do
   describe 'updating books' do
     context 'All fields entered' do
       before :each do
-        @book_param = {"title" => "Book", "author" => "Sarah", "isbn" => "1234567890", "price"=>"100.00", "image" => "nobook.gif", "auction_time"=>{"{}(1i)"=>"2015", "{}(2i)"=>"12", "{}(3i)"=>"12", "{}(4i)"=>"12", "{}(5i)"=>"30"},"keyword"=>{"1"=>"book"}}
-        @book_model = {"title" => "Book", "author" => "Sarah", "isbn" => "1234567890", "price"=>"100.00", "image" => "nobook.gif", "auction_time(1i)"=>"2015", "auction_time(2i)"=>"12", "auction_time(3i)"=>"12", "auction_time(4i)"=>"12", "auction_time(5i)"=>"30"}
+        @book_param = {"title" => "Book", "author" => "Sarah", "isbn" => "1234567890", "price"=>"100.00", "image" => "nobook.gif", "auction_time"=>{"{}(1i)"=>"2015", "{}(2i)"=>"12", "{}(3i)"=>"12", "{}(4i)"=>"12", "{}(5i)"=>"30"},"keyword"=>{"1"=>"book"}, "auction_start_price"=>""}
+        @book_model = {"title" => "Book", "author" => "Sarah", "isbn" => "1234567890", "price"=>"100.00", "image" => "nobook.gif", "auction_time(1i)"=>"2015", "auction_time(2i)"=>"12", "auction_time(3i)"=>"12", "auction_time(4i)"=>"12", "auction_time(5i)"=>"30", "auction_start_price"=>""}
         @new_book = Book.new(@book_model)
         @new_book.save
         put :update, {:id=>@new_book.id, :book=>@book_param}

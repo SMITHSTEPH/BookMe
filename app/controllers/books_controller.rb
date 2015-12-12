@@ -2,7 +2,7 @@ class BooksController < ApplicationController
   before_filter :set_current_user
   helper_method :sort_column, :sort_direction
   def book_params
-    params.require(:book).permit(:title, :author, :isbn, :department, :course, :quality, :price, :auction_start_price, :auction_time, :description, :image, :keyword, :time_left, :bid_price)
+    params.require(:book).permit(:title, :author, :isbn, :department, :course, :quality, :price, :auction_start_price, :auction_time, :description, :image, :keyword, :time_left, :bid_price, :bidder_id)
   end
   
   def show #displayed when user clicks on book title link
@@ -23,16 +23,7 @@ class BooksController < ApplicationController
 
   def index #rendered when user clicks on 'allBooks'
     sort = params[:sort] || session[:sort]
-    case sort
-    when 'title'
-      ordering,@title_header = {:title => :asc}, 'hilite'
-    when 'price'
-      ordering,@price_header = {:price => :asc}, 'hilite'
-    when 'auctionPrice'
-      ordering,@auctionPrice_header = {:auction_start_price => :asc}, 'hilite'
-    when 'author'
-      ordering,@author_header = {:author => :asc}, 'hilite'
-    end
+    @books = Book.order(sort_column + " " + sort_direction)
     @books = Book.search(params[:search]).order(sort_column + ' ' + sort_direction)-Book.where(status:"sold")
     @books.each do |book|
       Book.update_time(book.id)
@@ -189,9 +180,9 @@ class BooksController < ApplicationController
     @info["auction_time(4i)"]=params["book"]["auction_time"]["{}(4i)"]
     @info["auction_time(5i)"]=params["book"]["auction_time"]["{}(5i)"]
     
-    if @info[:price]==""
-      @info[:price]="0.00"
-    end
+    #if @info[:price]==""
+    #  @info[:price]="0.00"
+    #end
     if @info[:auction_start_price]==""
       @info[:auction_start_price]="0.00"
     end
@@ -275,7 +266,10 @@ class BooksController < ApplicationController
             #puts @info[:bid_price]
             #alert potential other user that they may be out of the bid
             if Bid.exists?(:book_id => @book.id, :user_id => @current_user.id) #if this users bid already exist
+<<<<<<< HEAD
             #puts "INNNN IIFFF"
+=======
+>>>>>>> a0198a2a3c4ff913bccff71635439c52d20ce691
               @bid = Bid.find_by_book_id_and_status(@book.id,"highest bid")
               @bid.update_attribute(:notification, true) #give them a notification
               @bid.update_attribute(:status, "out of bid") #change the status of their bid
@@ -287,8 +281,11 @@ class BooksController < ApplicationController
             else
               if (!Bid.where(:book_id => @book.id, :status=>"highest bid").blank?)
                 @bid = Bid.find_by_book_id_and_status(@book.id,"highest bid")
+<<<<<<< HEAD
                 #puts "id: " +  @bid.book_id.to_s
                 #puts " status: " + @bid.status
+=======
+>>>>>>> a0198a2a3c4ff913bccff71635439c52d20ce691
                
                 @bid.update_attribute(:notification, true) #give them a notification
                 @bid.update_attribute(:status, "out of bid") #change the status of their bid
@@ -320,11 +317,11 @@ class BooksController < ApplicationController
   
   private
   def sort_column
-    params[:sort] || "title"
+    Book.column_names.include?(params[:sort]) ? params[:sort] : "title"
   end
   
   def sort_direction
-    params[:direction] || "asc"
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
   end
 
 end
