@@ -173,9 +173,9 @@ class BooksController < ApplicationController
     @info["auction_time(4i)"]=params["book"]["auction_time"]["{}(4i)"]
     @info["auction_time(5i)"]=params["book"]["auction_time"]["{}(5i)"]
     
-    if @info[:price]==""
-      @info[:price]="0.00"
-    end
+    #if @info[:price]==""
+    #  @info[:price]="0.00"
+    #end
     if @info[:auction_start_price]==""
       @info[:auction_start_price]="0.00"
     end
@@ -259,7 +259,6 @@ class BooksController < ApplicationController
             puts @info[:bid_price]
             #alert potential other user that they may be out of the bid
             if Bid.exists?(:book_id => @book.id, :user_id => @current_user.id) #if this users bid already exist
-            puts "INNNN IIFFF"
               @bid = Bid.find_by_book_id_and_status(@book.id,"highest bid")
               @bid.update_attribute(:notification, true) #give them a notification
               @bid.update_attribute(:status, "out of bid") #change the status of their bid
@@ -271,8 +270,6 @@ class BooksController < ApplicationController
             else
               if (!Bid.where(:book_id => @book.id, :status=>"highest bid").blank?)
                 @bid = Bid.find_by_book_id_and_status(@book.id,"highest bid")
-                puts "id: " +  @bid.book_id.to_s
-                puts " status: " + @bid.status
                
                 @bid.update_attribute(:notification, true) #give them a notification
                 @bid.update_attribute(:status, "out of bid") #change the status of their bid
