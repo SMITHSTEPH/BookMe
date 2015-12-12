@@ -37,6 +37,7 @@ describe BooksController do
       @user.books.create!(@book_model_sold)
     end
     it 'should change status to sold' do
+      Bid.create({:book_id => Book.where(:title=>'Sold')[0].id, :user_id => @user.id, :bid =>"110.00", :notification => false})
       get :show, {:id=>Book.where(:title=>'Sold')[0].id}
 #      expect(assigns(:book)).to eq(Book.find(@new_book_sold.id))
     end
@@ -121,6 +122,13 @@ describe BooksController do
     end
   end
   describe 'make bid' do
+    context 'invalid price' do
+      it 'should flash error' do
+        Book.find(1).update_attribute(:status, "auction")
+        put :make_bid, {:id=>1, :book=>{bid_price:"abc"}}
+        #expect(flash[:warning]).to eq("Invalid bid price")
+      end
+    end
     context 'book not sold' do
       before :each do
         Bid.create({:book_id => @bookid, :user_id => @user.id, :bid =>"110.00", :notification => false}) 
