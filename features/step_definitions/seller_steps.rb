@@ -173,9 +173,7 @@ When(/^I add a book with title "(.*?)", author "(.*?)" and isbn "(.*?)", and "(.
     click_button 'Save Changes'
 end
 When(/^I add a book with title "(.*?)", author "(.*?)", isbn "(.*?)", Buy Now Price "(.*?)", and Auction Price "(.*?)"$/) do |title, author, isbn, buy_now_price, auction_price|
-    #page.find("#allbooks").click
     click_on("allbooks")
-    #find_by_id('allbooks')
     fill_in "*Title", :with => title
     fill_in "*Author", :with => author
     fill_in "*ISBN", :with => isbn, exact: true
@@ -199,4 +197,21 @@ end
 Given(/^ssmith has selected to edit "(.*?)"$/) do |book_title|
     book=Book.find_by title: book_title  
     visit edit_book_path(book)
+end
+When(/^sarah has logged in$/) do
+    visit login_path
+    fill_in 'login_email', :with => "sarah-gerard@uiowa.edu"
+    fill_in 'login_password', :with => "selt10"
+    click_button 'login_submit'
+    visit books_path
+end
+When(/^purchased "(.*?)"$/) do |book_title|
+    book=Book.find_by title: book_title  
+    visit book_path(book)
+    click_button 'Buy Now'
+end
+Then(/^ssmith should have a mybooks notification$/) do
+    book=Book.find_by title: "Medical Imaging"
+    result=book.notification
+    expect(result).to be_truthy
 end
