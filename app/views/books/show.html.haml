@@ -26,7 +26,7 @@
 
 %p#description= @book.description
 %h5
-  ="Price $"+@book.price
+  ="Buy Now Price $"+@book.price
 = button_to 'Buy Now', buy_now_path(@book), :method=>:put, class: 'btn btn-success'
 
 </br>

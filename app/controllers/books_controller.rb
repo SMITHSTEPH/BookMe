@@ -4,37 +4,7 @@ class BooksController < ApplicationController
   def book_params
     params.require(:book).permit(:title, :author, :isbn, :department, :course, :quality, :price, :auction_start_price, :auction_time, :description, :image, :keyword, :time_left, :bid_price)
   end
-=begin
-  def update_time(id)
-    @book = Book.find(id) # look up book by unique ID
-    if @book.status == "sold"
-      @book.update_attribute(:time_left, "auction ended")
-    else
-      time_diff = (@book.auction_time).to_i - Time.now.in_time_zone("Central Time (US & Canada)").to_i
-      days = ((time_diff/60/60/24).to_i).to_s
-      hours = ((time_diff/60/60%24).to_i).to_s
-      mins = ((time_diff/60%60).to_i).to_s
-      if(time_diff<0)
-        days="0"
-        hours="0"
-        mins="0"
-        if @book[:bidder_id] == nil
-          @book.update_attribute(:status, "sale")
-        else
-          @book.update_attribute(:status, "sold")
-          bidder = User.find_by_user_id(@book.bidder_id)
-          seller = User.find(@book.user_id)
-          bidder.update_attribute(:books_bought, (bidder.books_bought)+1)
-          seller.update_attribute(:books_sold, (seller.books_sold)+1)
-        end
-        @book.update_attribute(:time_left, "auction ended")
-      else
-        @book.update_attribute(:status, "auction")
-        @book.update_attribute(:time_left, days + " days " + hours + " hrs " + mins + " mins")
-      end
-    end
-  end  
-=end
+  
   def show #displayed when user clicks on book title link
     id = params[:id] # retrieve book ID from URI route
     @book = Book.find(id) # look up book by unique ID
@@ -72,7 +42,7 @@ class BooksController < ApplicationController
 
 
   def mybooks #routed here when user hits "mybooks" button and renders mybooks view
-    
+    puts "IN MY BOOKS!!!!!!!!!!!!!!!!!"
     @user = User.find(@current_user.id.to_s)
     @books = @user.books.search(params[:search])-Book.where(status:"sold")
     @books_sold = @user.books.search(params[:search]).where(status:"sold")
@@ -90,6 +60,7 @@ class BooksController < ApplicationController
       Book.update_time(book.id)
       puts book.bid_price
     end
+    
     #getting my bids
     @mybids=Array.new
     @bids=Bid.where(user_id:@current_user.id)
@@ -112,6 +83,7 @@ class BooksController < ApplicationController
   end
 
   def new #routed here when user hits 'add book' button and renders new view
+    puts "NEEEEEWWWWWW"
     keywords={"0"=>""}
     @book={:title => "", :author => "", :isbn => "", :department => "", :course => "", :price => "", :auction_start_price => "", :auction_time => "", :quality => "", :image => "nobook.gif", :description => "", :keyword => keywords, :time_left=> ""}
 
@@ -172,6 +144,8 @@ class BooksController < ApplicationController
       @book[:keyword]=keywords
       messages = testbook.errors.full_messages
       flash[:warning] = messages.join("<br/>").html_safe
+      puts "MESSAGES ARE:::::::"
+      puts messages
       render new_book_path
     end
   end
@@ -221,8 +195,7 @@ class BooksController < ApplicationController
 
       Tag.delete_all(book_id: @book.id) #deleting all of the keysword for this book
        keywords.each do |key, value| #adding all of the keywords to the keyword database
-
-        Tag.create!({:book_id => @book.id, :tag => value}) #adding in the new keywords
+          Tag.create!({:book_id => @book.id, :tag => value}) #adding in the new keywords
       end
       flash[:notice] = "#{@book.title} was successfully updated."
       Book.update_time(@book.id)
