@@ -41,6 +41,7 @@ describe BooksController do
 #      expect(assigns(:book)).to eq(Book.find(@new_book_sold.id))
     end
     it 'should assign book' do
+      Tag.create!({:book_id => @new_book.id, :tag => "book"})
       get :show, {:id=>@new_book.id}
       expect(assigns(:book)).to eq(Book.find(@new_book.id))
     end
