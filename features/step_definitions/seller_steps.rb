@@ -215,3 +215,23 @@ Then(/^ssmith should have a mybooks notification$/) do
     result=book.notification
     expect(result).to be_truthy
 end
+When(/^placed a "(.*?)" bid on "(.*?)"$/) do |bid, book_title|
+    book=Book.find_by title: book_title  
+    visit book_path(book)
+    fill_in 'bid_field', :with => bid
+    click_button 'Bid'
+end
+Then(/^"(.*?)" should have placed the highest bid on "(.*?)"$/) do |user, book_title|
+  book=Book.find_by title: book_title
+  users=User.find_by user_id: user
+  bid=Bid.find_by_user_id_and_book_id(users.id, book.id)
+  result = bid.status == 'highest bid'
+  expect(result).to be_truthy
+end
+Then(/^sarah should have a mybids notification$/) do
+    book=Book.find_by title: "Algorithm Design"
+    users=User.find_by user_id: "segerard"
+    bid=Bid.find_by_user_id_and_book_id(users.id, book.id)
+    result = bid.notification
+    expect(result).to be_truthy
+end
