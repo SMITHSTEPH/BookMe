@@ -7,41 +7,30 @@ describe SessionsController do
     cookies.permanent[:session_token] = User.find_by_email('foobar@uiowa.edu').session_token
   end
   describe 'logging in to an account' do 
-    context 'Required fields are filled in' do
+    context 'corrrect email/password' do
       before :each do 
-        #@fake_user = {"email" => "foobar@uiowa.edu", "password" => "foobar100"}        
-        #post :create, {:user => @fake_user}
+        post :create, {:session => {email:"foobar@uiowa.edu", password:"foobar100"}}
       end
       it 'should redirect to books path' do
-        #expect(response).to redirect_to(books_path)
+        expect(response).to redirect_to(books_path)
       end
     end
-    
-    context 'Missing fields' do
+    context 'incorrrect email/password' do
       before :each do 
-       # @fake_user = {"email" => "", "password" => "foobar100"}
-       # post :create, {:user => @fake_user}
+        post :create, {:session => {email:"foobar@uiowa.edu", password:"wrongpassword"}}
       end
-      
-      it 'should show a flash indicating that the email or password was not correct' do
-        #expect(flash[:notice]).to eq("Invalid email/password combination")
+      it 'should render new path' do
+        expect(response).to render_template('new')
       end
     end
-  end
+  end    
   describe 'logout of account' do
     context 'logged in' do  
-      before :each do 
-        #@fake_user = {"email" => "foobar@uiowa.edu", "password" => "foobar100"}        
-        #post :create, {:user => @fake_user}
-      end
-      
       it 'should show a flash showing you logged out' do
-        #delete :destory
-        #expect(flash[:notice]).to eq("You have logged out")
-      end
-      
-      it 'should redirect to the login page' do 
-        #expect(response).to redirect_to(books_path)
+        post :create, session: {"email" => "foobar@uiowa.edu", "password" => "foobar100"}
+        cookies.permanent[:session_token] = User.find_by_email('foobar@uiowa.edu').session_token
+        delete :destroy, session: {"email" => "foobar@uiowa.edu", "password" => "foobar100"}
+        expect(flash[:notice]).to eq("You have logged out")
       end
     end
   end

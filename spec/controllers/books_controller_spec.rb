@@ -2,19 +2,22 @@ require 'spec_helper'
 require 'rails_helper'
 describe BooksController do
   before :each do
-    @user=User.new({first_name:'Foo', last_name:'Bar',password:'foobar100', password_confirmation:'foobar100', user_id:'foobar', email:'foobar@uiowa.edu'})
+    @user=User.new({first_name:'Foo', last_name:'Bar',password:'foobar100', password_confirmation:'foobar100', user_id:'foobar', email:'foobar@uiowa.edu', books_bought:0, books_sold:0})
     @user.save
-    @info = {"title" => "Book", "author" => "Sarah", "isbn" => "1234567890", "price"=>"100.00", "image" => "nobook.gif", "auction_time(1i)"=>"2015", "auction_time(2i)"=>"12", "auction_time(3i)"=>"12", "auction_time(4i)"=>"12", "auction_time(5i)"=>"30"}
+    @info = {"title" => "Book", "author" => "Sarah", "isbn" => "1234567890", "price"=>"100.00", "image" => "nobook.gif", "auction_time(1i)"=>"2015", "auction_time(2i)"=>"12", "auction_time(3i)"=>"12", "auction_time(4i)"=>"12", "auction_time(5i)"=>"30", "status"=>"auction", "bidder_id"=>@user.user_id}
     @user.books.create!(@info)
     @userbooks=@user.books
+    @bookid = @userbooks[0].id
     cookies.permanent[:session_token] = User.find_by_email('foobar@uiowa.edu').session_token
   end
+
   describe "Books index" do
     it 'should set session token' do
       get :index    
       expect(session[:session_token]).to eq(@user.user_id)
     end
   end
+
   describe "Books new" do
     it 'should set session token' do
       @book_param={:title => "", :author => "", :isbn => "", :department => "", :course => "", :price => "", :auction_start_price => "", :auction_time => "", :quality => "", :image => "nobook.gif", :description => "", :keyword => {"0"=>""}, :time_left=> ""}
@@ -70,6 +73,52 @@ describe BooksController do
     end
     it 'should render my books template' do
         expect(response).to render_template('mybooks')
+    end
+  end
+  describe 'Users bids' do
+    before :each do
+      get :mybids
+    end
+    it 'should assign user to the current logged in user' do
+      expect(assigns(:user)).to eq(@user)
+    end
+    it 'should assign books' do
+      expect(assigns(:books)).to eq(@userbooks)
+    end
+    it 'should assign books to be type association' do
+      expect(assigns(:books)).to be_a(ActiveRecord::Relation)
+      #expect(assigns(:books)).to be_a(Array)
+    end
+    it 'should render my books template' do
+        expect(response).to render_template('mybids')
+    end
+  end
+  describe 'Buy now' do
+    before :each do
+      put :buy_now, {:id=>1}
+    end
+    it 'should assign books' do
+      expect(assigns(:book)).to eq(@userbooks[0])
+    end
+    it 'should assign books to be type association' do
+      #expect(assigns(:books)).to be_a(ActiveRecord::Relation)
+    end
+    it 'should render my books template' do
+      expect(response).to redirect_to(books_path)  
+    end
+  end
+  describe 'make bid' do
+    before :each do
+      put :make_bid, {:id=>1, :book=>{bid_price:"10.00"}}
+    end
+    it 'should assign books' do
+      expect(assigns(:book)).to eq(@userbooks[0])
+    end
+    it 'should assign books to be type association' do
+      #expect(assigns(:books)).to be_a(ActiveRecord::Relation)
+    end
+    it 'should render my books template' do
+      expect(response).to redirect_to(books_path)  
     end
   end
   describe 'Searching by isbn' do
