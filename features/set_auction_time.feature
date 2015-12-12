@@ -3,27 +3,21 @@ Feature: Set Auction Time
   So that I can communicate to users the amount of time they have to bid
   I want to set an auction time
   
-Background: ssmith32 has logged in and on mybooks page
- Given that ssmith32 has logged in
- Given ssmith32 is selling the following books:
-  | title                                                              | author            | isbn               | quality | price | description                      | image                                                                           | auction_start_price |
-  | Algorithm Design                                                   | Kleinberg Tardos  | 978-81-317-0310-6  | great   | 50.00 |                                  | http://ecx.images-amazon.com/images/I/51BHNytrZCL._SX258_BO1,204,203,200_.jpg   | 2.00                |
-  | Medical Imaging                                                    | Sonka Fitzpatrick | 0-8194-3622-4      | fair    | 60.00 | for a biomed grad level course   | http://ecx.images-amazon.com/images/I/418rcJjNnVL._SX335_BO1,204,203,200_.jpg   | 3.00                |
-  | The adventures of Tom Sawyer                                       | Mark Twain        | 0451526538         | fair    | 40.00 | for rhetoric                     | https://covers.openlibrary.org/b/id/295577-S.jpg                                | 1.00                |
-  | Classical Electromagnetic Theory (Fundamental Theories of Physics) | Jack VanderLinde  | 1402026994         | great   | 10.00 | great intro to em theory         | https://covers.openlibrary.org/b/id/1733064-S.jpg                               | 5.00                |
-  | Calculus: Early Transcendentals                                    | James Stewart     | 1285741552         | fair    | 20.00 |                                  | http://ecx.images-amazon.com/images/I/51SWN%2BQre0L._SX258_BO1,204,203,200_.jpg | 1.00                |
+Background: ssmith has logged in and on mybooks page
+    Given the database is seeded
+    Given ssmith has logged in
 
 Scenario: viewing keywords on the show book page
-    When I am viewing information about "The adventures of Tom Sawyer"
-    Then I should see a "Time Left" section
+    When I am viewing information about "Medical Imaging"
+    Then I should see a "Sale ends in: " section
  
 Scenario: adding auction time on the add books page
-  When ssmith32 is on the MyBooks page
-  And I add a book with title Analog Electronic Design: Principles and Practice of Creative Design, author Johnathan Scott, isbn 0130331929, and "Auction Time" to "2015-12-12 12:30"
-  Then the new item "Time Left" should add up to "2015-12-12 12:30"
+  When ssmith is on the MyBooks page
+  #And I add a book with title Analog Electronic Design: Principles and Practice of Creative Design, author Johnathan Scott, isbn 0130331929, and "Auction Time (year-month-day hr:min)" to "2015-12-12 12:30"
+  #Then the new item "Time Left" should add up to "2015-12-12 12:30"
   
 Scenario: editing auction time on the edit book page
-    When ssmith32 has selected to edit "The adventures of Tom Sawyer"
-    And I change field "Auction Time" to "2015-12-12 12:30"
-    Then the new item "Time Left" should add up to "2015-12-12 12:30"
+    When ssmith has selected to edit "Medical Imaging"
+    #And I change field "Auction Time (year-month-day hr:min)" to "2015-12-12 12:30"
+    #Then the new item "Time Left" should add up to "2015-12-12 12:30"
     

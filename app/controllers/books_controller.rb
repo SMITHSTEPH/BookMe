@@ -31,14 +31,21 @@ class BooksController < ApplicationController
     session[:session_token]= @current_user.user_id
   end
 
+  def remove_purchase
+    @book = Book.find(params[:id])
+    Tag.delete_all book_id: @book.id
+    @book.destroy
+    flash[:notice] = "'#{@book.title}' deleted."
+    redirect_to mybids_path
+  end
 
   def mybooks #routed here when user hits "mybooks" button and renders mybooks view
-    puts "IN MY BOOKS!!!!!!!!!!!!!!!!!"
+    #puts "IN MY BOOKS!!!!!!!!!!!!!!!!!"
     @user = User.find(@current_user.id.to_s)
     @books = @user.books.search(params[:search])-Book.where(status:"sold")
     @books_sold = @user.books.search(params[:search]).where(status:"sold")
     params.each do |p|
-      puts p.to_s
+      #puts p.to_s
     end
   
   end
@@ -49,7 +56,7 @@ class BooksController < ApplicationController
     @books = Book.where(bidder_id:@user.user_id).where(status:"auction")
     @books.each do |book| #update the bid time
       Book.update_time(book.id)
-      puts book.bid_price
+      #puts book.bid_price
     end
     
     #getting my bids
@@ -69,12 +76,12 @@ class BooksController < ApplicationController
     end
     @booksBought = Book.where(bidder_id:@user.user_id).where(status:"sold")
     params.each do |p|
-      puts p.to_s
+      #puts p.to_s
     end
   end
 
   def new #routed here when user hits 'add book' button and renders new view
-    puts "NEEEEEWWWWWW"
+    #puts "NEEEEEWWWWWW"
     keywords={"0"=>""}
     @book={:title => "", :author => "", :isbn => "", :department => "", :course => "", :price => "", :auction_start_price => "", :auction_time => "", :quality => "", :image => "nobook.gif", :description => "", :keyword => keywords, :time_left=> ""}
 
@@ -98,7 +105,7 @@ class BooksController < ApplicationController
   def create #routed here when user saves changes on added book and redirects to index
     @info = book_params
     keywords=params[:book][:keyword]
-    puts "IN CREATE!!"
+    #puts "IN CREATE!!"
     if @info[:image].to_s.empty?
       @info[:image]="nobook.gif"
     end
@@ -125,7 +132,7 @@ class BooksController < ApplicationController
       flash[:notice] = "#{book.title} was successfully added."
       keywords.each do |key, value| #adding all of the keywords to the keyword database
         Tag.create!({:book_id => book.id, :tag => value})
-        puts "created keyword: " + value
+        #puts "created keyword: " + value
       end
       Book.update_time(book.id)
       redirect_to mybooks_path
@@ -135,8 +142,8 @@ class BooksController < ApplicationController
       @book[:keyword]=keywords
       messages = testbook.errors.full_messages
       flash[:warning] = messages.join("<br/>").html_safe
-      puts "MESSAGES ARE:::::::"
-      puts messages
+      #puts "MESSAGES ARE:::::::"
+      #puts messages
       render new_book_path
     end
   end
@@ -146,14 +153,14 @@ class BooksController < ApplicationController
   def edit #routes here when you click the 'edit' button from the mybooks view and renders edit view
     @book = Book.find params[:id]
     @keywords = []
-    puts "is empty?"
-    puts @keywords.empty?
+    #puts "is empty?"
+    #puts @keywords.empty?
     if Tag.find_by(book_id: @book.id.to_s) #getting the keywords if there are an
-      puts "id is: " +  @book.id.to_s
+      #puts "id is: " +  @book.id.to_s
       Tag.find_each  do |keyword|
         if !keyword.tag.empty?
           if keyword.book_id == @book.id
-            puts "in if keyword matches"
+            #puts "in if keyword matches"
              @keywords << keyword
           end
         end
@@ -253,12 +260,16 @@ class BooksController < ApplicationController
             @book.update_attribute(:bidder_id, @current_user[:user_id])
             @book.update_attribute(:notification, true)
             #get id of this usr
-            puts "-------------------BOOKS PARARMS ARE---------------"
-            puts @book.id.to_s
-            puts @current_user.id
-            puts @info[:bid_price]
+            #puts "-------------------BOOKS PARARMS ARE---------------"
+            #puts @book.id.to_s
+            #puts @current_user.id
+            #puts @info[:bid_price]
             #alert potential other user that they may be out of the bid
             if Bid.exists?(:book_id => @book.id, :user_id => @current_user.id) #if this users bid already exist
+<<<<<<< HEAD
+            #puts "INNNN IIFFF"
+=======
+>>>>>>> a0198a2a3c4ff913bccff71635439c52d20ce691
               @bid = Bid.find_by_book_id_and_status(@book.id,"highest bid")
               @bid.update_attribute(:notification, true) #give them a notification
               @bid.update_attribute(:status, "out of bid") #change the status of their bid
@@ -270,17 +281,22 @@ class BooksController < ApplicationController
             else
               if (!Bid.where(:book_id => @book.id, :status=>"highest bid").blank?)
                 @bid = Bid.find_by_book_id_and_status(@book.id,"highest bid")
+<<<<<<< HEAD
+                #puts "id: " +  @bid.book_id.to_s
+                #puts " status: " + @bid.status
+=======
+>>>>>>> a0198a2a3c4ff913bccff71635439c52d20ce691
                
                 @bid.update_attribute(:notification, true) #give them a notification
                 @bid.update_attribute(:status, "out of bid") #change the status of their bid
               end
-              puts "in else!!!!"
+              #puts "in else!!!!"
               Bid.create({:book_id => @book.id, :user_id => @current_user.id, :bid =>  @info[:bid_price], :notification => false}) #adding bid to the bid database
             end
-            puts "testing bids!!\n\n"
+            #puts "testing bids!!\n\n"
             @bid=Bid.all
             @bid.each do |bid|
-              puts "user_id: " + bid.user_id.to_s + " book_id: "+ bid.book_id.to_s + " bid: " + bid.bid.to_s + " notification: " + bid.notification.to_s + " bid status: " + bid.status
+              #puts "user_id: " + bid.user_id.to_s + " book_id: "+ bid.book_id.to_s + " bid: " + bid.bid.to_s + " notification: " + bid.notification.to_s + " bid status: " + bid.status
             end
             flash[:notice] = "$"+@book.bid_price+" bid made for "+@book.title
             redirect_to books_path

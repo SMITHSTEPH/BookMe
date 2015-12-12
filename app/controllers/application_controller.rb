@@ -6,9 +6,9 @@ class ApplicationController < ActionController::Base
   protected
   def set_current_user
     @current_user ||= User.find_by_session_token(cookies[:session_token])
-    puts "before"
-    puts @current_user
-    puts "ksbdghjdsbgjksdfb"
+    #puts "before"
+    #puts @current_user
+    #puts "ksbdghjdsbgjksdfb"
     redirect_to login_path unless @current_user
   end  
 
