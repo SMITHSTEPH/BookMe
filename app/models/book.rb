@@ -17,7 +17,9 @@ class Book < ActiveRecord::Base
  # validates :auction_time, format: {with: VALID_TIME_REGEX}
   def self.search(search)
     if search
-      self.where("title like :query OR isbn like :query OR course like :query OR department like :query", query: "%#{search}%").distinct    
+      #self.where("title like :query OR isbn like :query OR course like :query OR department like :query", query: "%#{search}%").distinct 
+      self.joins("Left JOIN tags ON books.id = tags.book_id").where("title like :query OR isbn like :query OR course like :query OR department like :query OR tag like :query", query: "%#{search}%").distinct    
+
     else
       self.all
     end

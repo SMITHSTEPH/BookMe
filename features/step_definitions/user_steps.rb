@@ -47,7 +47,7 @@ end
 
 Given(/^the following books have been added to BookMe:$/) do |table|
     table.hashes.each do |book|
-    Book.find_or_create_by(title: book[:title], author: book[:author], price: book[:price], bid_price: book[:bid_price])
+    Book.find_or_create_by(title: book[:title], author: book[:author], price: book[:price], bid_price: book[:bid_price], auction_start_price: book[:auction_price])
   end
 end
 
