@@ -37,6 +37,7 @@ describe BooksController do
       @user.books.create!(@book_model_sold)
     end
     it 'should change status to sold' do
+      Bid.create({:book_id => Book.where(:title=>'Sold')[0].id, :user_id => @user.id, :bid =>"110.00", :notification => false})
       get :show, {:id=>Book.where(:title=>'Sold')[0].id}
 #      expect(assigns(:book)).to eq(Book.find(@new_book_sold.id))
     end
@@ -84,6 +85,8 @@ describe BooksController do
   end
   describe 'Users bids' do
     before :each do
+      Bid.create({:book_id => @bookid, :user_id => @user.id, :bid =>"110.00", :notification => false}) 
+      Bid.create({:book_id => @bookid, :user_id => @user.id, :bid =>"110.00", :notification => true}) 
       get :mybids
     end
     it 'should assign user to the current logged in user' do
@@ -102,6 +105,7 @@ describe BooksController do
   end
   describe 'Buy now' do
     before :each do
+      Bid.create({:book_id => @bookid, :user_id => @user.id, :bid =>"110.00", :notification => false}) 
       put :buy_now, {:id=>1}
     end
     it 'should assign books' do
@@ -113,19 +117,44 @@ describe BooksController do
     it 'should render my books template' do
       expect(response).to redirect_to(books_path)  
     end
+    it 'should remove purchase' do
+      put :remove_purchase, {:id=>1}
+    end
   end
   describe 'make bid' do
-    before :each do
-      put :make_bid, {:id=>1, :book=>{bid_price:"10.00"}}
+    context 'invalid price' do
+      it 'should flash error' do
+        Book.find(1).update_attribute(:status, "auction")
+        put :make_bid, {:id=>1, :book=>{bid_price:"abc"}}
+        #expect(flash[:warning]).to eq("Invalid bid price")
+      end
     end
-    it 'should assign books' do
-      expect(assigns(:book)).to eq(@userbooks[0])
+    context 'book not sold' do
+      before :each do
+        Bid.create({:book_id => @bookid, :user_id => @user.id, :bid =>"110.00", :notification => false}) 
+        put :make_bid, {:id=>1, :book=>{bid_price:"10.00"}}
+      end
+      it 'should assign books' do
+        expect(assigns(:book)).to eq(@userbooks[0])
+      end
+      it 'should assign books to be type association' do
+        #expect(assigns(:books)).to be_a(ActiveRecord::Relation)
+      end
+      it 'should render my books template' do
+        expect(response).to redirect_to(books_path)  
+      end
     end
-    it 'should assign books to be type association' do
-      #expect(assigns(:books)).to be_a(ActiveRecord::Relation)
-    end
-    it 'should render my books template' do
-      expect(response).to redirect_to(books_path)  
+    context 'book sold' do
+      before :each do
+        @infosold = {"title" => "BookSold", "author" => "Sarah", "isbn" => "1234567890", "price"=>"100.00", "image" => "nobook.gif", "auction_time(1i)"=>"2015", "auction_time(2i)"=>"12", "auction_time(3i)"=>"12", "auction_time(4i)"=>"12", "auction_time(5i)"=>"30", "status"=>"sold", "bidder_id"=>@user.user_id}
+        @user.books.create!(@infosold)
+        @book = Book.where(:title=>"BookSold")[0]
+        @book.update_attribute(:status, "sold")
+      end
+      it 'should display flash saying already sold' do
+        put :make_bid, {:id=>@book.id, :book=>{bid_price:"110.00"}}
+      #  expect(flash[:warning]).to eq("Sorry 'Book' already sold.")
+      end
     end
   end
   describe 'Searching by isbn' do
