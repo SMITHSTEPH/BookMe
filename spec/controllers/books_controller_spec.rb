@@ -29,11 +29,17 @@ describe BooksController do
     before :each do
       @book_model = {"title" => "Book", "author" => "Sarah", "isbn" => "1234567890", "price"=>"100.00", "image" => "nobook.gif", "auction_time(1i)"=>"2015", "auction_time(2i)"=>"12", "auction_time(3i)"=>"12", "auction_time(4i)"=>"12", "auction_time(5i)"=>"30"}
       @book_model_exp = {"title" => "Book", "author" => "Sarah", "isbn" => "1234567890", "price"=>"100.00", "image" => "nobook.gif", "auction_time(1i)"=>"2010", "auction_time(2i)"=>"12", "auction_time(3i)"=>"12", "auction_time(4i)"=>"12", "auction_time(5i)"=>"30"}
+      @book_model_sold = {"title" => "Sold", "author" => "Sarah", "isbn" => "1234567890", "price"=>"100.00", "image" => "nobook.gif", "auction_time(1i)"=>"2010", "auction_time(2i)"=>"12", "auction_time(3i)"=>"12", "auction_time(4i)"=>"12", "auction_time(5i)"=>"30","bidder_id"=>'foobar'}
       @new_book = Book.new(@book_model)
       @new_book.save
       @new_book_exp = Book.new(@book_model_exp)
       @new_book_exp.save
-      end
+      @user.books.create!(@book_model_sold)
+    end
+    it 'should change status to sold' do
+      get :show, {:id=>Book.where(:title=>'Sold')[0].id}
+#      expect(assigns(:book)).to eq(Book.find(@new_book_sold.id))
+    end
     it 'should assign book' do
       get :show, {:id=>@new_book.id}
       expect(assigns(:book)).to eq(Book.find(@new_book.id))

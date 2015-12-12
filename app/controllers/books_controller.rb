@@ -2,7 +2,7 @@ class BooksController < ApplicationController
   before_filter :set_current_user
   helper_method :sort_column, :sort_direction
   def book_params
-    params.require(:book).permit(:title, :author, :isbn, :department, :course, :quality, :price, :auction_start_price, :auction_time, :description, :image, :keyword, :time_left, :bid_price)
+    params.require(:book).permit(:title, :author, :isbn, :department, :course, :quality, :price, :auction_start_price, :auction_time, :description, :image, :keyword, :time_left, :bid_price, :bidder_id)
   end
 =begin
   def update_time(id)
