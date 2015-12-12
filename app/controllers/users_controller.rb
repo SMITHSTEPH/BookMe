@@ -14,18 +14,11 @@ class UsersController < ApplicationController
   
   def update 
     @info = user_params
-    puts user_params
-    puts @info
     @current_user = User.find params[:id]
-    puts "cool"
-    puts @current_user
-    puts "cool"
     if @current_user.update_attributes(@info)
-      puts @current_user
       redirect_to mybooks_path
     else
       redirect_to edit_user_path
-      puts "sudhfblahbgslkdfbglsdfhbgldbg"
     end
 
   end
