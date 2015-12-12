@@ -9,30 +9,31 @@
         %tr
             %td=image_tag asset_path(book[:image]), :size => '150x200'
             %td{:rowspan => 1}
-                %b Title:
-                =book[:book_title]
-                %br
-                %b Author:
-                =book[:book_author]
-                %br
-                %b ISBN:
-                =book[:book_isbn]
-                %br
-                %b Bid Price:
-                ='$'+book[:bid_price]
-                %br
-                -if book[:color] == 'red'
-                    .notify
-                        %b Bid Status:
-                        =book[:bid_status] 
-                -else
-                    %div
-                        %b Bid Status:
-                        =book[:bid_status]
-                %b Time left:
-                =book[:time_left]
-            %td=button_to 'Edit', book_path(book[:book_id]), :method => :get, class: 'btn btn-info'
-            %td=button_to 'Remove Bid', bid_path(book[:bid_id]), :method => :delete, :confirm => 'Are you sure?', class: 'btn btn-danger'
+                .book_info
+                    %b Title:
+                    =book[:book_title]
+                    %br
+                    %b Author:
+                    =book[:book_author]
+                    %br
+                    %b ISBN:
+                    =book[:book_isbn]
+                    %br
+                    %b Bid Price:
+                    ='$'+book[:bid_price]
+                    %br
+                    -if book[:color] == 'red'
+                        .notify
+                            %b Bid Status:
+                            =book[:bid_status] 
+                    -else
+                        %div
+                            %b Bid Status:
+                            =book[:bid_status]
+                    %b Time left:
+                    =book[:time_left]
+                %td=button_to 'Edit', book_path(book[:book_id]), :method => :get, class: 'btn btn-info'
+                %td=button_to 'Remove Bid', bid_path(book[:bid_id]), :method => :delete, :confirm => 'Are you sure?', class: 'btn btn-danger'
 %h1 #{@current_user.first_name}'s Purchases
 
 %table#booksBought
@@ -41,22 +42,23 @@
         %tr
             %td=image_tag asset_path(book.image), :size => '150x200'
             %td{:rowspan => 1}
-                %b Title:
-                =book.title
-                %br
-                %b Author:
-                =book.author
-                %br
-                %b ISBN:
-                =book.isbn
-                %br
-                %b Price paid:
-                ='$'+book.bid_price
-                %br
-                %b Seller email:
-                = User.find(book.user_id).email
+                .book_info
+                    %b Title:
+                    =book.title
+                    %br
+                    %b Author:
+                    =book.author
+                    %br
+                    %b ISBN:
+                    =book.isbn
+                    %br
+                    %b Price paid:
+                    ='$'+book.bid_price
+                    %br
+                    %b Seller email:
+                    = User.find(book.user_id).email
                 
-                %td=button_to 'Remove Purchase', book_path(book.id), :method => :delete, :confirm => 'Are you sure?', class: 'btn btn-danger'
+                    %td=button_to 'Remove Purchase', book_path(book.id), :method => :delete, :confirm => 'Are you sure?', class: 'btn btn-danger'
             
 %h1 #{@current_user.first_name}'s Stats   
 Books sold:

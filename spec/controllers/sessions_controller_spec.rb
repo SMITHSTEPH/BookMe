@@ -26,18 +26,11 @@ describe SessionsController do
   end    
   describe 'logout of account' do
     context 'logged in' do  
-      before :each do 
-        #@fake_user = {"email" => "foobar@uiowa.edu", "password" => "foobar100"}        
-        delete :destroy, {:id=>1}
-      end
-      
       it 'should show a flash showing you logged out' do
-        #delete :destory
-        #expect(flash[:notice]).to eq("You have logged out")
-      end
-      
-      it 'should redirect to the login page' do 
-        #expect(response).to redirect_to(books_path)
+        post :create, session: {"email" => "foobar@uiowa.edu", "password" => "foobar100"}
+        cookies.permanent[:session_token] = User.find_by_email('foobar@uiowa.edu').session_token
+        delete :destroy, session: {"email" => "foobar@uiowa.edu", "password" => "foobar100"}
+        expect(flash[:notice]).to eq("You have logged out")
       end
     end
   end
