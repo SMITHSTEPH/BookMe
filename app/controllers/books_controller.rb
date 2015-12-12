@@ -23,16 +23,7 @@ class BooksController < ApplicationController
 
   def index #rendered when user clicks on 'allBooks'
     sort = params[:sort] || session[:sort]
-    case sort
-    when 'title'
-      ordering,@title_header = {:title => :asc}, 'hilite'
-    when 'price'
-      ordering,@price_header = {:price => :asc}, 'hilite'
-    when 'auctionPrice'
-      ordering,@auctionPrice_header = {:auction_start_price => :asc}, 'hilite'
-    when 'author'
-      ordering,@author_header = {:author => :asc}, 'hilite'
-    end
+    @books = Book.order(sort_column + " " + sort_direction)
     @books = Book.search(params[:search]).order(sort_column + ' ' + sort_direction)-Book.where(status:"sold")
     @books.each do |book|
       Book.update_time(book.id)
@@ -313,11 +304,11 @@ class BooksController < ApplicationController
   
   private
   def sort_column
-    params[:sort] || "title"
+    Book.column_names.include?(params[:sort]) ? params[:sort] : "title"
   end
   
   def sort_direction
-    params[:direction] || "asc"
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
   end
 
 end
